@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+
 namespace SchoolApp.Web.Controllers
 {
-	public class BaseController
-	{
-		public BaseController()
-		{
-		}
+	public class BaseController : Controller
+    {
+		
 	}
 }
-

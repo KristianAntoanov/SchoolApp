@@ -27,4 +27,10 @@
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\Diary\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Diary\" />
+  </ItemGroup>
 </Project>

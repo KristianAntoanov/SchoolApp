@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+
 namespace SchoolApp.Web.Controllers
 {
-	public class DiaryController
+	public class DiaryController : BaseController
 	{
-		public DiaryController()
-		{
-		}
-	}
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
 }
-
