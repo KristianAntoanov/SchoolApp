@@ -2,6 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 
 using SchoolApp.Data;
+using SchoolApp.Data.Models;
+using SchoolApp.Data.Repository;
+using SchoolApp.Data.Repository.Contracts;
+using SchoolApp.Web.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +18,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

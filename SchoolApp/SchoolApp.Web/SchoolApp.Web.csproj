@@ -23,5 +23,8 @@
     <ProjectReference Include="..\SchoolApp.Data\SchoolApp.Data.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\SchoolApp.Web.Infrastructure\SchoolApp.Web.Infrastructure.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 </Project>

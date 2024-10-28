@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Data", "SchoolApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Data.Models", "SchoolApp.Data.Models\SchoolApp.Data.Models.csproj", "{697BFAF7-A168-43B0-9CA8-CCB6F535DFFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Services.Data", "SchoolApp.Services.Data\SchoolApp.Services.Data.csproj", "{888A4C1E-FBA8-4B1F-B4BA-25D283780EAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Web.Infrastructure", "SchoolApp.Web.Infrastructure\SchoolApp.Web.Infrastructure.csproj", "{185CF09C-8306-4C97-A1E5-FD7FF9BB2C13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{697BFAF7-A168-43B0-9CA8-CCB6F535DFFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{697BFAF7-A168-43B0-9CA8-CCB6F535DFFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{697BFAF7-A168-43B0-9CA8-CCB6F535DFFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{888A4C1E-FBA8-4B1F-B4BA-25D283780EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{888A4C1E-FBA8-4B1F-B4BA-25D283780EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{888A4C1E-FBA8-4B1F-B4BA-25D283780EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{888A4C1E-FBA8-4B1F-B4BA-25D283780EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{185CF09C-8306-4C97-A1E5-FD7FF9BB2C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{185CF09C-8306-4C97-A1E5-FD7FF9BB2C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{185CF09C-8306-4C97-A1E5-FD7FF9BB2C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{185CF09C-8306-4C97-A1E5-FD7FF9BB2C13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
