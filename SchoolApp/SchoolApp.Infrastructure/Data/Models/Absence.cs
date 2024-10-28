@@ -24,6 +24,6 @@ namespace SchoolApp.Infrastructure.Data.Models
         public bool IsExcused { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime AddedOn { get; set; }
     }
 }

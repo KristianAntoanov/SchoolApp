@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Core", "SchoolApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Infrastructure", "SchoolApp.Infrastructure\SchoolApp.Infrastructure.csproj", "{CA60721E-CF0D-4B7A-A8CA-EBAC551DD415}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Common", "SchoolApp.Common\SchoolApp.Common.csproj", "{E83F1536-8BD9-4875-9DFC-DA1031B241F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{CA60721E-CF0D-4B7A-A8CA-EBAC551DD415}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA60721E-CF0D-4B7A-A8CA-EBAC551DD415}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA60721E-CF0D-4B7A-A8CA-EBAC551DD415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E83F1536-8BD9-4875-9DFC-DA1031B241F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E83F1536-8BD9-4875-9DFC-DA1031B241F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E83F1536-8BD9-4875-9DFC-DA1031B241F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E83F1536-8BD9-4875-9DFC-DA1031B241F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

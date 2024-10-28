@@ -1,6 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using static SchoolApp.Common.EntityValidationConstants.Teacher;
 
 namespace SchoolApp.Infrastructure.Data.Models
 {
@@ -10,18 +11,19 @@ namespace SchoolApp.Infrastructure.Data.Models
         public Guid GuidId { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(NameMaxLength)]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(NameMaxLength)]
         public string LastName { get; set; } = null!;
 
         [Required]
+        [MaxLength(ImageUrlMaxLength)]
         public string ImageUrl { get; set; } = null!;
 
         [Required]
-        [MaxLength(150)]
+        [MaxLength(JobTitleMaxLength)]
         public string JobTitle { get; set; } = null!;
 
         [Required]

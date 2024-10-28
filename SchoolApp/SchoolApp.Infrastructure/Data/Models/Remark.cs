@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using static SchoolApp.Common.EntityValidationConstants.Remark;
+
 namespace SchoolApp.Infrastructure.Data.Models
 {
 	public class Remark
@@ -21,7 +23,7 @@ namespace SchoolApp.Infrastructure.Data.Models
         public Subject Subject { get; set; } = null!;
 
         [Required]
-        [MaxLength(300)]
+        [MaxLength(RemarkTextMaxLength)]
         public string RemarkText { get; set; } = null!;
 
         [Required]

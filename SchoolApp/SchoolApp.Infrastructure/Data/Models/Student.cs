@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using static SchoolApp.Common.EntityValidationConstants.Student;
+
 namespace SchoolApp.Infrastructure.Data.Models
 {
 	public class Student
@@ -9,15 +11,15 @@ namespace SchoolApp.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(NameMaxLength)]
         public string FirstName { get; set; } = null!;
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(NameMaxLength)]
         public string MiddleName { get; set; } = null!;
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(NameMaxLength)]
         public string LastName { get; set; } = null!;
 
         [Required]

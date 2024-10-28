@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using static SchoolApp.Common.EntityValidationConstants.Subject;
+
 namespace SchoolApp.Infrastructure.Data.Models
 {
 	public class Subject
@@ -8,7 +10,7 @@ namespace SchoolApp.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(NameMaxLength)]
         public string Name { get; set; } = null!;
 
         public virtual ICollection<Grade> Grades { get; set; }
