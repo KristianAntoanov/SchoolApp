@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SchoolApp.Core\SchoolApp.Core.csproj">
+    <ProjectReference Include="..\SchoolApp.Data\SchoolApp.Data.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>

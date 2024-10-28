@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using static SchoolApp.Common.EntityValidationConstants.Remark;
+using Microsoft.EntityFrameworkCore;
 
-namespace SchoolApp.Infrastructure.Data.Models
+namespace SchoolApp.Data.Models
 {
-	public class Remark
+    [PrimaryKey(nameof(StudentId), nameof(SubjectId))]
+    public class SubjectStudent
 	{
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         public int StudentId { get; set; }
 
@@ -21,12 +19,5 @@ namespace SchoolApp.Infrastructure.Data.Models
 
         [ForeignKey(nameof(SubjectId))]
         public Subject Subject { get; set; } = null!;
-
-        [Required]
-        [MaxLength(RemarkTextMaxLength)]
-        public string RemarkText { get; set; } = null!;
-
-        [Required]
-        public DateTime AddedOn { get; set; }
     }
 }

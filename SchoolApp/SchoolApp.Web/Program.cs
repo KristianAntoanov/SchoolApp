@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-using SchoolApp.Infrastuctures;
+using SchoolApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

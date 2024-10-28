@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SchoolApp.Infrastructure.Data.Models
+namespace SchoolApp.Data.Models
 {
-	public class Grade
+	public class Absence
 	{
         [Key]
         public int Id { get; set; }
@@ -21,7 +21,7 @@ namespace SchoolApp.Infrastructure.Data.Models
         public virtual Subject Subject { get; set; } = null!;
 
         [Required]
-        public int GradeValue { get; set; }
+        public bool IsExcused { get; set; }
 
         [Required]
         public DateTime AddedOn { get; set; }

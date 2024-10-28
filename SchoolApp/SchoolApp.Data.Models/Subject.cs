@@ -2,7 +2,7 @@
 
 using static SchoolApp.Common.EntityValidationConstants.Subject;
 
-namespace SchoolApp.Infrastructure.Data.Models
+namespace SchoolApp.Data.Models
 {
 	public class Subject
 	{

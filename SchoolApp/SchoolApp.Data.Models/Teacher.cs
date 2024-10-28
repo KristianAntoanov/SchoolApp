@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using static SchoolApp.Common.EntityValidationConstants.Teacher;
 
-namespace SchoolApp.Infrastructure.Data.Models
+namespace SchoolApp.Data.Models
 {
 	public class Teacher
 	{
