@@ -34,5 +34,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Diary\" />
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\img\" />
   </ItemGroup>
 </Project>
