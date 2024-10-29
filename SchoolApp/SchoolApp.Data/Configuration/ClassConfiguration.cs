@@ -9,7 +9,51 @@ namespace SchoolApp.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Class> builder)
         {
-            //throw new NotImplementedException();
+            builder.HasData(this.SeedMovies());
+        }
+
+        private List<Class> SeedMovies()
+        {
+            List<Class> classes = new List<Class>()
+            {
+                new Class()
+                {
+                    Id = 1,
+                    GradeLevel = 5,
+                    SectionId = 1
+                },
+                new Class()
+                {
+                    Id = 2,
+                    GradeLevel = 5,
+                    SectionId = 2
+                },
+                new Class()
+                {
+                    Id = 3,
+                    GradeLevel = 5,
+                    SectionId = 3
+                },
+                new Class()
+                {
+                    Id = 4,
+                    GradeLevel = 6,
+                    SectionId = 1
+                },
+                new Class()
+                {
+                    Id = 5,
+                    GradeLevel = 6,
+                    SectionId = 2
+                },
+                new Class()
+                {
+                    Id = 6,
+                    GradeLevel = 6,
+                    SectionId = 3
+                }
+            };
+            return classes;
         }
     }
 }
