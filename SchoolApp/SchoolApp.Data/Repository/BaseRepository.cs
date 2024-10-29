@@ -97,7 +97,7 @@ namespace SchoolApp.Data.Repository
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }
@@ -113,7 +113,7 @@ namespace SchoolApp.Data.Repository
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

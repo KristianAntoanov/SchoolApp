@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace SchoolApp.Data.Models
 {
 	public class Absence
-	{
+    {
         [Key]
         public int Id { get; set; }
 

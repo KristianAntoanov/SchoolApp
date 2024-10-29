@@ -1,11 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.Reflection;
+using System.Reflection.Emit;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolApp.Data.Models;
 
 namespace SchoolApp.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
+    public ApplicationDbContext()
+    {
+
+    }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
@@ -21,38 +28,12 @@ public class ApplicationDbContext : IdentityDbContext
     public virtual DbSet<Teacher> Teachers { get; set; }
     public virtual DbSet<SubjectTeacher> SubjectsTeachers { get; set; }
     public virtual DbSet<SubjectStudent> SubjectsStudents { get; set; }
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<Student>()
-               .HasOne(s => s.Class)
-               .WithMany(c => c.Students)
-               .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Entity<SubjectStudent>()
-               .HasOne(ss => ss.Student)
-               .WithMany(s => s.SubjectStudents)
-               .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Entity<SubjectStudent>()
-               .HasOne(ss => ss.Subject)
-               .WithMany(s => s.SubjectStudents)
-               .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Entity<SubjectTeacher>()
-               .HasOne(st => st.Teacher)
-               .WithMany(t => t.SubjectTeachers)
-               .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Entity<SubjectTeacher>()
-               .HasOne(st => st.Subject)
-               .WithMany(s => s.SubjectTeachers)
-               .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Entity<Absence>()
-               .Property(a => a.IsExcused)
-               .HasDefaultValue(false);
-
         base.OnModelCreating(builder);
+
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
