@@ -16,6 +16,26 @@ namespace SchoolApp.Data.Configuration
             builder.HasOne(ss => ss.Subject)
                    .WithMany(s => s.SubjectStudents)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasData(this.SeedMovies());
+        }
+
+        private List<SubjectStudent> SeedMovies()
+        {
+            List<SubjectStudent> subjectsStudents = new List<SubjectStudent>();
+
+            for (int studentId = 1; studentId <= 18; studentId++)
+            {
+                for (int subjectId = 1; subjectId <= 6; subjectId++)
+                {
+                    subjectsStudents.Add(new SubjectStudent
+                    {
+                        StudentId = studentId,
+                        SubjectId = subjectId
+                    });
+                }
+            }
+            return subjectsStudents;
         }
     }
 }
