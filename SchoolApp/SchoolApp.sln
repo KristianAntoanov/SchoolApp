@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Web", "SchoolApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Common", "SchoolApp.Common\SchoolApp.Common.csproj", "{E83F1536-8BD9-4875-9DFC-DA1031B241F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScoolApp.Web.ViewModels", "ScoolApp.Web.ViewModels\ScoolApp.Web.ViewModels.csproj", "{62250234-DC4B-40FB-951F-719C2D4C0D83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Web.ViewModels", "ScoolApp.Web.ViewModels\SchoolApp.Web.ViewModels.csproj", "{62250234-DC4B-40FB-951F-719C2D4C0D83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Data", "SchoolApp.Data\SchoolApp.Data.csproj", "{C903B770-277B-42FE-AC27-A36FFD15382A}"
 EndProject

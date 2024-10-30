@@ -1,4 +1,6 @@
-﻿<div class="container-fluid px-0">
+﻿@model IEnumerable<DiaryIndexViewModel>
+
+<div class="container-fluid px-0">
     <div class="row">
         <!-- Ляво меню -->
         <section class="col-lg-2 bg-light vh-100 p-3 border-end shadow-sm">
@@ -12,12 +14,21 @@
                 <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="btn-group-vertical d-flex" role="group" aria-label="Vertical radio toggle button group">
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
-                            <label class="btn btn-outline-dark" for="vbtn-radio1">Radio 1</label>
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
-                            <label class="btn btn-outline-dark" for="vbtn-radio2">Radio 2</label>
-                            <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
-                            <label class="btn btn-outline-dark" for="vbtn-radio3">Radio 3</label>
+                            @{
+                                int index = 0; // Начален индекс
+                            }
+
+                            @foreach (var classes in Model)
+                            {
+                                var radioId = $"vbtn-radio{index}"; // Уникално id за всеки бутон
+
+                                <input type="radio" class="btn-check" name="vbtn-radio" id="@radioId" autocomplete="off">
+                                <label class="btn btn-outline-dark d-flex align-items-center justify-content-center" for="@radioId">
+                                    <i class="fa-solid fa-children me-3"></i> <!-- Add the icon with a margin -->
+                                    @classes.ClassName
+                                </label>
+                                index++; // Увеличаваме индекса
+                            }
                         </div>
                     </div>
                 </div>
@@ -73,6 +84,7 @@
                         </div>
                     </div>
                 </div>
+                <p>Моля, изберете клас от менюто, за да заредите съдържанието.</p>
             </div>
         </section>
     </div>

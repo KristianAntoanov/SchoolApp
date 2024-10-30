@@ -5,6 +5,7 @@ using SchoolApp.Data;
 using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository;
 using SchoolApp.Data.Repository.Contracts;
+using SchoolApp.Services.Data;
 using SchoolApp.Web.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,10 @@ builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<DiaryService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -48,11 +53,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();

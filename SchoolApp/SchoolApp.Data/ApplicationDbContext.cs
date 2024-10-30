@@ -9,10 +9,6 @@ namespace SchoolApp.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
-    public ApplicationDbContext()
-    {
-
-    }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

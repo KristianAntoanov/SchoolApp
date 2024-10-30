@@ -8,6 +8,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SchoolApp.Data\SchoolApp.Data.csproj" />
-    <ProjectReference Include="..\ScoolApp.Web.ViewModels\ScoolApp.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\ScoolApp.Web.ViewModels\SchoolApp.Web.ViewModels.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Contrancts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contrancts\" />
   </ItemGroup>
 </Project>

@@ -26,6 +26,12 @@
     <ProjectReference Include="..\SchoolApp.Web.Infrastructure\SchoolApp.Web.Infrastructure.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\SchoolApp.Services.Data\SchoolApp.Services.Data.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\ScoolApp.Web.ViewModels\SchoolApp.Web.ViewModels.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Diary\" />
