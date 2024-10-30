@@ -13,10 +13,10 @@ namespace SchoolApp.Data.Configuration
                    .WithMany(c => c.Students)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasData(this.SeedMovies());
+            builder.HasData(this.SeedStudents());
         }
 
-        private List<Student> SeedMovies()
+        private List<Student> SeedStudents()
         {
             List<Student> students = new List<Student>()
             {

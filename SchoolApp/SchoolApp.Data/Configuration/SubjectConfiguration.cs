@@ -9,10 +9,10 @@ namespace SchoolApp.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Subject> builder)
         {
-            builder.HasData(this.SeedMovies());
+            builder.HasData(this.SeedSubjects());
         }
 
-        private List<Subject> SeedMovies()
+        private List<Subject> SeedSubjects()
         {
             List<Subject> subjects = new List<Subject>()
             {

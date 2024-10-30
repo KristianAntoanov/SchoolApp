@@ -11,10 +11,10 @@ namespace SchoolApp.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            builder.HasData(this.SeedMovies());
+            builder.HasData(this.SeedUsers());
         }
 
-        private List<ApplicationUser> SeedMovies()
+        private List<ApplicationUser> SeedUsers()
         {
             var hasher = new PasswordHasher<ApplicationUser>();
 
