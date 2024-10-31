@@ -21,12 +21,21 @@ namespace SchoolApp.Web.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> LoadClassAndContent(int classId, int subjectId)
+        public async Task<IActionResult> LoadClassAndContent(int classId)
         {
-            IEnumerable<StudentsViewModel> model = await _service
-                .GetClassContent(classId, subjectId);
+            IEnumerable<SubjectsViewModel> model = await _service
+                .GetClassContent(classId);
 
             return PartialView("ContentView", model);
         }
+
+        public async Task<IActionResult> LoadGradeContent(int classId, int subjectId)
+        {
+            IEnumerable<StudentsViewModel> model = await _service
+                .GetGradeContent(classId, subjectId);
+
+            return PartialView("GradesView", model);
+        }
+
     }
 }
