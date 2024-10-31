@@ -1,0 +1,47 @@
+﻿@model IEnumerable<StudentsViewModel>
+
+<div class="table-responsive">
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-light">
+            <tr>
+                <th rowspan="2">Ученик</th>
+                <th colspan="6">Първи срок</th>
+                <th colspan="5">Втори срок</th>
+                <th rowspan="2">Годишна</th>
+            </tr>
+            <tr>
+                <th>IX</th>
+                <th>X</th>
+                <th>XI</th>
+                <th>XII</th>
+                <th>I, II</th>
+                <th>Срочна</th>
+                <th>III</th>
+                <th>IV</th>
+                <th>V</th>
+                <th>VI, VII</th>
+                <th>Срочна</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.FirstName @student.LastName</td>
+                    @foreach (var grade in student.Grades)
+                    {
+                        <td>
+                            <span class="@($"grade-value grade-{grade.GradeValue}")">@grade.GradeValue</span>
+                        </td>
+                    }
+                    <!-- Fill in blanks for missing grades -->
+                    @for (int i = student.Grades.Count(); i < 11; i++)
+                    {
+                        <td></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

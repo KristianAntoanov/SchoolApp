@@ -5,7 +5,7 @@
 
 $(document).ready(function () {
     let selectedClassId = null;
-    let selectedContentId = null;
+    let selectedSubjectId = null;
     console.log("in classBtn")
 
     $(".btn-check").click(function () {
@@ -16,28 +16,44 @@ $(document).ready(function () {
         loadContent();
     });
 
-    $(".nav-link").click(function () {
-        selectedContentId = $(this).attr("id");
-        localStorage.setItem("selectedContentId", selectedContentId);
-        loadContent();
+    $(document).on("click", ".list-group-item", function () {
+        console.log("Бутонът за предмет е кликнат!");
+        selectedSubjectId = $(this).attr("id");
+        localStorage.setItem("selectedContentId", selectedSubjectId);
+        console.log("selectedsubjectId:", selectedSubjectId);
+        if (selectedClassId != null && selectedSubjectId != null) {
+            console.log("Извиква loadGradeContent")
+            loadGradeContent();
+        }
     });
 
     function loadContent() {
-        if (selectedClassId || selectedContentId) {
-            $.ajax({
-                url: '/Diary/LoadClassAndContent',
-                type: 'GET',
-                data: { classId: selectedClassId, subjectId: selectedContentId },
-                success: function (response) {
-                    $("#main-content").html(response);
-                },
-                error: function () {
-                    alert("Възникна грешка при зареждането на съдържанието.");
-                }
-            });
-        }
+        $.ajax({
+            url: '/Diary/LoadClassAndContent',
+            type: 'GET',
+            data: { classId: selectedClassId },
+            success: function (response) {
+                $("#main-content").html(response);
+            },
+            error: function () {
+                alert("Възникна грешка при зареждането на съдържанието.");
+            }
+        });
+    }
+
+    function loadGradeContent() {
+        console.log("subjectId in loadGradeContent", selectedSubjectId);
+        $.ajax({
+            url: '/Diary/LoadGradeContent',
+            type: 'GET',
+            data: { classId: selectedClassId, subjectId: selectedSubjectId },
+            success: function (response) {
+                $("#main-content2").html(response);
+            },
+            error: function () {
+                alert("Възникна грешка при зареждането на съдържанието.");
+            }
+        });
     }
 });
-
-
 
