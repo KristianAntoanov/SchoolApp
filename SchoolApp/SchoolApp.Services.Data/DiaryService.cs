@@ -8,13 +8,13 @@ namespace SchoolApp.Services.Data
 	public class DiaryService
 	{
 		private readonly IRepository<Class, int> _classRepository;
-		private readonly IRepository<Subject, int> _subjectRepository;
+		private readonly IRepository<Student, int> _studentRepository;
 
 		public DiaryService(IRepository<Class, int> classRepository,
-							IRepository<Subject, int> subjectRepository)
+							IRepository<Student, int> studentRepository)
 		{
             _classRepository = classRepository;
-			_subjectRepository = subjectRepository;
+            _studentRepository = studentRepository;
 
         }
 
@@ -26,6 +26,7 @@ namespace SchoolApp.Services.Data
 				.ThenBy(c => c.SectionId)
 				.Select(c => new DiaryIndexViewModel()
 				{
+					ClassId = c.Id,
 					ClassName = $"{c.GradeLevel} {c.Section.Name}"
                 })
 				.ToArrayAsync();
@@ -33,18 +34,27 @@ namespace SchoolApp.Services.Data
 			return diaries;
 		}
 
-   //     public async Task<IEnumerable<SubjectsViewModel>> GetClassContent()
-   //     {
-			//IEnumerable<SubjectsViewModel> subjects = await _subjectRepository
-			//	.GetAllAttached()
-			//	.Select(s => new SubjectsViewModel()
-			//	{
-			//		SubjectName = s.Name
-			//	})
-			//	.ToArrayAsync();
+		public async Task<IEnumerable<StudentsViewModel>> GetClassContent(int classId, int subjectId)
+		{
+			IEnumerable<StudentsViewModel> students = await _studentRepository
+				.GetAllAttached()
+				.Where(s => s.ClassId == classId)
+				.Select(s => new StudentsViewModel()
+				{
+					FirstName = s.FirstName,
+					LastName = s.LastName,
+					Grades = s.Grades
+								.Where(g => g.SubjectId == subjectId)
+								.Select(g => new GradeViewModel()
+								{
+									GradeValue = g.GradeValue
+								})
+								.ToArray()
+				})
+				.ToArrayAsync();
 
-   //         return subjects;
-   //     }
+			return students;
+		}
 
-    }
+	}
 }
