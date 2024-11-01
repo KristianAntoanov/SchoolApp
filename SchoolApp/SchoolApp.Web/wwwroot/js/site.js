@@ -3,6 +3,7 @@
 
 // Write your JavaScript code.
 
+
 $(document).ready(function () {
     let selectedClassId = null;
     let selectedSubjectId = null;
@@ -27,13 +28,28 @@ $(document).ready(function () {
         }
     });
 
+    //$(".nav-link").click(function (e) {
+
+    //    // Зарежда съдържанието чрез Ajax
+    //    $.ajax({
+    //        url: url,
+    //        type: 'GET',
+    //        success: function (data) {
+    //            $('#main-content2').html(data); // Вмъква получените данни в основното съдържание
+    //        },
+    //        error: function () {
+    //            alert("Възникна грешка при зареждането на съдържанието.");
+    //        }
+    //    });
+    //});
+
     function loadContent() {
         $.ajax({
             url: '/Diary/LoadClassAndContent',
             type: 'GET',
             data: { classId: selectedClassId },
             success: function (response) {
-                $("#main-content").html(response);
+                $("#content").html(response);
             },
             error: function () {
                 alert("Възникна грешка при зареждането на съдържанието.");
@@ -48,7 +64,7 @@ $(document).ready(function () {
             type: 'GET',
             data: { classId: selectedClassId, subjectId: selectedSubjectId },
             success: function (response) {
-                $("#main-content2").html(response);
+                $("#main-content").html(response);
             },
             error: function () {
                 alert("Възникна грешка при зареждането на съдържанието.");

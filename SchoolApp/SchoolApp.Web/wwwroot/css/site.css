@@ -21,16 +21,68 @@ body {
   margin-bottom: 60px;
 }
 
+.grade-cell {
+    width: 50px;
+    padding: 0.6em 0.6em; /* Увеличава padding от всички страни */
+}
+
+.th-ix {
+    width: 50px;
+}
+
+.th-x {
+    width: 50px;
+}
+
+.th-xi {
+    width: 50px;
+}
+
+.th-xii {
+    width: 50px;
+}
+
+.th-i-ii {
+    width: 65px;
+}
+
+.th-term1 {
+    width: 100px;
+    background-color: #b3d9ff;
+}
+
+.th-iii {
+    width: 50px;
+}
+
+.th-iv {
+    width: 50px;
+}
+
+.th-v {
+    width: 50px;
+}
+
+.th-vi-vii {
+    width: 65px;
+}
+
+.th-term2 {
+    width: 115px;
+    background-color: #b3d9ff;
+}
+
 .grade-value {
-    padding: 0.3em 0.2em;
+    padding: 0.3em 0.6em;
     border-radius: 10%;
     font-size: 95%;
     color: white;
     font-weight: bold;
 }
     .grade-value:not(:last-child) {
-        margin-bottom: 2px; /* Добавя малко отстояние между множество оценки */
+        margin-bottom: 2px;
     }
+
 .grade-2 {
     background-color: red;
 }

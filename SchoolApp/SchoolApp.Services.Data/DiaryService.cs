@@ -18,7 +18,6 @@ namespace SchoolApp.Services.Data
             _classRepository = classRepository;
             _studentRepository = studentRepository;
 			_subjectRepository = subjectRepository;
-
         }
 
 		public async Task<IEnumerable<DiaryIndexViewModel>> IndexGetAllClasses()
