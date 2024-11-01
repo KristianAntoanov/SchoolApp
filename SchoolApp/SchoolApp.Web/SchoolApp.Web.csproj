@@ -42,5 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
+    <Content Remove="wwwroot\lib\css\all.min.css" />
   </ItemGroup>
 </Project>
