@@ -50,7 +50,8 @@ namespace SchoolApp.Services.Data
                                 .Where(g => g.SubjectId == subjectId)
                                 .Select(g => new GradeViewModel()
                                 {
-                                    GradeValue = g.GradeValue
+                                    GradeValue = g.GradeValue,
+                                    GradeDate = g.AddedOn
                                 })
                                 .ToArray()
                 })

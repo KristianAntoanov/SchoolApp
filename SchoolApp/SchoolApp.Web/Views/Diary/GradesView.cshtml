@@ -1,5 +1,25 @@
 ﻿@model IEnumerable<StudentsViewModel>
 
+@{
+    // Помощна функция за определяне на колоната според месеца
+    string GetColumnKey(DateTime date)
+    {
+        return date.Month switch
+        {
+            9 => "IX",
+            10 => "X",
+            11 => "XI",
+            12 => "XII",
+            1 or 2 => "I_II",
+            3 => "III",
+            4 => "IV",
+            5 => "V",
+            6 or 7 => "VI_VII",
+            _ => ""
+        };
+    }
+}
+
 <div class="table-responsive">
     <table class="table table-bordered text-center align-middle">
         <thead class="table-light">
@@ -28,16 +48,30 @@
             {
                 <tr>
                     <td>@student.FirstName @student.LastName</td>
-                    @foreach (var grade in student.Grades)
-                    {
-                        <td>
-                            <span class="@($"grade-value grade-{grade.GradeValue}")">@grade.GradeValue</span>
-                        </td>
-                    }
-                    <!-- Fill in blanks for missing grades -->
-                    @for (int i = student.Grades.Count(); i < 11; i++)
-                    {
-                        <td></td>
+                    @{
+                        // Групиране на оценките по месеци
+                        var gradesByMonth = student.Grades
+                            .GroupBy(g => GetColumnKey(g.GradeDate))
+                            .ToDictionary(g => g.Key, g => g.ToList());
+
+                        // Масив с всички възможни колони в реда, в който трябва да се показват
+                        var columns = new[] { "IX", "X", "XI", "XII", "I_II", "Term1", "III", "IV", "V", "VI_VII", "Term2", "Year" };
+
+                        // Показване на оценките за всяка колона
+                        foreach (var column in columns)
+                        {
+                            <td class="p-2 mt-1">
+                                @if (gradesByMonth.ContainsKey(column))
+                                {
+                                    foreach (var grade in gradesByMonth[column])
+                                    {
+                                        <div class="@($"grade-value grade-{grade.GradeValue}")">
+                                            @grade.GradeValue
+                                        </div>
+                                    }
+                                }
+                            </td>
+                        }
                     }
                 </tr>
             }
