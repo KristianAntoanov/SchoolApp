@@ -45,5 +45,13 @@ namespace SchoolApp.Web.Controllers
             return PartialView("RemarksView", model);
         }
 
+        public async Task<IActionResult> LoadAbsencesContent(int classId)
+        {
+            IEnumerable<StudentAbsencesViewModel> model = await _service
+                .GetAbsencesContent(classId);
+
+            return PartialView("AbsencesView", model);
+        }
+
     }
 }

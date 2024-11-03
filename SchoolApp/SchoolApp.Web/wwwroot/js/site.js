@@ -45,7 +45,7 @@ $(document).ready(function () {
 
         switch (target) {
             case 'absences':
-                if (selectedClassId != null && selectedSubjectId != null) {
+                if (selectedClassId != null) {
                     loadAbsencesContent();
                 }
                 break;
@@ -117,11 +117,15 @@ $(document).ready(function () {
     function loadAbsencesContent() {
         console.log("subjectId in loadGradeContent", selectedSubjectId);
         $.ajax({
-            url: '/Diary/',
+            url: '/Diary/LoadAbsencesContent',
             type: 'GET',
             data: { classId: selectedClassId, subjectId: selectedSubjectId },
             success: function (response) {
                 $("#main-content").html(response);
+                if (currentTab === 'absences') {
+                    $('#subjectsSidebar').hide();
+                    $('#mainContentContainer').removeClass('col-lg-10').addClass('col-lg-12');
+                }
             },
             error: function () {
                 alert("Възникна грешка при зареждането на съдържанието.");

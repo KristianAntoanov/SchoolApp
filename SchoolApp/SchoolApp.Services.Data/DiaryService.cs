@@ -97,5 +97,28 @@ namespace SchoolApp.Services.Data
             return studentRemarks;
         }
 
+        public async Task<IEnumerable<StudentAbsencesViewModel>> GetAbsencesContent(int classId)
+        {
+            IEnumerable<StudentAbsencesViewModel> studentAbsences = await _studentRepository
+                    .GetAllAttached()
+                    .Where(sa => sa.ClassId == classId)
+                    .Select(s => new StudentAbsencesViewModel()
+                    {
+                        FirstName = s.FirstName,
+                        LastName = s.LastName,
+                        Absences = s.Absences
+                                .Select(a => new AbsencesViewModel()
+                                {
+                                    SubjectName = a.Subject.Name,
+                                    TeacherName = "//TODO",
+                                    AddedOn = a.AddedOn.ToString(),
+                                    IsExcused = a.IsExcused
+                                })
+                    })
+                    .ToArrayAsync();
+
+            return studentAbsences;
+        }
+
     }
 }
