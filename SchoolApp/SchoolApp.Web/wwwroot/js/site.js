@@ -7,41 +7,60 @@
 $(document).ready(function () {
     let selectedClassId = null;
     let selectedSubjectId = null;
-    console.log("in classBtn")
+    let currentTab = 'grades';
 
     $(".btn-check").click(function () {
-        console.log("Бутонът е кликнат!");
+
         selectedClassId = $(this).next("label").data("class-id");
         localStorage.setItem("selectedClassId", selectedClassId);
-        console.log("selectedClassId:", selectedClassId);
+
         loadContent();
     });
 
     $(document).on("click", ".list-group-item", function () {
-        console.log("Бутонът за предмет е кликнат!");
+
         selectedSubjectId = $(this).attr("id");
         localStorage.setItem("selectedContentId", selectedSubjectId);
-        console.log("selectedsubjectId:", selectedSubjectId);
+
         if (selectedClassId != null && selectedSubjectId != null) {
-            console.log("Извиква loadGradeContent")
-            loadGradeContent();
+            // Вместо директно да зареждаме оценките, проверяваме кой е текущият раздел
+            switch (currentTab) {
+                case 'grades':
+                    loadGradeContent();
+                    break;
+                case 'remarks':
+                    loadRemarkContent();
+                    break;
+                case 'absences':
+                    loadAbsencesContent();
+                    break;
+            }
         }
     });
 
-    //$(".nav-link").click(function (e) {
+    $(document).on("click", ".nav-item", function (e) {
+        let target = $(e.target).attr('data-target'); // Взима data-target атрибута
 
-    //    // Зарежда съдържанието чрез Ajax
-    //    $.ajax({
-    //        url: url,
-    //        type: 'GET',
-    //        success: function (data) {
-    //            $('#main-content2').html(data); // Вмъква получените данни в основното съдържание
-    //        },
-    //        error: function () {
-    //            alert("Възникна грешка при зареждането на съдържанието.");
-    //        }
-    //    });
-    //});
+        currentTab = target;
+
+        switch (target) {
+            case 'absences':
+                if (selectedClassId != null && selectedSubjectId != null) {
+                    loadAbsencesContent();
+                }
+                break;
+            case 'grades':
+                if (selectedClassId != null) {
+                    loadGradeContent();
+                }
+                break;
+            case 'remarks':
+                if (selectedClassId != null) {
+                    loadRemarkContent();
+                }
+                break;
+        }
+    });
 
     function loadContent() {
         $.ajax({
@@ -61,6 +80,44 @@ $(document).ready(function () {
         console.log("subjectId in loadGradeContent", selectedSubjectId);
         $.ajax({
             url: '/Diary/LoadGradeContent',
+            type: 'GET',
+            data: { classId: selectedClassId, subjectId: selectedSubjectId },
+            success: function (response) {
+                $("#main-content").html(response);
+                if (currentTab === 'grades') {
+                    $('#subjectsSidebar').show();
+                    $('#mainContentContainer').removeClass('col-lg-12').addClass('col-lg-10');
+                }
+            },
+            error: function () {
+                alert("Възникна грешка при зареждането на съдържанието.");
+            }
+        });
+    }
+
+    function loadRemarkContent() {
+        console.log("subjectId in loadGradeContent", selectedSubjectId);
+        $.ajax({
+            url: '/Diary/LoadRemarksContent',
+            type: 'GET',
+            data: { classId: selectedClassId },
+            success: function (response) {
+                $("#main-content").html(response);
+                if (currentTab === 'remarks') {
+                    $('#subjectsSidebar').hide();
+                    $('#mainContentContainer').removeClass('col-lg-10').addClass('col-lg-12');
+                }
+            },
+            error: function () {
+                alert("Възникна грешка при зареждането на съдържанието.");
+            }
+        });
+    }
+
+    function loadAbsencesContent() {
+        console.log("subjectId in loadGradeContent", selectedSubjectId);
+        $.ajax({
+            url: '/Diary/',
             type: 'GET',
             data: { classId: selectedClassId, subjectId: selectedSubjectId },
             success: function (response) {
