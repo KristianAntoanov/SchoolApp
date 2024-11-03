@@ -37,5 +37,13 @@ namespace SchoolApp.Web.Controllers
             return PartialView("GradesView", model);
         }
 
+        public async Task<IActionResult> LoadRemarksContent(int classId)
+        {
+            IEnumerable<StudentRemarksViewModel> model = await _service
+                .GetRemarksContent(classId);
+
+            return PartialView("RemarksView", model);
+        }
+
     }
 }

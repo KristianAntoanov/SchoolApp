@@ -73,5 +73,29 @@ namespace SchoolApp.Services.Data
             return subjects;
         }
 
+        public async Task<IEnumerable<StudentRemarksViewModel>> GetRemarksContent(int classId)
+        {
+            IEnumerable<StudentRemarksViewModel> studentRemarks = await _studentRepository
+                    .GetAllAttached()
+                    .Where(sr => sr.ClassId == classId)
+                    .Select(s => new StudentRemarksViewModel()
+                    {
+                        FirstName = s.FirstName,
+                        LastName = s.LastName,
+                        Remarks = s.Remarks
+                                .Select(r => new RemarksViewModel()
+                                {
+                                    Id = r.Id,
+                                    SubjectName = r.Subject.Name,
+                                    TeacherName = "//TODO",
+                                    RemarkText = r.RemarkText,
+                                    AddedOn = r.AddedOn.ToString()
+                                })
+                    })
+                    .ToArrayAsync();
+
+            return studentRemarks;
+        }
+
     }
 }
