@@ -12,7 +12,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-target="notes" href="#">
+        <a class="nav-link" data-bs-toggle="tab" data-target="remarks" href="#">
             <span class="icon">📋</span> Забележки
         </a>
     </li>
@@ -20,7 +20,7 @@
 
 <div class="row">
     <!-- Колона с вертикални бутони -->
-    <div class="col-lg-2 sidebar-buttons mt-3 px-0">
+    <div class="col-lg-2 sidebar-buttons mt-3 px-0" id="subjectsSidebar">
         <div class="list-group" id="list-tab" role="tablist">
             @foreach (var student in Model)
             {
@@ -31,9 +31,9 @@
         </div>
     </div>
     <!-- Основно съдържание, което е уголемено -->
-    <div class="col-lg-10 d-flex">
+    <div id="mainContentContainer" class="col-lg-10 d-flex">
         <div id="main-content" class="card shadow-sm p-0 w-100 mt-4">
-            <!-- Тук искам да се зареди partial view GradesView - то -->
+            <!-- Съдържание -->
         </div>
     </div>
 </div>
