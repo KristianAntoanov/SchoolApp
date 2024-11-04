@@ -46,16 +46,19 @@ $(document).ready(function () {
         switch (target) {
             case 'absences':
                 if (selectedClassId != null) {
+                    $('#addGradeButton').hide();
                     loadAbsencesContent();
                 }
                 break;
             case 'grades':
                 if (selectedClassId != null) {
+                    $('#addGradeButton').show();
                     loadGradeContent();
                 }
                 break;
             case 'remarks':
                 if (selectedClassId != null) {
+                    $('#addGradeButton').hide();
                     loadRemarkContent();
                 }
                 break;

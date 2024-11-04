@@ -1,23 +1,29 @@
 ﻿@model IEnumerable<SubjectsViewModel>
 
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" data-bs-toggle="tab" data-target="grades" href="#">
-            <i class="fa-solid fa-pencil text-dark"></i> Оценки
+<div class="nav-container d-flex justify-content-between">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" data-target="grades" href="#">
+                <i class="fa-solid fa-pencil text-dark"></i> Оценки
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-target="absences" href="#">
+                <i class="fa-solid fa-calendar-xmark text-dark"></i> Отсъствия
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-target="remarks" href="#">
+                <i class="fa-solid fa-clipboard text-dark"></i> Забележки
+            </a>
+        </li>
+    </ul>
+    <div class="AddGrade" style="display: none;" id="addGradeButton">
+        <a asp-controller="Grades" asp-action="Add" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Добави Оценка
         </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-target="absences" href="#">
-            <i class="fa-solid fa-calendar-xmark text-dark"></i> Отсъствия
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" data-target="remarks" href="#">
-            <i class="fa-solid fa-clipboard text-dark"></i> Забележки
-        </a>
-    </li>
-</ul>
-
+    </div>
+</div>
 <div class="row">
     <!-- Колона с вертикални бутони -->
     <div class="col-lg-2 sidebar-buttons mt-3 px-0" id="subjectsSidebar">
