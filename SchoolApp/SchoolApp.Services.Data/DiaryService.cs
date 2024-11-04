@@ -87,7 +87,7 @@ namespace SchoolApp.Services.Data
                                 {
                                     Id = r.Id,
                                     SubjectName = r.Subject.Name,
-                                    TeacherName = "//TODO",
+                                    TeacherName = $"{r.Teacher.FirstName} {r.Teacher.LastName}",
                                     RemarkText = r.RemarkText,
                                     AddedOn = r.AddedOn.ToString()
                                 })
@@ -110,7 +110,6 @@ namespace SchoolApp.Services.Data
                                 .Select(a => new AbsencesViewModel()
                                 {
                                     SubjectName = a.Subject.Name,
-                                    TeacherName = "//TODO",
                                     AddedOn = a.AddedOn.ToString(),
                                     IsExcused = a.IsExcused
                                 })

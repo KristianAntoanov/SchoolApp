@@ -7,7 +7,5 @@
         public bool IsExcused { get; set; }
 
         public string AddedOn { get; set; } = null!;
-
-        public string TeacherName { get; set; } = null!;
     }
 }
