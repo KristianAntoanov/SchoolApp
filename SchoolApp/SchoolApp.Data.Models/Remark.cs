@@ -22,6 +22,11 @@ namespace SchoolApp.Data.Models
         [ForeignKey(nameof(SubjectId))]
         public Subject Subject { get; set; } = null!;
 
+        public Guid? TeacherId { get; set; }
+
+        [ForeignKey(nameof(TeacherId))]
+        public Teacher Teacher { get; set; } = null!;
+
         [Required]
         [MaxLength(RemarkTextMaxLength)]
         public string RemarkText { get; set; } = null!;

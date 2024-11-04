@@ -9,7 +9,9 @@ namespace SchoolApp.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Remark> builder)
         {
-            //throw new NotImplementedException();
+            builder.HasOne(g => g.Teacher)
+                   .WithMany()
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
