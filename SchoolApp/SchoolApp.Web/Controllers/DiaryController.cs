@@ -74,7 +74,7 @@ namespace SchoolApp.Web.Controllers
             {
                 return BadRequest();
             }
-            //await _service.Add
+            //await _service.AddGradesToStudents(classId, model)
 
             return View(model);
         }

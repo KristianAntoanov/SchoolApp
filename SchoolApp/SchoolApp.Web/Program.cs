@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using SchoolApp.Data;
@@ -24,7 +24,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(cfg =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddRoles<IdentityRole<Guid>>()
 .AddSignInManager<SignInManager<ApplicationUser>>()
-.AddUserManager<UserManager<ApplicationUser>>();
+.AddUserManager<UserManager<ApplicationUser>>()
+.AddDefaultUI();
 
 builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
 

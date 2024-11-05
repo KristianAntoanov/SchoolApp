@@ -10,14 +10,17 @@ namespace SchoolApp.Services.Data
 		private readonly IRepository<Class, int> _classRepository;
 		private readonly IRepository<Student, int> _studentRepository;
 		private readonly IRepository<Subject, int> _subjectRepository;
+		private readonly IRepository<Grade, int> _gradeRepository;
 
 		public DiaryService(IRepository<Class, int> classRepository,
 							IRepository<Student, int> studentRepository,
-                            IRepository<Subject, int> subjectRepository)
+                            IRepository<Subject, int> subjectRepository,
+                            IRepository<Grade, int> gradeRepository)
 		{
             _classRepository = classRepository;
             _studentRepository = studentRepository;
 			_subjectRepository = subjectRepository;
+            _gradeRepository = gradeRepository;
         }
 
 		public async Task<IEnumerable<DiaryIndexViewModel>> IndexGetAllClasses()
@@ -149,6 +152,19 @@ namespace SchoolApp.Services.Data
             };
 
             return classes;
+        }
+
+        public async Task<bool> AddGradesToStudents(int classId, DiaryGradeAddViewModel model)
+        {
+            foreach (var student in model.Students)
+            {
+                Grade grade = new Grade()
+                {
+                    AddedOn = model.AddedOn,
+                    GradeValue = student.Grade,
+                };
+            }
+            return true;
         }
 
     }
