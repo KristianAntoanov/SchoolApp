@@ -1,6 +1,6 @@
 ﻿namespace SchoolApp.Web.ViewModels
 {
-	public class StudentsViewModel
+	public class StudentGradesViewModel
 	{
 		public string FirstName { get; set; } = null!;
 

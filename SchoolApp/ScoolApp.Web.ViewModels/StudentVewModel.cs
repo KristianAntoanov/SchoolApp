@@ -1,0 +1,19 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+using static SchoolApp.Common.EntityValidationConstants.Grade;
+
+namespace SchoolApp.Web.ViewModels
+{
+	public class StudentVewModel
+	{
+		public int Id { get; set; }
+
+		public string? FirstName { get; set; }
+
+		public string? LastName { get; set; }
+
+		[Required]
+		[Range(GradeMinValue, GradeMaxValue)]
+		public int Grade { get; set; }
+	}
+}
