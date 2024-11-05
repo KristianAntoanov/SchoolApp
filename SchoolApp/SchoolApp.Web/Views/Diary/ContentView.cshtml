@@ -18,10 +18,14 @@
             </a>
         </li>
     </ul>
-    <div class="AddGrade" style="display: none;" id="addGradeButton">
-        <a asp-controller="Grades" asp-action="Add" class="btn btn-primary">
-            <i class="fa-solid fa-plus"></i> Добави Оценка
-        </a>
+    <div class="AddGrade" id="addGradeButton">
+        <form action="/Diary/AddGrades" method="get">
+            <input type="hidden" name="classId" id="hiddenClassId" />
+            <input type="hidden" name="subjectId" id="hiddenSubjectId" />
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i> Добави Оценка
+            </button>
+        </form>
     </div>
 </div>
 <div class="row">
