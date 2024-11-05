@@ -4,21 +4,21 @@
 	{
 		public static class Absence
 		{
-            public const string AddedOnDateFormat = "dd-MM-yyyy";
+            public const string AddedOnDateFormat = "dd/MM/yyyy";
         }
 
         public static class Grade
         {
             public const int GradeMinValue = 2;
             public const int GradeMaxValue = 6;
-            public const string AddedOnDateFormat = "dd-MM-yyyy";
+            public const string AddedOnDateFormat = "dd/MM/yyyy";
         }
 
         public static class Remark
         {
             public const int RemarkTextMinLength = 5;
             public const int RemarkTextMaxLength = 300;
-            public const string AddedOnDateFormat = "dd-MM-yyyy";
+            public const string AddedOnDateFormat = "dd/MM/yyyy";
         }
 
         public static class Section

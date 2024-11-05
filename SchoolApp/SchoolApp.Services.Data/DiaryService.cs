@@ -36,12 +36,12 @@ namespace SchoolApp.Services.Data
 			return diaries;
 		}
 
-        public async Task<IEnumerable<StudentsViewModel>> GetGradeContent(int classId, int subjectId)
+        public async Task<IEnumerable<StudentGradesViewModel>> GetGradeContent(int classId, int subjectId)
         {
-            IEnumerable<StudentsViewModel> students = await _studentRepository
+            IEnumerable<StudentGradesViewModel> students = await _studentRepository
                 .GetAllAttached()
                 .Where(s => s.ClassId == classId)
-                .Select(s => new StudentsViewModel()
+                .Select(s => new StudentGradesViewModel()
                 {
                     FirstName = s.FirstName,
                     LastName = s.LastName,
@@ -117,6 +117,38 @@ namespace SchoolApp.Services.Data
                     .ToArrayAsync();
 
             return studentAbsences;
+        }
+
+        public async Task<DiaryGradeAddViewModel> GetClassNames(int classId, int subjectId)
+        {
+            IList<StudentVewModel> students = await _studentRepository
+                .GetAllAttached()
+                .Where(s => s.ClassId == classId)
+                .Select(s => new StudentVewModel()
+                {
+                    Id = s.Id,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName
+                })
+                .ToListAsync();
+
+            IEnumerable<SubjectsViewModel> subjects = await _subjectRepository
+                .GetAllAttached()
+                .Select(s => new SubjectsViewModel()
+                {
+                    Id = s.Id,
+                    SubjectName = s.Name
+                })
+                .ToArrayAsync();
+
+            DiaryGradeAddViewModel classes = new DiaryGradeAddViewModel()
+            {
+                Students = students,
+                Subjects = subjects,
+                SubjectId = subjectId
+            };
+
+            return classes;
         }
 
     }
