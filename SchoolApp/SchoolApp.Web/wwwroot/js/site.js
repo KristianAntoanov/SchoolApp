@@ -65,6 +65,16 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on("click", "#addGradeButton button", function (e) {
+        if (selectedClassId != null && selectedSubjectId != null) {
+            $("#hiddenClassId").val(selectedClassId);
+            $("#hiddenSubjectId").val(selectedSubjectId);
+        } else {
+            e.preventDefault();
+            alert("Моля, изберете клас и предмет преди да добавите оценка.");
+        }
+    });
+
     function loadContent() {
         $.ajax({
             url: '/Diary/LoadClassAndContent',
@@ -80,7 +90,6 @@ $(document).ready(function () {
     }
 
     function loadGradeContent() {
-        console.log("subjectId in loadGradeContent", selectedSubjectId);
         $.ajax({
             url: '/Diary/LoadGradeContent',
             type: 'GET',
@@ -99,7 +108,6 @@ $(document).ready(function () {
     }
 
     function loadRemarkContent() {
-        console.log("subjectId in loadGradeContent", selectedSubjectId);
         $.ajax({
             url: '/Diary/LoadRemarksContent',
             type: 'GET',
@@ -118,7 +126,6 @@ $(document).ready(function () {
     }
 
     function loadAbsencesContent() {
-        console.log("subjectId in loadGradeContent", selectedSubjectId);
         $.ajax({
             url: '/Diary/LoadAbsencesContent',
             type: 'GET',
@@ -137,3 +144,25 @@ $(document).ready(function () {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const rows = document.querySelectorAll('tbody tr');
+
+    rows.forEach(row => {
+        const gradeBoxes = row.querySelectorAll('.grade-box');
+        const gradeDisplay = row.querySelector('input[type="number"][name*="Grade"]');
+
+        gradeBoxes.forEach(box => { 
+            box.addEventListener('click', function () {
+                // Remove selected class from all boxes in this row
+                gradeBoxes.forEach(b => b.classList.remove('selected'));
+
+                // Add selected class to clicked box
+                this.classList.add('selected');
+
+                // Update grade display
+                const grade = this.getAttribute('data-grade');
+                gradeDisplay.value = grade;
+            });
+        });
+    });
+});
