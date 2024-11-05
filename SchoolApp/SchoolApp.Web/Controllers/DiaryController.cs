@@ -13,6 +13,7 @@ namespace SchoolApp.Web.Controllers
             _service = service;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             IEnumerable<DiaryIndexViewModel> model = await _service
@@ -21,6 +22,7 @@ namespace SchoolApp.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> LoadClassAndContent(int classId)
         {
             IEnumerable<SubjectsViewModel> model = await _service
@@ -29,14 +31,16 @@ namespace SchoolApp.Web.Controllers
             return PartialView("ContentView", model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> LoadGradeContent(int classId, int subjectId)
         {
-            IEnumerable<StudentsViewModel> model = await _service
+            IEnumerable<StudentGradesViewModel> model = await _service
                 .GetGradeContent(classId, subjectId);
 
             return PartialView("GradesView", model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> LoadRemarksContent(int classId)
         {
             IEnumerable<StudentRemarksViewModel> model = await _service
@@ -45,12 +49,34 @@ namespace SchoolApp.Web.Controllers
             return PartialView("RemarksView", model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> LoadAbsencesContent(int classId)
         {
             IEnumerable<StudentAbsencesViewModel> model = await _service
                 .GetAbsencesContent(classId);
 
             return PartialView("AbsencesView", model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddGrades(int classId, int subjectId)
+        {
+            DiaryGradeAddViewModel model = await _service
+                .GetClassNames(classId, subjectId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddGrades(int classId, DiaryGradeAddViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            //await _service.Add
+
+            return View(model);
         }
 
     }
