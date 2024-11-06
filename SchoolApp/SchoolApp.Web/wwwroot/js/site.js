@@ -14,7 +14,17 @@ $(document).ready(function () {
         selectedClassId = $(this).next("label").data("class-id");
         localStorage.setItem("selectedClassId", selectedClassId);
 
-        loadContent();
+        switch (currentTab) {
+            case 'absences':
+                loadAbsencesContent();
+                break;
+            case 'grades':
+                loadContent();
+                break;
+            case 'remarks':
+                loadRemarkContent();
+                break;
+        }
     });
 
     $(document).on("click", ".list-group-item", function () {
@@ -82,6 +92,13 @@ $(document).ready(function () {
             data: { classId: selectedClassId },
             success: function (response) {
                 $("#content").html(response);
+                if (currentTab !== 'grades') {
+                    $('#subjectsSidebar').hide();
+                    $('#mainContentContainer').removeClass('col-lg-10').addClass('col-lg-12');
+                } else {
+                    $('#subjectsSidebar').show();
+                    $('#mainContentContainer').removeClass('col-lg-12').addClass('col-lg-10');
+                }
             },
             error: function () {
                 alert("Възникна грешка при зареждането на съдържанието.");
