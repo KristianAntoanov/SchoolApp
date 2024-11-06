@@ -21,6 +21,8 @@ body {
   margin-bottom: 60px;
 }
 
+/* Grade Table Style */
+
 .grade-cell {
     width: 50px;
     padding: 0.6em 0.6em; /* Увеличава padding от всички страни */
@@ -131,6 +133,8 @@ body {
     background-color: #f8f9fa;
 }
 
+/* Popover Style */
+
 .popover {
     max-width: 400px;
 }
@@ -142,4 +146,121 @@ body {
 /* Това ще направи курсора да показва, че елементът е кликабилен */
 .grade-value {
     cursor: pointer;
+}
+
+/* Home Image Style */
+
+@keyframes slideFromBottom {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-up {
+    animation: slideFromBottom 1s ease-out forwards;
+}
+
+.image-container {
+    overflow: hidden;
+    position: relative;
+}
+
+/* Contact Info Style */
+
+.contact-input {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+    .contact-input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+        outline: none;
+    }
+
+.contact-info {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+}
+
+/* Опционално: Ако искате hover ефект */
+.contact-input:hover {
+    border-color: #0d6efd;
+}
+
+.contact-container {
+    position: relative;
+}
+
+.map-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+.custom-navbar {
+    padding: 1rem 0;
+    background-color: #6A1E55 !important;
+}
+
+    .custom-navbar .navbar-brand,
+    .custom-navbar .nav-link {
+        color: white !important;
+    }
+
+    .custom-navbar .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    .custom-navbar .nav-link {
+        font-size: 1.1rem;
+        margin: 0 10px;
+        position: relative;
+        overflow: hidden;
+    }
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #e76f51;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease-out;
+}
+
+.nav-link:hover::before {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.custom-footer {
+    background-color: #6A1E55 !important;
+    color: white !important;
+    padding: 2rem 0; /* увеличен padding */
+    width: 100%;
+}
+
+    .custom-footer a {
+        color: white !important;
+        text-decoration: none;
+    }
+
+/* Ако имате някакъв margin отдолу на main секцията, премахнете го */
+main {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
 }

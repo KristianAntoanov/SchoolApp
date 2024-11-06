@@ -2,8 +2,177 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<div class="container-fluid p-0">
+    <div class="container mt-4 mb-4">
+        <div class="text-center">
+            <h1 class="text-uppercase fw-bold mb-3" style="font-size: 2rem;">
+                Софийска гимназия по строителство, архитектура и геодезия „Христо Ботев"
+            </h1>
+            <div class="mx-auto" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+        </div>
+    </div>
 
+    <div class="image-container w-100">
+        <img src="~/img/school.jpg"
+             class="img-fluid w-100 slide-up"
+             alt="СГСАГ Христо Ботев"
+             style="object-fit: cover; height: calc(100vh - 200px);">
+    </div>
+
+    <div class="container mt-5">
+        <h2 class="text-center text-uppercase fw-bold mb-3">Изгради своето бъдеще с нас</h2>
+        <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+
+        <div class="row align-items-center">
+            <div class="col-md-4 text-center">
+                <img src="~/img/director.jpg"
+                     class="img-fluid rounded"
+                     alt="Директор на СГСАГ"
+                     style="max-width: 300px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);">
+            </div>
+            <div class="col-md-8">
+                <h2 class="mb-4">Добре дошли в СГСАГ „Христо Ботев"</h2>
+                <p class="lead">
+                    Уважаеми ученици, родители и колеги,
+                </p>
+                <p>
+                    Като директор на Софийска гимназия по строителство, архитектура и геодезия „Христо Ботев"
+                    имам удоволствието да ви приветствам в нашето училище с богата история и традиции в
+                    професионалното образование.
+                </p>
+                <p>
+                    Нашата мисия е да подготвим бъдещите строителни специалисти, архитекти и геодезисти на България,
+                    като им осигурим качествено образование и практически умения, необходими за успешната им
+                    професионална реализация.
+                </p>
+                <p class="text-end mb-0">
+                    <strong>Име и Фамилия</strong><br>
+                    <em>Кристиан Иванов</em>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h2 class="text-uppercase fw-bold mb-3">За Нас</h2>
+            <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-center mb-4">
+                    СГСАГ "Христо Ботев" е училище с дългогодишна история и традиции в професионалното образование.
+                    Ние подготвяме висококвалифицирани специалисти в областта на строителството, архитектурата и геодезията.
+                </p>
+                <p></p>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="text-center">
+                    <i class="fas fa-building fa-3x mb-3 text-primary"></i>
+                    <h4>Строителство</h4>
+                    <p>Обучение по съвременни строителни технологии и методи</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="text-center">
+                    <i class="fas fa-drafting-compass fa-3x mb-3 text-primary"></i>
+                    <h4>Архитектура</h4>
+                    <p>Развиване на творческо мислене и дизайнерски умения</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="text-center">
+                    <i class="fas fa-map-marked-alt fa-3x mb-3 text-primary"></i>
+                    <h4>Геодезия</h4>
+                    <p>Усвояване на модерни геодезически технологии и практики</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h2 class="text-uppercase fw-bold mb-3">Контакти</h2>
+            <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+        </div>
+
+        <div class="row position-relative">
+            <!-- Background Image Container -->
+            <div class="map-background position-absolute h-100 w-50">
+                <img src="~/img/contact-bg.png">
+            </div>
+
+            <!-- Contact Information -->
+            <!-- Contact Information - без бял контейнер -->
+            <div class="col-md-4 mb-4" style="margin-top: 80px; padding-left: 70px;">
+                <div class="d-flex align-items-center mb-4">
+                    <i class="fas fa-map-marker-alt fa-2x me-3 text-primary"></i>
+                    <div>
+                        <h5 class="mb-0">Адрес</h5>
+                        <p class="mb-0">ул. "Добри Войников" №16</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-4">
+                    <i class="fas fa-phone fa-2x me-3 text-primary"></i>
+                    <div>
+                        <h5 class="mb-0">Телефон</h5>
+                        <p class="mb-0">02/866 12 71</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-envelope fa-2x me-3 text-primary"></i>
+                    <div>
+                        <h5 class="mb-0">Имейл</h5>
+                        <p class="mb-0">sgcag@sgcag.info</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Contact Form -->
+            <div class="col-md-8">
+                <form id="contactForm" class="p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <input type="text"
+                                   class="form-control contact-input"
+                                   id="name"
+                                   name="name"
+                                   placeholder="Вашето име"
+                                   required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <input type="email"
+                                   class="form-control contact-input"
+                                   id="email"
+                                   name="email"
+                                   placeholder="Вашият имейл"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text"
+                               class="form-control contact-input"
+                               id="subject"
+                               name="subject"
+                               placeholder="Относно"
+                               required>
+                    </div>
+                    <div class="mb-4">
+                        <textarea class="form-control contact-input"
+                                  id="message"
+                                  name="message"
+                                  rows="5"
+                                  placeholder="Вашето съобщение"
+                                  required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4 py-2">
+                        Изпрати съобщение
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
