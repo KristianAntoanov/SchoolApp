@@ -65,7 +65,12 @@
                                 {
                                     foreach (var grade in gradesByMonth[column])
                                     {
-                                        <div class="@($"grade-value grade-{grade.GradeValue}")">
+                                        <div class="@($"grade-value grade-{grade.GradeValue}")"
+                                             tabindex="0"
+                                             data-bs-toggle="popover"
+                                             data-bs-custom-class="custom-popover"
+                                             data-bs-title="Детайли за оценката"
+                                             data-bs-content="Тестово съдържание">
                                             @grade.GradeValue
                                         </div>
                                     }

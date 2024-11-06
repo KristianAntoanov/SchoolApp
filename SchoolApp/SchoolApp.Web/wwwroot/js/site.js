@@ -3,7 +3,6 @@
 
 // Write your JavaScript code.
 
-
 $(document).ready(function () {
     let selectedClassId = null;
     let selectedSubjectId = null;
@@ -168,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const gradeBoxes = row.querySelectorAll('.grade-box');
         const gradeDisplay = row.querySelector('input[type="number"][name*="Grade"]');
 
-        gradeBoxes.forEach(box => { 
+        gradeBoxes.forEach(box => {
             box.addEventListener('click', function () {
                 // Remove selected class from all boxes in this row
                 gradeBoxes.forEach(b => b.classList.remove('selected'));
@@ -181,5 +180,54 @@ document.addEventListener('DOMContentLoaded', function () {
                 gradeDisplay.value = grade;
             });
         });
+    });
+});
+
+$(document).ready(function () {
+    // Функция за инициализиране на popovers
+    function initializePopovers() {
+        $('[data-bs-toggle="popover"]').popover({
+            trigger: 'click',
+            html: true,
+            container: 'body'
+        });
+    }
+
+    // Първоначално инициализиране
+    initializePopovers();
+
+    // При клик върху popover елемент
+    $(document).on('click', '[data-bs-toggle="popover"]', function (e) {
+
+        const $this = $(this);
+        const isVisible = $this.data('bs.popover') &&
+            $this.data('bs.popover').tip &&
+            $this.data('bs.popover').tip.classList.contains('show');
+
+        // Скрий всички други popovers
+        $('[data-bs-toggle="popover"]').not(this).popover('hide');
+
+        // Ако този popover е вече видим, скрий го
+        if (isVisible) {
+            $this.popover('hide');
+        } else {
+            $this.popover('show');
+        }
+    });
+
+    // При клик извън popover
+    $(document).on('click', function (e) {
+        if ($(e.target).data('bs-toggle') !== 'popover' &&
+            $(e.target).parents('[data-bs-toggle="popover"]').length === 0 &&
+            $(e.target).parents('.popover').length === 0) {
+
+            $('[data-bs-toggle="popover"]').popover('hide');
+        }
+    });
+
+    // Унищожаване на popovers при скриване
+    $(document).on('hidden.bs.popover', function (e) {
+        $(e.target).data('bs-popover', null);
+        initializePopovers();
     });
 });

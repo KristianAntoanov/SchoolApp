@@ -40,9 +40,11 @@
   <ItemGroup>
     <Folder Include="Views\Diary\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\js\Diary\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
     <Content Remove="wwwroot\lib\css\all.min.css" />
+    <Content Remove="wwwroot\js\Diary\" />
   </ItemGroup>
 </Project>
