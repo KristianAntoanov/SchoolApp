@@ -6,9 +6,9 @@ namespace SchoolApp.Web.ViewModels
 {
 	public class DiaryGradeAddViewModel
     {
-        [Required(ErrorMessage = AddedOnDateFormat)]
-        [RegularExpression(@"^(0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])-(\d{4})$",
-             ErrorMessage = AddedOnDateFormat)]
+        //[Required(ErrorMessage = AddedOnDateFormat)]
+        //[RegularExpression(@"^(0[1-9]|[12]\d|3[01])-(0[1-9]|1[0-2])-(\d{4})$",
+        //     ErrorMessage = AddedOnDateFormat)]
         public DateTime AddedOn { get; set; }
 
 		public IList<StudentVewModel> Students { get; set; }

@@ -12,8 +12,6 @@ namespace SchoolApp.Web.ViewModels
 
 		public string? LastName { get; set; }
 
-		[Required]
-		[Range(GradeMinValue, GradeMaxValue)]
 		public int Grade { get; set; }
 	}
 }

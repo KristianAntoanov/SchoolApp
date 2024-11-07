@@ -1,12 +1,17 @@
 ﻿@model DiaryGradeAddViewModel
+@{
+    ViewData["Title"] = "Add Grades";
+    var today = DateTime.Now.ToString("dd/MM/yyyy");
+}
 
 <div class="container my-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <form id="gradeForm" asp-action="AddGrades" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="date">Дата</label>
-                    <input type="date" class="form-control" id="date" name="date" placeholder="01/01/2024" required>
+                    <label asp-for="@Model.AddedOn">Дата</label>
+                    <input asp-for="@Model.AddedOn" type="date" class="form-control" placeholder="today" value="@Model.AddedOn">
+                    <span asp-validation-for="@Model.AddedOn" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="@Model.SubjectId" class="form-label-add-edit">Избери Предмет</label>
@@ -25,11 +30,12 @@
                         </thead>
                         <tbody>
                             @for (int i = 0; i < Model.Students.Count(); i++)
-                                {
+                            {
                                 <tr>
                                     <td>@Model.Students[i].FirstName @Model.Students[i].LastName</td>
                                     <td>
                                         <div class="d-flex justify-content-center grade-buttons">
+                                            <div class="grade-box selected" data-grade="0"></div>
                                             <div class="grade-box" data-grade="2">2</div>
                                             <div class="grade-box" data-grade="3">3</div>
                                             <div class="grade-box" data-grade="4">4</div>
@@ -39,7 +45,8 @@
                                     </td>
                                     <td>
                                         <input type="hidden" asp-for="@Model.Students[i].Id" />
-                                        <input type="number" asp-for="@Model.Students[i].Grade" class="form-control grade-display" />
+                                        <input type="hidden" class="real-grade-value" name="Students[@i].Grade" />
+                                        <input type="number" class="form-control grade-display" disabled />
                                     </td>
                                 </tr>
                             }
@@ -50,10 +57,15 @@
                             <i class="fa-solid fa-check me-2"></i> Запази
                         </button>
                         <a asp-controller="Diary" asp-action="Index" class="btn btn-secondary d-flex justify-content-center align-items-center mx-1">
-                            <i class="fa-solid fa-arrow-left me-2"></i>  Назад</a>
+                            <i class="fa-solid fa-arrow-left me-2"></i>  Назад
+                        </a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

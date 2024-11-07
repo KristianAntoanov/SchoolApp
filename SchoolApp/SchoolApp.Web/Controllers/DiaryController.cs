@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using SchoolApp.Data.Models;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
 
@@ -7,10 +9,12 @@ namespace SchoolApp.Web.Controllers
 	public class DiaryController : BaseController
 	{
         private readonly IDiaryService _service;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public DiaryController(IDiaryService service)
+        public DiaryController(IDiaryService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -74,9 +78,21 @@ namespace SchoolApp.Web.Controllers
             {
                 return BadRequest();
             }
-            //await _service.AddGradesToStudents(subjectId, model)
 
-            return View(model);
+            string userId = this.userManager.GetUserId(User)!;
+            if (String.IsNullOrWhiteSpace(userId))
+            {
+                return this.RedirectToPage("/Identity/Account/Login");
+            }
+
+            bool result = await _service.AddGradesToStudents(userId, model);
+
+            if (result == false)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
     }
