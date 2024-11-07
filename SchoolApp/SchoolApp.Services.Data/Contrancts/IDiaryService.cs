@@ -16,6 +16,6 @@ namespace SchoolApp.Services.Data.Contrancts
 
         Task<DiaryGradeAddViewModel> GetClassNames(int classId, int subjectId);
 
-        Task<bool> AddGradesToStudents(int classId, DiaryGradeAddViewModel model);
+        Task<bool> AddGradesToStudents(string userId, DiaryGradeAddViewModel model);
     }
 }

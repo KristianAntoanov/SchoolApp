@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
@@ -6,39 +7,39 @@ using SchoolApp.Web.ViewModels;
 
 namespace SchoolApp.Services.Data
 {
-	public class DiaryService : IDiaryService
+    public class DiaryService : IDiaryService
     {
-		private readonly IRepository<Class, int> _classRepository;
-		private readonly IRepository<Student, int> _studentRepository;
-		private readonly IRepository<Subject, int> _subjectRepository;
-		private readonly IRepository<Grade, int> _gradeRepository;
+        private readonly IRepository<Class, int> _classRepository;
+        private readonly IRepository<Student, int> _studentRepository;
+        private readonly IRepository<Subject, int> _subjectRepository;
+        private readonly IRepository<Grade, int> _gradeRepository;
 
-		public DiaryService(IRepository<Class, int> classRepository,
-							IRepository<Student, int> studentRepository,
+        public DiaryService(IRepository<Class, int> classRepository,
+                            IRepository<Student, int> studentRepository,
                             IRepository<Subject, int> subjectRepository,
                             IRepository<Grade, int> gradeRepository)
-		{
+        {
             _classRepository = classRepository;
             _studentRepository = studentRepository;
-			_subjectRepository = subjectRepository;
+            _subjectRepository = subjectRepository;
             _gradeRepository = gradeRepository;
         }
 
-		public async Task<IEnumerable<DiaryIndexViewModel>> IndexGetAllClasses()
-		{
-			IEnumerable<DiaryIndexViewModel> diaries = await _classRepository
+        public async Task<IEnumerable<DiaryIndexViewModel>> IndexGetAllClasses()
+        {
+            IEnumerable<DiaryIndexViewModel> diaries = await _classRepository
                 .GetAllAttached()
-				.OrderBy(c => c.GradeLevel)
-				.ThenBy(c => c.SectionId)
-				.Select(c => new DiaryIndexViewModel()
-				{
-					ClassId = c.Id,
-					ClassName = $"{c.GradeLevel} {c.Section.Name}"
+                .OrderBy(c => c.GradeLevel)
+                .ThenBy(c => c.SectionId)
+                .Select(c => new DiaryIndexViewModel()
+                {
+                    ClassId = c.Id,
+                    ClassName = $"{c.GradeLevel} {c.Section.Name}"
                 })
-				.ToArrayAsync();
+                .ToArrayAsync();
 
-			return diaries;
-		}
+            return diaries;
+        }
 
         public async Task<IEnumerable<StudentGradesViewModel>> GetGradeContent(int classId, int subjectId)
         {
@@ -155,20 +156,22 @@ namespace SchoolApp.Services.Data
             return classes;
         }
 
-        public async Task<bool> AddGradesToStudents(int classId, DiaryGradeAddViewModel model)
+        public async Task<bool> AddGradesToStudents(string userId, DiaryGradeAddViewModel model)
         {
-            foreach (var student in model.Students)
+            foreach (var student in model.Students.Where(s => s.Grade != 0))
             {
                 Grade grade = new Grade()
                 {
                     AddedOn = model.AddedOn,
                     GradeValue = student.Grade,
                     StudentId = student.Id,
-                    SubjectId = model.SubjectId
+                    SubjectId = model.SubjectId,
+                    TeacherId = Guid.Parse(userId),
                 };
+                await _gradeRepository.AddAsync(grade);
             }
+
             return true;
         }
-
     }
 }
