@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 using SchoolApp.Data;
 using SchoolApp.Data.Models;
-using SchoolApp.Data.Repository;
-using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data;
+using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,12 +27,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(cfg =>
 .AddDefaultUI();
 
 builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
+builder.Services.RegisterUserDefinedServices(typeof(IDiaryService).Assembly);
+//builder.Services.AddScoped<IDiaryService, DiaryService>();
 
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<DiaryService>();
 
 var app = builder.Build();
 

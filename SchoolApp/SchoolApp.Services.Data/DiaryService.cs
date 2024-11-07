@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
+using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
 
 namespace SchoolApp.Services.Data
 {
-	public class DiaryService
-	{
+	public class DiaryService : IDiaryService
+    {
 		private readonly IRepository<Class, int> _classRepository;
 		private readonly IRepository<Student, int> _studentRepository;
 		private readonly IRepository<Subject, int> _subjectRepository;
@@ -162,6 +163,8 @@ namespace SchoolApp.Services.Data
                 {
                     AddedOn = model.AddedOn,
                     GradeValue = student.Grade,
+                    StudentId = student.Id,
+                    SubjectId = model.SubjectId
                 };
             }
             return true;

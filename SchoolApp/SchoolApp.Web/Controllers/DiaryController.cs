@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolApp.Services.Data;
+using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
 
 namespace SchoolApp.Web.Controllers
 {
 	public class DiaryController : BaseController
 	{
-        private readonly DiaryService _service;
+        private readonly IDiaryService _service;
 
-        public DiaryController(DiaryService service)
+        public DiaryController(IDiaryService service)
         {
             _service = service;
         }
@@ -68,13 +68,13 @@ namespace SchoolApp.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddGrades(int classId, DiaryGradeAddViewModel model)
+        public async Task<IActionResult> AddGrades(DiaryGradeAddViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            //await _service.AddGradesToStudents(classId, model)
+            //await _service.AddGradesToStudents(subjectId, model)
 
             return View(model);
         }
