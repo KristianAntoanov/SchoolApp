@@ -247,18 +247,28 @@ body {
     transform: translateX(-50%) scaleX(1);
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container-fluid {
+    flex: 1 0 auto;
+}
+
 .custom-footer {
     background-color: #6A1E55 !important;
     color: white !important;
-    padding: 2rem 0; /* увеличен padding */
+    padding: 2rem 0;
     width: 100%;
+    flex-shrink: 0; /* Това предотвратява свиването на footer-а */
 }
-
-    .custom-footer a {
-        color: white !important;
-        text-decoration: none;
-    }
-
 /* Ако имате някакъв margin отдолу на main секцията, премахнете го */
 main {
     margin-bottom: 0 !important;
