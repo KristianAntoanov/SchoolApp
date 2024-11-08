@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SchoolApp.Data.Repository.Contracts;
 
@@ -83,6 +84,22 @@ namespace SchoolApp.Data.Repository
         public async Task<TType?> GetByIdAsync(TId id)
         {
             TType? entity = await this.dbSet.FindAsync(id);
+
+            return entity;
+        }
+
+        public TType? FirstOrDefault(Func<TType, bool> predicate)
+        {
+            TType? entity = this.dbSet
+                .FirstOrDefault(predicate);
+
+            return entity;
+        }
+
+        public async Task<TType?> FirstOrDefaultAsync(Expression<Func<TType, bool>> predicate)
+        {
+            TType? entity = await this.dbSet
+                .FirstOrDefaultAsync(predicate);
 
             return entity;
         }

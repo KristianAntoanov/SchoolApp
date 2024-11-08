@@ -1,4 +1,6 @@
-﻿namespace SchoolApp.Data.Repository.Contracts
+﻿using System.Linq.Expressions;
+
+namespace SchoolApp.Data.Repository.Contracts
 {
 	public interface IRepository<TType, TId>
 	{
@@ -6,7 +8,11 @@
 
         Task<TType?> GetByIdAsync(TId id);
 
-		IEnumerable<TType> GetAll();
+        TType? FirstOrDefault(Func<TType, bool> predicate);
+
+        Task<TType?> FirstOrDefaultAsync(Expression<Func<TType, bool>> predicate);
+
+        IEnumerable<TType> GetAll();
 
 		Task<IEnumerable<TType>> GetAllAsync();
 
