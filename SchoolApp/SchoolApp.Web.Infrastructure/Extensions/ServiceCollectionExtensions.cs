@@ -29,8 +29,8 @@ namespace SchoolApp.Web.Infrastructure.Extensions
 
 					PropertyInfo? idPropInfo = type
 						.GetProperties()
-						.Where(p => p.Name.ToLower() == "id")
-						.FirstOrDefault();
+						.Where(p => p.Name.ToLower() == "id" || p.Name.ToLower() == "guidid")
+						.SingleOrDefault();
 
 					Type[] constructArgs = new Type[2];
 					constructArgs[0] = type;
