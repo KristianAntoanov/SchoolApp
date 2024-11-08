@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
@@ -13,16 +14,19 @@ namespace SchoolApp.Services.Data
         private readonly IRepository<Student, int> _studentRepository;
         private readonly IRepository<Subject, int> _subjectRepository;
         private readonly IRepository<Grade, int> _gradeRepository;
+        private readonly IRepository<Teacher, Guid> _teacherRepository;
 
         public DiaryService(IRepository<Class, int> classRepository,
                             IRepository<Student, int> studentRepository,
                             IRepository<Subject, int> subjectRepository,
-                            IRepository<Grade, int> gradeRepository)
+                            IRepository<Grade, int> gradeRepository,
+                            IRepository<Teacher, Guid> teacherRepository)
         {
             _classRepository = classRepository;
             _studentRepository = studentRepository;
             _subjectRepository = subjectRepository;
             _gradeRepository = gradeRepository;
+            _teacherRepository = teacherRepository;
         }
 
         public async Task<IEnumerable<DiaryIndexViewModel>> IndexGetAllClasses()
@@ -158,6 +162,8 @@ namespace SchoolApp.Services.Data
 
         public async Task<bool> AddGradesToStudents(string userId, DiaryGradeAddViewModel model)
         {
+            Teacher teacher = await GetTeacherByApplicationUserId(Guid.Parse(userId));
+
             foreach (var student in model.Students.Where(s => s.Grade != 0))
             {
                 Grade grade = new Grade()
@@ -166,12 +172,14 @@ namespace SchoolApp.Services.Data
                     GradeValue = student.Grade,
                     StudentId = student.Id,
                     SubjectId = model.SubjectId,
-                    TeacherId = Guid.Parse(userId),
+                    TeacherId = teacher.GuidId,
                 };
                 await _gradeRepository.AddAsync(grade);
             }
 
             return true;
         }
+        public async Task<Teacher> GetTeacherByApplicationUserId(Guid applicationUserId)
+            => await _teacherRepository.FirstOrDefaultAsync(t => t.ApplicationUserId == applicationUserId);
     }
 }

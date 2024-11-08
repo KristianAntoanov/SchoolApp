@@ -1,4 +1,5 @@
-﻿using SchoolApp.Web.ViewModels;
+﻿using SchoolApp.Data.Models;
+using SchoolApp.Web.ViewModels;
 
 namespace SchoolApp.Services.Data.Contrancts
 {
@@ -17,5 +18,7 @@ namespace SchoolApp.Services.Data.Contrancts
         Task<DiaryGradeAddViewModel> GetClassNames(int classId, int subjectId);
 
         Task<bool> AddGradesToStudents(string userId, DiaryGradeAddViewModel model);
+
+        Task<Teacher> GetTeacherByApplicationUserId(Guid applicationUserId);
     }
 }
