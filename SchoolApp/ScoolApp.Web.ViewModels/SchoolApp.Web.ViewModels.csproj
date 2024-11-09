@@ -9,4 +9,16 @@
   <ItemGroup>
     <ProjectReference Include="..\SchoolApp.Common\SchoolApp.Common.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Diary\" />
+    <None Remove="Diary\Absences\" />
+    <None Remove="Diary\Grades\" />
+    <None Remove="Diary\Remarks\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Diary\" />
+    <Folder Include="Diary\Absences\" />
+    <Folder Include="Diary\Grades\" />
+    <Folder Include="Diary\Remarks\" />
+  </ItemGroup>
 </Project>
