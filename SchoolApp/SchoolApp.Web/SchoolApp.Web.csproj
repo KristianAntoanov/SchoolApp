@@ -40,9 +40,15 @@
   <ItemGroup>
     <Folder Include="Views\Diary\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\js\Diary\" />
+    <Folder Include="wwwroot\js\Diary\Popovers\" />
+    <Folder Include="wwwroot\js\Diary\AddGrades\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
     <Content Remove="wwwroot\lib\css\all.min.css" />
+    <Content Remove="wwwroot\js\Diary\" />
+    <Content Remove="wwwroot\js\Diary\Popovers\" />
+    <Content Remove="wwwroot\js\Diary\AddGrades\" />
   </ItemGroup>
 </Project>

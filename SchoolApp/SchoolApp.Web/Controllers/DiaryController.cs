@@ -32,7 +32,7 @@ namespace SchoolApp.Web.Controllers
             IEnumerable<SubjectsViewModel> model = await _service
                 .GetClassContent(classId);
 
-            return PartialView("ContentView", model);
+            return PartialView("Content", model);
         }
 
         [HttpGet]
@@ -41,7 +41,7 @@ namespace SchoolApp.Web.Controllers
             IEnumerable<StudentGradesViewModel> model = await _service
                 .GetGradeContent(classId, subjectId);
 
-            return PartialView("GradesView", model);
+            return PartialView("Grades", model);
         }
 
         [HttpGet]
@@ -50,7 +50,7 @@ namespace SchoolApp.Web.Controllers
             IEnumerable<StudentRemarksViewModel> model = await _service
                 .GetRemarksContent(classId);
 
-            return PartialView("RemarksView", model);
+            return PartialView("Remarks", model);
         }
 
         [HttpGet]
@@ -59,14 +59,14 @@ namespace SchoolApp.Web.Controllers
             IEnumerable<StudentAbsencesViewModel> model = await _service
                 .GetAbsencesContent(classId);
 
-            return PartialView("AbsencesView", model);
+            return PartialView("Absences", model);
         }
 
         [HttpGet]
         public async Task<IActionResult> AddGrades(int classId, int subjectId)
         {
             DiaryGradeAddViewModel model = await _service
-                .GetClassNames(classId, subjectId);
+                .GetClassStudentForGrades(classId, subjectId);
 
             return View(model);
         }
@@ -94,6 +94,5 @@ namespace SchoolApp.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

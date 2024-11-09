@@ -15,7 +15,7 @@ namespace SchoolApp.Services.Data.Contrancts
 
         Task<IEnumerable<StudentAbsencesViewModel>> GetAbsencesContent(int classId);
 
-        Task<DiaryGradeAddViewModel> GetClassNames(int classId, int subjectId);
+        Task<DiaryGradeAddViewModel> GetClassStudentForGrades(int classId, int subjectId);
 
         Task<bool> AddGradesToStudents(string userId, DiaryGradeAddViewModel model);
 

@@ -128,7 +128,7 @@ namespace SchoolApp.Services.Data
             return studentAbsences;
         }
 
-        public async Task<DiaryGradeAddViewModel> GetClassNames(int classId, int subjectId)
+        public async Task<DiaryGradeAddViewModel> GetClassStudentForGrades(int classId, int subjectId)
         {
             IList<StudentVewModel> students = await _studentRepository
                 .GetAllAttached()
@@ -179,6 +179,7 @@ namespace SchoolApp.Services.Data
 
             return true;
         }
+
         public async Task<Teacher> GetTeacherByApplicationUserId(Guid applicationUserId)
             => await _teacherRepository.FirstOrDefaultAsync(t => t.ApplicationUserId == applicationUserId);
     }
