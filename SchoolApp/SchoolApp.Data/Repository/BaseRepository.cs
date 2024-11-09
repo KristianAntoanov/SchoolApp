@@ -29,6 +29,18 @@ namespace SchoolApp.Data.Repository
             await this.dbContext.SaveChangesAsync();
         }
 
+        public void AddRange(ICollection<TType> item)
+        {
+            this.dbSet.AddRange(item);
+            this.dbContext.SaveChanges();
+        }
+
+        public async Task AddRangeAsync(ICollection<TType> item)
+        {
+            await this.dbSet.AddRangeAsync(item);
+            await this.dbContext.SaveChangesAsync();
+        }
+
         public bool Delete(TId id)
         {
             TType? entity = GetById(id);

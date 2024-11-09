@@ -22,7 +22,11 @@ namespace SchoolApp.Data.Repository.Contracts
 
 		Task AddAsync(TType item);
 
-		bool Delete(TId id);
+        void AddRange(ICollection<TType> item);
+
+        Task AddRangeAsync(ICollection<TType> item);
+
+        bool Delete(TId id);
 
 		Task<bool> DeleteAsync(TId id);
 
