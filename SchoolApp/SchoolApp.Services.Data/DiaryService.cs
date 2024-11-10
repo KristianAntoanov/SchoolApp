@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
 using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
+using SchoolApp.Web.ViewModels.Diary.New;
 
 namespace SchoolApp.Services.Data
 {
@@ -15,18 +15,21 @@ namespace SchoolApp.Services.Data
         private readonly IRepository<Subject, int> _subjectRepository;
         private readonly IRepository<Grade, int> _gradeRepository;
         private readonly IRepository<Teacher, Guid> _teacherRepository;
+        private readonly IRepository<Absence, int> _absenceRepository;
 
         public DiaryService(IRepository<Class, int> classRepository,
                             IRepository<Student, int> studentRepository,
                             IRepository<Subject, int> subjectRepository,
                             IRepository<Grade, int> gradeRepository,
-                            IRepository<Teacher, Guid> teacherRepository)
+                            IRepository<Teacher, Guid> teacherRepository,
+                            IRepository<Absence, int> absenceRepository)
         {
             _classRepository = classRepository;
             _studentRepository = studentRepository;
             _subjectRepository = subjectRepository;
             _gradeRepository = gradeRepository;
             _teacherRepository = teacherRepository;
+            _absenceRepository = absenceRepository;
         }
 
         public async Task<IEnumerable<DiaryIndexViewModel>> IndexGetAllClasses()
@@ -128,12 +131,12 @@ namespace SchoolApp.Services.Data
             return studentAbsences;
         }
 
-        public async Task<DiaryGradeAddViewModel> GetClassStudentForGrades(int classId, int subjectId)
+        public async Task<StudentRecordUpdateModel> GetClassStudentForGrades(int classId, int subjectId)
         {
-            IList<StudentVewModel> students = await _studentRepository
+            IList<StudentModel> students = await _studentRepository
                 .GetAllAttached()
                 .Where(s => s.ClassId == classId)
-                .Select(s => new StudentVewModel()
+                .Select(s => new StudentModel()
                 {
                     Id = s.Id,
                     FirstName = s.FirstName,
@@ -141,16 +144,16 @@ namespace SchoolApp.Services.Data
                 })
                 .ToListAsync();
 
-            IEnumerable<SubjectsViewModel> subjects = await _subjectRepository
+            IEnumerable<SubjectModel> subjects = await _subjectRepository
                 .GetAllAttached()
-                .Select(s => new SubjectsViewModel()
+                .Select(s => new SubjectModel()
                 {
                     Id = s.Id,
                     SubjectName = s.Name
                 })
                 .ToArrayAsync();
 
-            DiaryGradeAddViewModel classes = new DiaryGradeAddViewModel()
+            StudentRecordUpdateModel classes = new StudentRecordUpdateModel()
             {
                 Students = students,
                 Subjects = subjects,
@@ -160,27 +163,86 @@ namespace SchoolApp.Services.Data
             return classes;
         }
 
-        public async Task<bool> AddGradesToStudents(string userId, DiaryGradeAddViewModel model)
+        public async Task<bool> AddStudentsRecords(string userId, StudentRecordUpdateModel model)
         {
-            Teacher teacher = await GetTeacherByApplicationUserId(Guid.Parse(userId));
+            Teacher? teacher = await _teacherRepository.FirstOrDefaultAsync(t => t.ApplicationUserId == Guid.Parse(userId));
 
+            bool isAddedRecord = false;
+
+            if (model.Students.All(s => s.RemarkText is null)
+                 && model.Students.Any(s => s.Grade.HasValue && s.Grade is not 0)
+                 && model.Students.All(s => s.IsChecked is false))
+            {
+                isAddedRecord = await AddGrades(userId, model, teacher);
+            }
+            else if (model.Students.Any(s => s.RemarkText is not null)
+                         && model.Students.All(s => s.Grade is null)
+                         && model.Students.All(s => s.IsChecked is false))
+            {
+                //isAddedRecord = await AddRemarks(userId, model);
+            }
+            else if (model.Students.All(s => s.RemarkText is null)
+                         && model.Students.All(s => s.Grade is null)
+                         && model.Students.Any(s => s.IsChecked is true))
+            {
+                isAddedRecord = await AddAbsence(userId, model);
+            }
+
+            return isAddedRecord;
+        }
+
+        public async Task<bool> AddGrades(string userId, StudentRecordUpdateModel model, Teacher? teacher)
+        {
+            List<Grade> grades = new List<Grade>();
             foreach (var student in model.Students.Where(s => s.Grade != 0))
             {
                 Grade grade = new Grade()
                 {
                     AddedOn = model.AddedOn,
-                    GradeValue = student.Grade,
+                    GradeValue = (int)student.Grade!,
                     StudentId = student.Id,
                     SubjectId = model.SubjectId,
-                    TeacherId = teacher.GuidId,
+                    TeacherId = teacher!.GuidId,
                 };
-                await _gradeRepository.AddAsync(grade);
+                grades.Add(grade);
             }
+
+            if (grades.Count == 0)
+            {
+                return false;
+            }
+
+            await _gradeRepository.AddRangeAsync(grades);
 
             return true;
         }
+        //public async Task<bool> AddRemarks(string userId, StudentRecordUpdateModel model)
+        //{
 
-        public async Task<Teacher> GetTeacherByApplicationUserId(Guid applicationUserId)
-            => await _teacherRepository.FirstOrDefaultAsync(t => t.ApplicationUserId == applicationUserId);
+        //}
+        public async Task<bool> AddAbsence(string userId, StudentRecordUpdateModel model)
+        {
+            List<Absence> absences = new List<Absence>();
+
+            foreach (var student in model.Students.Where(s => s.IsChecked))
+            {
+                Absence absence = new Absence()
+                {
+                    AddedOn = model.AddedOn,
+                    StudentId = student.Id,
+                    SubjectId = model.SubjectId,
+                };
+                absences.Add(absence);
+            }
+
+            if (absences.Count == 0)
+            {
+                return false;
+            }
+
+            await _absenceRepository.AddRangeAsync(absences);
+
+            return true;
+        }
     }
 }

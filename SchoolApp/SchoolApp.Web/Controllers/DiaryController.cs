@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolApp.Data.Models;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
+using SchoolApp.Web.ViewModels.Diary.New;
 
 namespace SchoolApp.Web.Controllers
 {
@@ -65,14 +66,14 @@ namespace SchoolApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> AddGrades(int classId, int subjectId)
         {
-            DiaryGradeAddViewModel model = await _service
+            StudentRecordUpdateModel model = await _service
                 .GetClassStudentForGrades(classId, subjectId);
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddGrades(DiaryGradeAddViewModel model)
+        public async Task<IActionResult> AddGrades(StudentRecordUpdateModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +86,40 @@ namespace SchoolApp.Web.Controllers
                 return this.RedirectToPage("/Identity/Account/Login");
             }
 
-            bool result = await _service.AddGradesToStudents(userId, model);
+            bool result = await _service.AddStudentsRecords(userId, model);
+
+            if (result == false)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddAbsence(int classId, int subjectId)
+        {
+            StudentRecordUpdateModel model = await _service
+                .GetClassStudentForGrades(classId, subjectId);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAbsence(StudentRecordUpdateModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            string userId = this.userManager.GetUserId(User)!;
+            if (String.IsNullOrWhiteSpace(userId))
+            {
+                return this.RedirectToPage("/Identity/Account/Login");
+            }
+
+            bool result = await _service.AddStudentsRecords(userId, model);
 
             if (result == false)
             {
