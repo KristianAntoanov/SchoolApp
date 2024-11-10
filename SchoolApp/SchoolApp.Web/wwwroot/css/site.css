@@ -25,7 +25,8 @@ body {
 
 .grade-cell {
     width: 50px;
-    padding: 0.6em 0.6em; /* Увеличава padding от всички страни */
+    padding: 0.6em 0.6em;
+    justify-content: center;
 }
 
 .th-ix {
@@ -104,14 +105,12 @@ body {
 }
 
 .grade-box {
-    width: 30px;
+    width: 30px;  
     height: 30px;
     border: 1px solid #ccc;
-    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    margin: 0 2px;
     transition: all 0.2s;
 }
 
@@ -146,6 +145,8 @@ body {
 /* Това ще направи курсора да показва, че елементът е кликабилен */
 .grade-value {
     cursor: pointer;
+    max-width: 30px;
+    max-height: 30px;
 }
 
 /* Home Image Style */
@@ -273,4 +274,14 @@ body {
 main {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
+}
+
+.mainDiv{
+    justify-content: center;
+}
+
+.positionUp{
+    position:relative;
+    right: 0;
+    left: 0;
 }

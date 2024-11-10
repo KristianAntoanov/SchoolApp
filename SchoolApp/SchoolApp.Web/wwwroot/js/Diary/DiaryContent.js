@@ -79,11 +79,19 @@ $(document).ready(function () {
 
     $(document).on("click", "#addGradeButton button", function (e) {
         if (selectedClassId != null && selectedSubjectId != null) {
-            $("#hiddenClassId").val(selectedClassId);
-            $("#hiddenSubjectId").val(selectedSubjectId);
+            $("#hiddenClassIdForGrade").val(selectedClassId);
+            $("#hiddenSubjectIdForGrade").val(selectedSubjectId);
         } else {
             e.preventDefault();
             alert("Моля, изберете клас и предмет преди да добавите оценка.");
+        }
+    });
+
+    $(document).on("click", "#addAbsenceButton button", function (e) {
+        if (selectedClassId != null) {
+            $("#hiddenClassIdForAbsence").val(selectedClassId);
+        } else {
+            e.preventDefault();
         }
     });
 
