@@ -1,3 +1,59 @@
-﻿
+﻿@model StudentRecordUpdateModel
+@{
+    ViewData["Title"] = "Add Absence";
+    var today = DateTime.Now.ToString("dd/MM/yyyy");
+}
 
-
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form id="gradeForm" asp-controller="Diary" asp-action="AddAbsence" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="@Model.AddedOn">Дата</label>
+                    <input asp-for="@Model.AddedOn" type="date" class="form-control" placeholder="today" value="@Model.AddedOn">
+                    <span asp-validation-for="@Model.AddedOn" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.SubjectId" class="form-label-add-edit">Избери Предмет</label>
+                    <select asp-for="@Model.SubjectId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Subjects, "Id", "SubjectName"))">
+                        <option value="">Избери Предмет...</option>
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <table class="table table-bordered text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ученик</th>
+                                <th>Добави Отсъствие</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Students.Count(); i++)
+                            {
+                                <tr>
+                                    <td>@Model.Students[i].FirstName @Model.Students[i].LastName</td>
+                                    <td class="text-center">
+                                        <input type="hidden" asp-for="@Model.Students[i].Id" />
+                                        <input type="checkbox" class="form-check-input" asp-for="@Model.Students[i].IsChecked" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-end mb-4">
+                        <button type="submit" class="btn btn-primary btn-dark-text py-2 fw-bold rounded me-2" onclick="return confirm('Сигурен ли си, че искаш да запазиш промените ?');">
+                            <i class="fa-solid fa-check me-2"></i> Запази
+                        </button>
+                        <a asp-controller="Diary" asp-action="Index" class="btn btn-secondary d-flex justify-content-center align-items-center mx-1">
+                            <i class="fa-solid fa-arrow-left me-2"></i>  Назад
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/Diary/AddGrades/GradeBoxes.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
+}
