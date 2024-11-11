@@ -14,13 +14,13 @@
     <None Remove="Diary\Absences\" />
     <None Remove="Diary\Grades\" />
     <None Remove="Diary\Remarks\" />
-    <None Remove="Diary\New\" />
+    <None Remove="Diary\NewTest\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Diary\" />
     <Folder Include="Diary\Absences\" />
     <Folder Include="Diary\Grades\" />
     <Folder Include="Diary\Remarks\" />
-    <Folder Include="Diary\New\" />
+    <Folder Include="Diary\NewTest\" />
   </ItemGroup>
 </Project>
