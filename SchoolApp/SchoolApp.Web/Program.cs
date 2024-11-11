@@ -25,7 +25,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(cfg =>
 .AddUserManager<UserManager<ApplicationUser>>()
 .AddDefaultUI();
 
-builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
+builder.Services.RegisterRepositories();
 builder.Services.RegisterUserDefinedServices(typeof(IDiaryService).Assembly);
 //builder.Services.AddScoped<IDiaryService, DiaryService>();
 

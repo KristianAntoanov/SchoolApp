@@ -10,35 +10,17 @@ namespace SchoolApp.Services.Data
 {
     public class DiaryService : IDiaryService
     {
-        private readonly IRepository<Class, int> _classRepository;
-        private readonly IRepository<Student, int> _studentRepository;
-        private readonly IRepository<Subject, int> _subjectRepository;
-        private readonly IRepository<Grade, int> _gradeRepository;
-        private readonly IRepository<Teacher, Guid> _teacherRepository;
-        private readonly IRepository<Absence, int> _absenceRepository;
-        private readonly IRepository<Remark, int> _remarkRepository;
+        private readonly IRepository _repository;
 
-        public DiaryService(IRepository<Class, int> classRepository,
-                            IRepository<Student, int> studentRepository,
-                            IRepository<Subject, int> subjectRepository,
-                            IRepository<Grade, int> gradeRepository,
-                            IRepository<Teacher, Guid> teacherRepository,
-                            IRepository<Absence, int> absenceRepository,
-                            IRepository<Remark, int> remarkRepository)
+        public DiaryService(IRepository repository)
         {
-            _classRepository = classRepository;
-            _studentRepository = studentRepository;
-            _subjectRepository = subjectRepository;
-            _gradeRepository = gradeRepository;
-            _teacherRepository = teacherRepository;
-            _absenceRepository = absenceRepository;
-            _remarkRepository = remarkRepository;
+            _repository = repository;
         }
 
         public async Task<IEnumerable<DiaryIndexViewModel>> IndexGetAllClasses()
         {
-            IEnumerable<DiaryIndexViewModel> diaries = await _classRepository
-                .GetAllAttached()
+            IEnumerable<DiaryIndexViewModel> diaries = await _repository
+                .GetAllAttached<Class>()
                 .OrderBy(c => c.GradeLevel)
                 .ThenBy(c => c.SectionId)
                 .Select(c => new DiaryIndexViewModel()
@@ -53,8 +35,8 @@ namespace SchoolApp.Services.Data
 
         public async Task<IEnumerable<StudentGradesViewModel>> GetGradeContent(int classId, int subjectId)
         {
-            IEnumerable<StudentGradesViewModel> students = await _studentRepository
-                .GetAllAttached()
+            IEnumerable<StudentGradesViewModel> students = await _repository
+                .GetAllAttached<Student>()
                 .Where(s => s.ClassId == classId)
                 .Select(s => new StudentGradesViewModel()
                 {
@@ -76,8 +58,8 @@ namespace SchoolApp.Services.Data
 
         public async Task<IEnumerable<SubjectsViewModel>> GetClassContent(int classId)
         {
-            IEnumerable<SubjectsViewModel> subjects = await _subjectRepository
-                    .GetAllAttached()
+            IEnumerable<SubjectsViewModel> subjects = await _repository
+                    .GetAllAttached<Subject>()
                     .Select(s => new SubjectsViewModel()
                     {
                         Id = s.Id,
@@ -90,8 +72,8 @@ namespace SchoolApp.Services.Data
 
         public async Task<IEnumerable<StudentRemarksViewModel>> GetRemarksContent(int classId)
         {
-            IEnumerable<StudentRemarksViewModel> studentRemarks = await _studentRepository
-                    .GetAllAttached()
+            IEnumerable<StudentRemarksViewModel> studentRemarks = await _repository
+                    .GetAllAttached<Student>()
                     .Where(sr => sr.ClassId == classId)
                     .Select(s => new StudentRemarksViewModel()
                     {
@@ -114,8 +96,8 @@ namespace SchoolApp.Services.Data
 
         public async Task<IEnumerable<StudentAbsencesViewModel>> GetAbsencesContent(int classId)
         {
-            IEnumerable<StudentAbsencesViewModel> studentAbsences = await _studentRepository
-                    .GetAllAttached()
+            IEnumerable<StudentAbsencesViewModel> studentAbsences = await _repository
+                    .GetAllAttached<Student>()
                     .Where(sa => sa.ClassId == classId)
                     .Select(s => new StudentAbsencesViewModel()
                     {
@@ -141,18 +123,18 @@ namespace SchoolApp.Services.Data
             {
                 AddedOn = DateTime.Now,
                 SubjectId = subjectId,
-                Subjects = await _subjectRepository
-            .GetAllAttached()
-            .Select(s => new SubjectFormModel()
-            {
-                Id = s.Id,
-                Name = s.Name
-            })
-            .ToArrayAsync()
+                Subjects = await _repository
+                    .GetAllAttached<Subject>()
+                    .Select(s => new SubjectFormModel()
+                    {
+                        Id = s.Id,
+                        Name = s.Name
+                    })
+                    .ToArrayAsync()
             };
 
-            var students = await _studentRepository
-                .GetAllAttached()
+            var students = await _repository
+                .GetAllAttached<Student>()
                 .Where(s => s.ClassId == classId)
                 .ToListAsync();
 
@@ -197,7 +179,7 @@ namespace SchoolApp.Services.Data
 
         public async Task<bool> AddGrades(string userId, GradeFormModel model)
         {
-            Teacher? teacher = await _teacherRepository.FirstOrDefaultAsync(t => t.ApplicationUserId == Guid.Parse(userId));
+            Teacher? teacher = await _repository.FirstOrDefaultAsync<Teacher>(t => t.ApplicationUserId == Guid.Parse(userId));
 
             List<Grade> grades = new List<Grade>();
             foreach (var student in model.Students.Where(s => s.Grade != 0))
@@ -205,7 +187,7 @@ namespace SchoolApp.Services.Data
                 Grade grade = new Grade()
                 {
                     AddedOn = model.AddedOn,
-                    GradeValue = (int)student.Grade!,
+                    GradeValue = student.Grade,
                     StudentId = student.Id,
                     SubjectId = model.SubjectId,
                     TeacherId = teacher!.GuidId,
@@ -218,10 +200,11 @@ namespace SchoolApp.Services.Data
                 return false;
             }
 
-            await _gradeRepository.AddRangeAsync(grades);
+            await _repository.AddRangeAsync(grades);
 
             return true;
         }
+
         public async Task<bool> AddAbsence(AbsenceFormModel model)
         {
             List<Absence> absences = new List<Absence>();
@@ -242,13 +225,14 @@ namespace SchoolApp.Services.Data
                 return false;
             }
 
-            await _absenceRepository.AddRangeAsync(absences);
+            await _repository.AddRangeAsync(absences);
 
             return true;
         }
+
         public async Task<bool> AddRemark(string userId, RemarkFormModel model)
         {
-            Teacher? teacher = await _teacherRepository.FirstOrDefaultAsync(t => t.ApplicationUserId == Guid.Parse(userId));
+            Teacher? teacher = await _repository.FirstOrDefaultAsync<Teacher>(t => t.ApplicationUserId == Guid.Parse(userId));
 
             Remark remark = new Remark()
             {
@@ -259,7 +243,7 @@ namespace SchoolApp.Services.Data
                 TeacherId = teacher!.GuidId
             };
 
-            await _remarkRepository.AddAsync(remark);
+            await _repository.AddAsync(remark);
 
             return true;
         }

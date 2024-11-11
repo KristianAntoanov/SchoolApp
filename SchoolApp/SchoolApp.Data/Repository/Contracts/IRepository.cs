@@ -2,37 +2,30 @@
 
 namespace SchoolApp.Data.Repository.Contracts
 {
-	public interface IRepository<TType, TId>
+	public interface IRepository
 	{
-        TType? GetById(TId id);
+        void Add<T>(T item) where T : class;
+        Task AddAsync<T>(T item) where T : class;
 
-        Task<TType?> GetByIdAsync(TId id);
+        void AddRange<T>(ICollection<T> items) where T : class;
+        Task AddRangeAsync<T>(ICollection<T> items) where T : class;
 
-        TType? FirstOrDefault(Func<TType, bool> predicate);
+        bool Delete<T>(int id) where T : class;
+        Task<bool> DeleteAsync<T>(int id) where T : class;
 
-        Task<TType?> FirstOrDefaultAsync(Expression<Func<TType, bool>> predicate);
+        IEnumerable<T> GetAll<T>() where T : class;
+        Task<IEnumerable<T>> GetAllAsync<T>() where T : class;
 
-        IEnumerable<TType> GetAll();
+        IQueryable<T> GetAllAttached<T>() where T : class;
 
-		Task<IEnumerable<TType>> GetAllAsync();
+        T? GetById<T>(int id) where T : class;
+        Task<T?> GetByIdAsync<T>(int id) where T : class;
 
-        IQueryable<TType> GetAllAttached();
+        T? FirstOrDefault<T>(Func<T, bool> predicate) where T : class;
+        Task<T?> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> predicate) where T : class;
 
-        void Add(TType item);
-
-		Task AddAsync(TType item);
-
-        void AddRange(ICollection<TType> item);
-
-        Task AddRangeAsync(ICollection<TType> item);
-
-        bool Delete(TId id);
-
-		Task<bool> DeleteAsync(TId id);
-
-		bool Update(TType item);
-
-		Task<bool> UpdateAsync(TType item);
+        bool Update<T>(T item) where T : class;
+        Task<bool> UpdateAsync<T>(T item) where T : class;
 
         //TODO to think about making save methods
     }

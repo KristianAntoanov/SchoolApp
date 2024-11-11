@@ -1,128 +1,119 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SchoolApp.Data.Repository.Contracts;
 
 namespace SchoolApp.Data.Repository
 {
-    public class BaseRepository<TType, TId> : IRepository<TType, TId>
-        where TType : class
+    public class BaseRepository : IRepository
     {
-        private readonly ApplicationDbContext dbContext;
-        private readonly DbSet<TType> dbSet;
+        private readonly ApplicationDbContext _dbContext;
 
         public BaseRepository(ApplicationDbContext dbContext)
         {
-            this.dbContext = dbContext;
-            this.dbSet = this.dbContext.Set<TType>();
+            _dbContext = dbContext;
         }
 
-        public void Add(TType item)
+        private DbSet<T> GetDbSet<T>() where T : class
         {
-            this.dbSet.Add(item);
-            this.dbContext.SaveChanges();
+            return _dbContext.Set<T>();
         }
 
-        public async Task AddAsync(TType item)
+        public void Add<T>(T item) where T : class
         {
-            await this.dbSet.AddAsync(item);
-            await this.dbContext.SaveChangesAsync();
+            GetDbSet<T>().Add(item);
+            _dbContext.SaveChanges();
         }
 
-        public void AddRange(ICollection<TType> item)
+        public async Task AddAsync<T>(T item) where T : class
         {
-            this.dbSet.AddRange(item);
-            this.dbContext.SaveChanges();
+            await GetDbSet<T>().AddAsync(item);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task AddRangeAsync(ICollection<TType> item)
+        public void AddRange<T>(ICollection<T> items) where T : class
         {
-            await this.dbSet.AddRangeAsync(item);
-            await this.dbContext.SaveChangesAsync();
+            GetDbSet<T>().AddRange(items);
+            _dbContext.SaveChanges();
         }
 
-        public bool Delete(TId id)
+        public async Task AddRangeAsync<T>(ICollection<T> items) where T : class
         {
-            TType? entity = GetById(id);
+            await GetDbSet<T>().AddRangeAsync(items);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public bool Delete<T>(int id) where T : class
+        {
+            T? entity = GetById<T>(id);
 
             if (entity == null)
             {
                 return false;
             }
 
-            this.dbSet.Remove(entity);
-            this.dbContext.SaveChanges();
+            GetDbSet<T>().Remove(entity);
+            _dbContext.SaveChanges();
 
             return true;
         }
 
-        public async Task<bool> DeleteAsync(TId id)
+        public async Task<bool> DeleteAsync<T>(int id) where T : class
         {
-            TType? entity = await this.GetByIdAsync(id);
+            T? entity = await GetByIdAsync<T>(id);
 
             if (entity == null)
             {
                 return false;
             }
 
-            this.dbSet.Remove(entity);
-            await this.dbContext.SaveChangesAsync();
+            GetDbSet<T>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
 
             return true;
         }
 
-        public IEnumerable<TType> GetAll()
+        public IEnumerable<T> GetAll<T>() where T : class
         {
-            return this.dbSet.ToArray();
+            return GetDbSet<T>().ToArray();
         }
 
-        public async Task<IEnumerable<TType>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync<T>() where T : class
         {
-            return await this.dbSet.ToArrayAsync();
+            return await GetDbSet<T>().ToArrayAsync();
         }
 
-        public IQueryable<TType> GetAllAttached()
+        public IQueryable<T> GetAllAttached<T>() where T : class
         {
-            return this.dbSet.AsQueryable();
+            return GetDbSet<T>().AsQueryable();
         }
 
-        public TType? GetById(TId id)
+        public T? GetById<T>(int id) where T : class
         {
-            TType? entity = this.dbSet.Find(id);
-
-            return entity;
+            return GetDbSet<T>().Find(id);
         }
 
-        public async Task<TType?> GetByIdAsync(TId id)
+        public async Task<T?> GetByIdAsync<T>(int id) where T : class
         {
-            TType? entity = await this.dbSet.FindAsync(id);
-
-            return entity;
+            return await GetDbSet<T>().FindAsync(id);
         }
 
-        public TType? FirstOrDefault(Func<TType, bool> predicate)
+        public T? FirstOrDefault<T>(Func<T, bool> predicate) where T : class
         {
-            TType? entity = this.dbSet
-                .FirstOrDefault(predicate);
-
-            return entity;
+            return GetDbSet<T>().FirstOrDefault(predicate);
         }
 
-        public async Task<TType?> FirstOrDefaultAsync(Expression<Func<TType, bool>> predicate)
+        public async Task<T?> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> predicate) where T : class
         {
-            TType? entity = await this.dbSet
-                .FirstOrDefaultAsync(predicate);
-
-            return entity;
+            return await GetDbSet<T>().FirstOrDefaultAsync(predicate);
         }
 
-        public bool Update(TType item)
+        public bool Update<T>(T item) where T : class
         {
             try
             {
-                this.dbSet.Attach(item);
-                this.dbContext.Entry(item).State = EntityState.Modified;
-                this.dbContext.SaveChanges();
+                GetDbSet<T>().Attach(item);
+                _dbContext.Entry(item).State = EntityState.Modified;
+                _dbContext.SaveChanges();
 
                 return true;
             }
@@ -132,13 +123,13 @@ namespace SchoolApp.Data.Repository
             }
         }
 
-        public async Task<bool> UpdateAsync(TType item)
+        public async Task<bool> UpdateAsync<T>(T item) where T : class
         {
             try
             {
-                this.dbSet.Attach(item);
-                this.dbContext.Entry(item).State = EntityState.Modified;
-                await this.dbContext.SaveChangesAsync();
+                GetDbSet<T>().Attach(item);
+                _dbContext.Entry(item).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
 
                 return true;
             }
