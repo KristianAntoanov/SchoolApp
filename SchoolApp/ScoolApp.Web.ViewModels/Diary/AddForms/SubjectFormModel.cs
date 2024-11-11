@@ -1,6 +1,6 @@
-﻿namespace SchoolApp.Web.ViewModels.Diary.NewTest
+﻿namespace SchoolApp.Web.ViewModels.Diary.AddForms
 {
-	public class SubjectViewModel
+	public class SubjectFormModel
 	{
         public int Id { get; set; }
 

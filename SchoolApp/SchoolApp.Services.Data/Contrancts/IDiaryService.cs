@@ -1,6 +1,6 @@
 ﻿using SchoolApp.Data.Models;
 using SchoolApp.Web.ViewModels;
-using SchoolApp.Web.ViewModels.Diary.NewTest;
+using SchoolApp.Web.ViewModels.Diary.AddForms;
 
 namespace SchoolApp.Services.Data.Contrancts
 {

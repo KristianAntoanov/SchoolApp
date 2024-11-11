@@ -4,7 +4,7 @@ using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
-using SchoolApp.Web.ViewModels.Diary.NewTest;
+using SchoolApp.Web.ViewModels.Diary.AddForms;
 
 namespace SchoolApp.Services.Data
 {
@@ -143,7 +143,7 @@ namespace SchoolApp.Services.Data
                 SubjectId = subjectId,
                 Subjects = await _subjectRepository
             .GetAllAttached()
-            .Select(s => new SubjectViewModel()
+            .Select(s => new SubjectFormModel()
             {
                 Id = s.Id,
                 Name = s.Name

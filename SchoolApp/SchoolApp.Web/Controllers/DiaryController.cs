@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolApp.Data.Models;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
-using SchoolApp.Web.ViewModels.Diary.NewTest;
+using SchoolApp.Web.ViewModels.Diary.AddForms;
 
 namespace SchoolApp.Web.Controllers
 {

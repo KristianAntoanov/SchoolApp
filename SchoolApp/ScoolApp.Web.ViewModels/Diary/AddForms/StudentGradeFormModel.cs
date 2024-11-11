@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SchoolApp.Web.ViewModels.Diary.NewTest
+namespace SchoolApp.Web.ViewModels.Diary.AddForms
 {
 	public class StudentGradeFormModel
     {
