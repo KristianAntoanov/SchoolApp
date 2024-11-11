@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 using SchoolApp.Data;
 using SchoolApp.Data.Models;
-using SchoolApp.Services.Data;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.Infrastructure.Extensions;
 

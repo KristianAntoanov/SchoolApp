@@ -1,6 +1,6 @@
 ﻿using SchoolApp.Data.Models;
 using SchoolApp.Web.ViewModels;
-using SchoolApp.Web.ViewModels.Diary.New;
+using SchoolApp.Web.ViewModels.Diary.NewTest;
 
 namespace SchoolApp.Services.Data.Contrancts
 {
@@ -16,10 +16,12 @@ namespace SchoolApp.Services.Data.Contrancts
 
         Task<IEnumerable<StudentAbsencesViewModel>> GetAbsencesContent(int classId);
 
-        Task<StudentRecordUpdateModel> GetClassStudentForGrades(int classId, int subjectId);
+        Task<T> GetClassStudentForGrades<T>(int classId, int subjectId) where T : StudentBaseViewModel, new();
 
-        Task<bool> AddStudentsRecords(string userId, StudentRecordUpdateModel model);
+        Task<bool> AddGrades(string userId, GradeFormModel model);
 
-        Task<bool> AddGrades(string userId, StudentRecordUpdateModel model, Teacher? teacher);
+        Task<bool> AddAbsence(AbsenceFormModel model);
+
+        Task<bool> AddRemark(string userId, RemarkFormModel model);
     }
 }
