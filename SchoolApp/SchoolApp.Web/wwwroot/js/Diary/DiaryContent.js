@@ -95,6 +95,14 @@ $(document).ready(function () {
         }
     });
 
+    $(document).on("click", "#addRemarkButton button", function (e) {
+        if (selectedClassId != null) {
+            $("#hiddenClassIdForRemark").val(selectedClassId);
+        } else {
+            e.preventDefault();
+        }
+    });
+
     function loadContent() {
         $.ajax({
             url: '/Diary/LoadClassAndContent',
