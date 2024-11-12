@@ -6,6 +6,8 @@ using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
 using SchoolApp.Web.ViewModels.Diary.AddForms;
 
+using static SchoolApp.Common.EntityValidationConstants.Absence;
+
 namespace SchoolApp.Services.Data
 {
     public class DiaryService : IDiaryService
@@ -86,7 +88,7 @@ namespace SchoolApp.Services.Data
                                     SubjectName = r.Subject.Name,
                                     TeacherName = $"{r.Teacher.FirstName} {r.Teacher.LastName}",
                                     RemarkText = r.RemarkText,
-                                    AddedOn = r.AddedOn.ToString()
+                                    AddedOn = r.AddedOn.ToString(AddedOnDateFormat)
                                 })
                     })
                     .ToArrayAsync();
@@ -107,7 +109,7 @@ namespace SchoolApp.Services.Data
                                 .Select(a => new AbsencesViewModel()
                                 {
                                     SubjectName = a.Subject.Name,
-                                    AddedOn = a.AddedOn.ToString(),
+                                    AddedOn = a.AddedOn.ToString(AddedOnDateFormat),
                                     IsExcused = a.IsExcused
                                 })
                     })
