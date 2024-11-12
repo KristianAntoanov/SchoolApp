@@ -49,7 +49,8 @@ namespace SchoolApp.Services.Data
                                 .Select(g => new GradeViewModel()
                                 {
                                     GradeValue = g.GradeValue,
-                                    GradeDate = g.AddedOn
+                                    GradeDate = g.AddedOn,
+                                    TeacherName = $"{g.Teacher.FirstName} {g.Teacher.LastName}"
                                 })
                                 .ToArray()
                 })

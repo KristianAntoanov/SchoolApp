@@ -6,5 +6,7 @@ namespace SchoolApp.Web.ViewModels
 		public int GradeValue { get; set; }
 
 		public DateTime GradeDate { get; set; }
+
+		public string TeacherName { get; set; } = null!;
 	}
 }
