@@ -6,7 +6,7 @@
 
 		public int SubjectId { get; set; }
 
-		public IEnumerable<SubjectFormModel> Subjects { get; set; }
-			= new HashSet<SubjectFormModel>();
+		public IEnumerable<SubjectViewModel> Subjects { get; set; }
+			= new HashSet<SubjectViewModel>();
 	}
 }

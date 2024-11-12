@@ -30,7 +30,7 @@ namespace SchoolApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> LoadClassAndContent(int classId)
         {
-            IEnumerable<SubjectsViewModel> model = await _service
+            IEnumerable<SubjectViewModel> model = await _service
                 .GetClassContent(classId);
 
             return PartialView("Content", model);

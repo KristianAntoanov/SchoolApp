@@ -56,14 +56,14 @@ namespace SchoolApp.Services.Data
             return students;
         }
 
-        public async Task<IEnumerable<SubjectsViewModel>> GetClassContent(int classId)
+        public async Task<IEnumerable<SubjectViewModel>> GetClassContent(int classId)
         {
-            IEnumerable<SubjectsViewModel> subjects = await _repository
+            IEnumerable<SubjectViewModel> subjects = await _repository
                     .GetAllAttached<Subject>()
-                    .Select(s => new SubjectsViewModel()
+                    .Select(s => new SubjectViewModel()
                     {
                         Id = s.Id,
-                        SubjectName = s.Name
+                        Name = s.Name
                     })
                     .ToArrayAsync();
 
@@ -125,7 +125,7 @@ namespace SchoolApp.Services.Data
                 SubjectId = subjectId,
                 Subjects = await _repository
                     .GetAllAttached<Subject>()
-                    .Select(s => new SubjectFormModel()
+                    .Select(s => new SubjectViewModel()
                     {
                         Id = s.Id,
                         Name = s.Name

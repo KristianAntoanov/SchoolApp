@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SubjectsViewModel>
+﻿@model IEnumerable<SubjectViewModel>
 
 <div class="nav-container d-flex justify-content-between">
     <ul class="nav nav-tabs">
@@ -51,7 +51,7 @@
             @foreach (var student in Model)
             {
                 <a class="list-group-item list-group-item-action" id="@student.Id" data-bs-toggle="list" href="#list-@student.Id" role="tab" aria-controls="list-@student.Id">
-                    @student.SubjectName
+                    @student.Name
                 </a>
             }
         </div>

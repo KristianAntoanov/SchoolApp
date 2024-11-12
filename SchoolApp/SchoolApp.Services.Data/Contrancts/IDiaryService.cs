@@ -10,7 +10,7 @@ namespace SchoolApp.Services.Data.Contrancts
 
         Task<IEnumerable<StudentGradesViewModel>> GetGradeContent(int classId, int subjectId);
 
-        Task<IEnumerable<SubjectsViewModel>> GetClassContent(int classId);
+        Task<IEnumerable<SubjectViewModel>> GetClassContent(int classId);
 
         Task<IEnumerable<StudentRemarksViewModel>> GetRemarksContent(int classId);
 
