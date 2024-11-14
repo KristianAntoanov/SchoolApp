@@ -1,84 +1,38 @@
-﻿
-
-$(document).ready(function () {
-    let selectedClassId = null;
-    let selectedSubjectId = null;
+﻿$(document).ready(function () {
+    // Инициализация на основните променливи
+    let selectedClassId = 1;
+    let selectedSubjectId = 1;
     let currentTab = 'grades';
 
+    // Event Handlers
     $(".btn-check").click(function () {
-
         selectedClassId = $(this).next("label").data("class-id");
-        localStorage.setItem("selectedClassId", selectedClassId);
-
+        sessionStorage.setItem("selectedClassId", selectedClassId);
         switch (currentTab) {
-            case 'absences':
-                loadAbsencesContent();
-                break;
-            case 'grades':
-                loadContent();
-                break;
-            case 'remarks':
-                loadRemarkContent();
-                break;
+            case 'absences': loadAbsencesContent(); break;
+            case 'grades': loadContent(); break;
+            case 'remarks': loadRemarkContent(); break;
         }
     });
 
     $(document).on("click", ".list-group-item", function () {
-
         selectedSubjectId = $(this).attr("id");
-        localStorage.setItem("selectedContentId", selectedSubjectId);
-
-        if (selectedClassId != null && selectedSubjectId != null) {
-            // Вместо директно да зареждаме оценките, проверяваме кой е текущият раздел
-            switch (currentTab) {
-                case 'grades':
-                    loadGradeContent();
-                    break;
-                case 'remarks':
-                    loadRemarkContent();
-                    break;
-                case 'absences':
-                    loadAbsencesContent();
-                    break;
-            }
+        sessionStorage.setItem("selectedContentId", selectedSubjectId);
+        if (selectedClassId && selectedSubjectId) {
+            loadTabContent();
         }
     });
 
     $(document).on("click", ".nav-item", function (e) {
-        let target = $(e.target).attr('data-target'); // Взима data-target атрибута
-
-        currentTab = target;
-
-        switch (target) {
-            case 'absences':
-                if (selectedClassId != null) {
-                    $('#addAbsenceButton').show();
-                    $('#addGradeButton').hide();
-                    $('#addRemarkButton').hide();
-                    loadAbsencesContent();
-                }
-                break;
-            case 'grades':
-                if (selectedClassId != null) {
-                    $('#addGradeButton').show();
-                    $('#addRemarkButton').hide();
-                    $('#addAbsenceButton').hide();
-                    loadGradeContent();
-                }
-                break;
-            case 'remarks':
-                if (selectedClassId != null) {
-                    $('#addRemarkButton').show();
-                    $('#addGradeButton').hide();
-                    $('#addAbsenceButton').hide();
-                    loadRemarkContent();
-                }
-                break;
+        currentTab = $(e.target).attr('data-target');
+        if (selectedClassId) {
+            loadTabContent();
         }
     });
 
+    // Handlers за бутоните за добавяне
     $(document).on("click", "#addGradeButton button", function (e) {
-        if (selectedClassId != null && selectedSubjectId != null) {
+        if (selectedClassId && selectedSubjectId) {
             $("#hiddenClassIdForGrade").val(selectedClassId);
             $("#hiddenSubjectIdForGrade").val(selectedSubjectId);
         } else {
@@ -88,7 +42,7 @@ $(document).ready(function () {
     });
 
     $(document).on("click", "#addAbsenceButton button", function (e) {
-        if (selectedClassId != null) {
+        if (selectedClassId) {
             $("#hiddenClassIdForAbsence").val(selectedClassId);
         } else {
             e.preventDefault();
@@ -96,86 +50,107 @@ $(document).ready(function () {
     });
 
     $(document).on("click", "#addRemarkButton button", function (e) {
-        if (selectedClassId != null) {
+        if (selectedClassId) {
             $("#hiddenClassIdForRemark").val(selectedClassId);
         } else {
             e.preventDefault();
         }
     });
 
-    function loadContent() {
-        $.ajax({
-            url: '/Diary/LoadClassAndContent',
+    // Помощна функция за Ajax заявки
+    function makeAjaxRequest(url, data, successCallback) {
+        return $.ajax({
+            url: url,
             type: 'GET',
-            data: { classId: selectedClassId },
-            success: function (response) {
-                $("#content").html(response);
-                if (currentTab !== 'grades') {
-                    $('#subjectsSidebar').hide();
-                    $('#mainContentContainer').removeClass('col-lg-10').addClass('col-lg-12');
-                } else {
-                    $('#subjectsSidebar').show();
-                    $('#mainContentContainer').removeClass('col-lg-12').addClass('col-lg-10');
-                }
-            },
+            data: data,
+            success: successCallback,
             error: function () {
                 alert("Възникна грешка при зареждането на съдържанието.");
             }
         });
+    }
+
+    // Управление на видимостта на сайдбара и бутоните
+    function updateUIVisibility() {
+        const showGradesUI = currentTab === 'grades';
+        $('#subjectsSidebar').toggle(showGradesUI);
+        $('#mainContentContainer').toggleClass('col-lg-10', showGradesUI).toggleClass('col-lg-12', !showGradesUI);
+
+        // Управление на бутоните
+        $('#addGradeButton').toggle(currentTab === 'grades');
+        $('#addRemarkButton').toggle(currentTab === 'remarks');
+        $('#addAbsenceButton').toggle(currentTab === 'absences');
+    }
+
+    // Функции за зареждане на съдържание
+    function loadContent() {
+        return makeAjaxRequest(
+            '/Diary/LoadClassAndContent',
+            { classId: selectedClassId },
+            function (response) {
+                $("#content").html(response);
+                updateUIVisibility();
+            }
+        );
     }
 
     function loadGradeContent() {
-        $.ajax({
-            url: '/Diary/LoadGradeContent',
-            type: 'GET',
-            data: { classId: selectedClassId, subjectId: selectedSubjectId },
-            success: function (response) {
+        makeAjaxRequest(
+            '/Diary/LoadGradeContent',
+            { classId: selectedClassId, subjectId: selectedSubjectId },
+            function (response) {
                 $("#main-content").html(response);
-                if (currentTab === 'grades') {
-                    $('#subjectsSidebar').show();
-                    $('#addGradeButton').show();
-                    $('#mainContentContainer').removeClass('col-lg-12').addClass('col-lg-10');
-                }
-            },
-            error: function () {
-                alert("Възникна грешка при зареждането на съдържанието.");
+                updateUIVisibility();
             }
-        });
+        );
     }
 
     function loadRemarkContent() {
-        $.ajax({
-            url: '/Diary/LoadRemarksContent',
-            type: 'GET',
-            data: { classId: selectedClassId },
-            success: function (response) {
+        makeAjaxRequest(
+            '/Diary/LoadRemarksContent',
+            { classId: selectedClassId },
+            function (response) {
                 $("#main-content").html(response);
-                if (currentTab === 'remarks') {
-                    $('#subjectsSidebar').hide();
-                    $('#mainContentContainer').removeClass('col-lg-10').addClass('col-lg-12');
-                }
-            },
-            error: function () {
-                alert("Възникна грешка при зареждането на съдържанието.");
+                updateUIVisibility();
             }
-        });
+        );
     }
 
     function loadAbsencesContent() {
-        $.ajax({
-            url: '/Diary/LoadAbsencesContent',
-            type: 'GET',
-            data: { classId: selectedClassId, subjectId: selectedSubjectId },
-            success: function (response) {
+        makeAjaxRequest(
+            '/Diary/LoadAbsencesContent',
+            { classId: selectedClassId, subjectId: selectedSubjectId },
+            function (response) {
                 $("#main-content").html(response);
-                if (currentTab === 'absences') {
-                    $('#subjectsSidebar').hide();
-                    $('#mainContentContainer').removeClass('col-lg-10').addClass('col-lg-12');
-                }
-            },
-            error: function () {
-                alert("Възникна грешка при зареждането на съдържанието.");
+                updateUIVisibility();
             }
-        });
+        );
     }
+
+    // Функция за зареждане на съдържание според таба
+    function loadTabContent() {
+        switch (currentTab) {
+            case 'absences': loadAbsencesContent(); break;
+            case 'grades': loadGradeContent(); break;
+            case 'remarks': loadRemarkContent(); break;
+        }
+    }
+
+    // Инициализация при зареждане
+    async function initialize() {
+        if (selectedClassId) {
+            console.log("Initializing with class:", selectedClassId);
+            $(`label[data-class-id="${selectedClassId}"]`).prev('.btn-check').prop('checked', true);
+            await loadContent();
+
+            if (selectedSubjectId) {
+                console.log("Selecting subject:", selectedSubjectId);
+                $(`#${selectedSubjectId}`).addClass('active');
+                loadGradeContent();
+            }
+        }
+    }
+
+    // Стартиране на инициализацията
+    initialize();
 });

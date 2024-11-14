@@ -83,7 +83,7 @@ namespace SchoolApp.Web.Controllers
             string userId = this.userManager.GetUserId(User)!;
             if (String.IsNullOrWhiteSpace(userId))
             {
-                return this.RedirectToPage("/Identity/Account/Login");
+                return Redirect("/Identity/Account/Login");
             }
 
             bool result = await _service.AddGrades(userId, model);
@@ -93,7 +93,10 @@ namespace SchoolApp.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new
+            {
+                selectedSubjectId = model.SubjectId
+            });
         }
 
         [HttpGet]
