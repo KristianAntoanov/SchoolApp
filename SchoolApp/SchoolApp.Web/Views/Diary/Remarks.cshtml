@@ -43,12 +43,15 @@
                                                 <i class="fa-solid fa-bookmark"></i> @($"{remark.SubjectName} на {remark.AddedOn}г.")
                                             </div>
                                             <div>
-                                                <button class="btn btn-info btn-sm me-2">
+                                                <a class="btn btn-info btn-sm me-2" asp-controller="Diary" asp-action="EditRemark" asp-route-id="@remark.Id">
+                                                    <input type="hidden" asp-for="@remark.Id" />
                                                     <i class="fa-solid fa-pen-to-square"></i> Редактирай
-                                                </button>
-                                                <button class="btn btn-danger btn-sm">
-                                                    <i class="fa-solid fa-trash"></i> Изтрий
-                                                </button>
+                                                </a>
+                                                <form asp-controller="Diary" asp-action="DeleteRemark" asp-route-id="@remark.Id" method="post" class="d-inline">
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fa-solid fa-trash"></i> Изтрий
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                         <div class="small">
