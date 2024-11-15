@@ -4,6 +4,7 @@ using SchoolApp.Data.Models;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
 using SchoolApp.Web.ViewModels.Diary.AddForms;
+using SchoolApp.Web.ViewModels.Diary.Remarks;
 
 namespace SchoolApp.Web.Controllers
 {
@@ -88,7 +89,7 @@ namespace SchoolApp.Web.Controllers
 
             bool result = await _service.AddGrades(userId, model);
 
-            if (result == false)
+            if (!result)
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -118,7 +119,7 @@ namespace SchoolApp.Web.Controllers
 
             bool result = await _service.AddAbsence(model);
 
-            if (result == false)
+            if (!result)
             {
                 return BadRequest();
             }
@@ -151,7 +152,77 @@ namespace SchoolApp.Web.Controllers
 
             bool result = await _service.AddRemark(userId, model);
 
-            if (result == false)
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ExcuseAbsence(int id)
+        {
+            bool result = await _service.ExcuseAbsence(id);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAbsence(int id)
+        {
+            bool result = await _service.DeleteAbsence(id);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRemark(int id)
+        {
+            bool result = await _service.DeleteRemark(id);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditRemark(int id)
+        {
+            EditRemarkViewModel? model = await _service.GetRemarkById(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditRemark(EditRemarkViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            bool result = await _service.EditRemark(model);
+
+            if (!result)
             {
                 return BadRequest();
             }

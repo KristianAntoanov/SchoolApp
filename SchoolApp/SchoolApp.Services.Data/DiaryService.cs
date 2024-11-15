@@ -5,7 +5,7 @@ using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
 using SchoolApp.Web.ViewModels.Diary.AddForms;
-
+using SchoolApp.Web.ViewModels.Diary.Remarks;
 using static SchoolApp.Common.EntityValidationConstants.Absence;
 
 namespace SchoolApp.Services.Data
@@ -109,6 +109,7 @@ namespace SchoolApp.Services.Data
                         Absences = s.Absences
                                 .Select(a => new AbsencesViewModel()
                                 {
+                                    Id = a.Id,
                                     SubjectName = a.Subject.Name,
                                     AddedOn = a.AddedOn.ToString(AddedOnDateFormat),
                                     IsExcused = a.IsExcused
@@ -247,6 +248,89 @@ namespace SchoolApp.Services.Data
             };
 
             await _repository.AddAsync(remark);
+
+            return true;
+        }
+
+        public async Task<bool> ExcuseAbsence(int id)
+        {
+            Absence? absence = await _repository
+                .FirstOrDefaultAsync<Absence>(a => a.Id == id);
+
+            if (absence == null)
+            {
+                return false;
+            }
+
+            absence.IsExcused = true;
+
+            await _repository.UpdateAsync(absence);
+
+            return true;
+        }
+
+        public async Task<bool> DeleteAbsence(int id)
+        {
+            bool isDeleted = await _repository
+                .DeleteAsync<Absence>(id);
+
+            if (!isDeleted)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> DeleteRemark(int id)
+        {
+            bool isDeleted = await _repository
+                .DeleteAsync<Remark>(id);
+
+            if (!isDeleted)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<EditRemarkViewModel?> GetRemarkById(int id)
+        {
+            Remark? remarkToEdit = await _repository
+                .GetByIdAsync<Remark>(id);
+
+            if (remarkToEdit == null)
+            {
+                return null;
+            }
+
+            EditRemarkViewModel model = new EditRemarkViewModel()
+            {
+                Id = remarkToEdit.Id,
+                AddedOn = remarkToEdit.AddedOn,
+                SubjectId = remarkToEdit.SubjectId,
+                StudentId = remarkToEdit.StudentId,
+                RemarkText = remarkToEdit.RemarkText
+            };
+
+            return model;
+        }
+
+        public async Task<bool> EditRemark(EditRemarkViewModel model)
+        {
+            Remark? remarkToEdit = await _repository
+                .GetByIdAsync<Remark>(model.Id);
+
+            if (remarkToEdit == null)
+            {
+                return false;
+            }
+
+            remarkToEdit.AddedOn = model.AddedOn;
+            remarkToEdit.RemarkText = model.RemarkText;
+
+            await _repository.UpdateAsync(remarkToEdit);
 
             return true;
         }
