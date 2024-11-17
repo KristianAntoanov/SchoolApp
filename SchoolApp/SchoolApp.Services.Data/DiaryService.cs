@@ -6,7 +6,7 @@ using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
 using SchoolApp.Web.ViewModels.Diary.AddForms;
 using SchoolApp.Web.ViewModels.Diary.Remarks;
-using static SchoolApp.Common.EntityValidationConstants.Absence;
+using static SchoolApp.Common.ApplicationConstants;
 
 namespace SchoolApp.Services.Data
 {
@@ -89,7 +89,7 @@ namespace SchoolApp.Services.Data
                                     SubjectName = r.Subject.Name,
                                     TeacherName = $"{r.Teacher.FirstName} {r.Teacher.LastName}",
                                     RemarkText = r.RemarkText,
-                                    AddedOn = r.AddedOn.ToString(AddedOnDateFormat)
+                                    AddedOn = r.AddedOn.ToString(DateFormat)
                                 })
                     })
                     .ToArrayAsync();
@@ -111,7 +111,7 @@ namespace SchoolApp.Services.Data
                                 {
                                     Id = a.Id,
                                     SubjectName = a.Subject.Name,
-                                    AddedOn = a.AddedOn.ToString(AddedOnDateFormat),
+                                    AddedOn = a.AddedOn.ToString(DateFormat),
                                     IsExcused = a.IsExcused
                                 })
                     })
