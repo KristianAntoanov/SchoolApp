@@ -5,6 +5,8 @@ using SchoolApp.Data;
 using SchoolApp.Data.Models;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.Infrastructure.Extensions;
+using SchoolApp.Web.Infrastructure.ModelBinders;
+using static SchoolApp.Common.ApplicationConstants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +31,10 @@ builder.Services.RegisterRepositories();
 builder.Services.RegisterUserDefinedServices(typeof(IDiaryService).Assembly);
 //builder.Services.AddScoped<IDiaryService, DiaryService>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.ModelBinderProviders.Insert(0, new DateTimeModelBinderProvider(DateFormat));
+});
 builder.Services.AddRazorPages();
 
 
