@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SchoolApp.Common\SchoolApp.Common.csproj" />
+    <ProjectReference Include="..\SchoolApp.Web.Infrastructure\SchoolApp.Web.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Diary\" />
