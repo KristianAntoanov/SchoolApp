@@ -10,7 +10,7 @@
             <form id="remarkForm" asp-controller="Diary" asp-action="EditRemark" method="post">
                 <div class="form-group mb-3">
                     <label asp-for="@Model.AddedOn">Дата</label>
-                    <input asp-for="@Model.AddedOn" type="date" class="form-control">
+                    <input asp-for="@Model.AddedOn" type="date" id="addedOn" class="form-control">
                     <span asp-validation-for="@Model.AddedOn" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-3">
@@ -33,5 +33,6 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/Diary/DateValidation/DateValidation.js" asp-append-version="true"></script>
     <partial name="_ValidationScriptsPartial" />
 }

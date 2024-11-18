@@ -10,7 +10,7 @@
             <form id="gradeForm" asp-controller="Diary" asp-action="AddGrades" method="post">
                 <div class="form-group">
                     <label asp-for="@Model.AddedOn">Дата</label>
-                    <input asp-for="@Model.AddedOn" type="date" class="form-control">
+                    <input asp-for="@Model.AddedOn" type="date" id="addedOn" class="form-control">
                     <span asp-validation-for="@Model.AddedOn" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -46,6 +46,8 @@
                                     <td>
                                         <input type="hidden" name="Students[@i].Id" value="@Model.Students[i].Id" />
                                         <input type="hidden" name="Students[@i].Grade" class="real-grade-value" />
+                                        <input type="hidden" name="Students[@i].FirstName" value="@Model.Students[i].FirstName" />
+                                        <input type="hidden" name="Students[@i].LastName" value="@Model.Students[i].LastName" />
                                         <input type="number" class="form-control grade-display" disabled />
                                     </td>
                                 </tr>
@@ -67,5 +69,6 @@
 </div>
 @section Scripts {
     <script src="~/js/Diary/AddGrades/GradeBoxes.js" asp-append-version="true"></script>
+    <script src="~/js/Diary/DateValidation/DateValidation.js" asp-append-version="true"></script>
     <partial name="_ValidationScriptsPartial" />
 }
