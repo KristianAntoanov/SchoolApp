@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
@@ -91,6 +92,7 @@ namespace SchoolApp.Services.Data
                                     RemarkText = r.RemarkText,
                                     AddedOn = r.AddedOn.ToString(DateFormat)
                                 })
+                                .ToArray()
                     })
                     .ToArrayAsync();
 
@@ -114,6 +116,7 @@ namespace SchoolApp.Services.Data
                                     AddedOn = a.AddedOn.ToString(DateFormat),
                                     IsExcused = a.IsExcused
                                 })
+                                .ToArray()
                     })
                     .ToArrayAsync();
 
@@ -333,6 +336,32 @@ namespace SchoolApp.Services.Data
             await _repository.UpdateAsync(remarkToEdit);
 
             return true;
+        }
+
+        public IEnumerable<SubjectViewModel> GetSubjects()
+            => _repository.GetAllAttached<Subject>()
+                .Select(s => new SubjectViewModel()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                })
+                .ToArray();
+
+        public IList<StudentRemarkFormModel> GetStudents(RemarkFormModel model)
+        {
+            int classId = _repository.FirstOrDefault<Student>(s => s.Id == model.StudentId)!.ClassId;
+
+            IList<StudentRemarkFormModel> students = _repository.GetAllAttached<Student>()
+               .Where(s => s.ClassId == classId)
+               .Select(s => new StudentRemarkFormModel()
+               {
+                   Id = s.Id,
+                   FirstName = s.FirstName,
+                   LastName = s.LastName
+               })
+               .ToList();
+
+            return students;
         }
     }
 }

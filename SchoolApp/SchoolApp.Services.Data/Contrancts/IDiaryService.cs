@@ -34,5 +34,9 @@ namespace SchoolApp.Services.Data.Contrancts
         Task<EditRemarkViewModel?> GetRemarkById(int id);
 
         Task<bool> EditRemark(EditRemarkViewModel model);
+
+        IEnumerable<SubjectViewModel> GetSubjects();
+
+        IList<StudentRemarkFormModel> GetStudents(RemarkFormModel model);
     }
 }
