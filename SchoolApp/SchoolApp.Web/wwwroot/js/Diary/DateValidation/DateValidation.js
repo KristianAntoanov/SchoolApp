@@ -1,0 +1,43 @@
+﻿
+
+document.addEventListener('DOMContentLoaded', function () {
+    const dateInput = document.getElementById('addedOn');
+    const form = document.getElementById('gradeForm');
+
+    function validateDate() {
+        const selectedDate = new Date(dateInput.value);
+        const today = new Date();
+
+        const oneYearAgo = new Date(today);
+        oneYearAgo.setFullYear(today.getFullYear() - 1);
+
+        const validationSpan = document.querySelector('[data-valmsg-for="AddedOn"]') ||
+            createValidationSpan();
+
+        if (selectedDate < oneYearAgo) {
+            validationSpan.textContent = 'Данните не могат да бъдат въведени за предходни години';
+            validationSpan.classList.add('field-validation-error');
+            return false;
+        } else {
+            validationSpan.textContent = '';
+            validationSpan.classList.remove('field-validation-error');
+            return true;
+        }
+    }
+
+    function createValidationSpan() {
+        const span = document.createElement('span');
+        span.setAttribute('data-valmsg-for', 'AddedOn');
+        span.classList.add('field-validation-error');
+        dateInput.parentNode.appendChild(span);
+        return span;
+    }
+
+    dateInput.addEventListener('blur', validateDate);
+
+    form.addEventListener('submit', function (e) {
+        if (!validateDate()) {
+            e.preventDefault();
+        }
+    });
+});
