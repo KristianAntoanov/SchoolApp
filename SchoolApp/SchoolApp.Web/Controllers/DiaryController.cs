@@ -78,7 +78,8 @@ namespace SchoolApp.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                model.Subjects = _service.GetSubjects();
+                return View(model);
             }
 
             string userId = this.userManager.GetUserId(User)!;
@@ -114,7 +115,8 @@ namespace SchoolApp.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                model.Subjects = _service.GetSubjects();
+                return View(model);
             }
 
             bool result = await _service.AddAbsence(model);
@@ -141,7 +143,9 @@ namespace SchoolApp.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                model.Subjects = _service.GetSubjects();
+                model.Students = _service.GetStudents(model);
+                return View(model);
             }
 
             string userId = this.userManager.GetUserId(User)!;

@@ -46,6 +46,7 @@
     <Folder Include="wwwroot\js\Diary\" />
     <Folder Include="wwwroot\js\Diary\Popovers\" />
     <Folder Include="wwwroot\js\Diary\AddGrades\" />
+    <Folder Include="wwwroot\js\Diary\DateValidation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
@@ -53,5 +54,6 @@
     <Content Remove="wwwroot\js\Diary\" />
     <Content Remove="wwwroot\js\Diary\Popovers\" />
     <Content Remove="wwwroot\js\Diary\AddGrades\" />
+    <Content Remove="wwwroot\js\Diary\DateValidation\" />
   </ItemGroup>
 </Project>
