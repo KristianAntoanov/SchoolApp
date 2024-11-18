@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 using SchoolApp.Data;
 using SchoolApp.Data.Models;
+using SchoolApp.Services.Data;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.Infrastructure.Extensions;
-using static SchoolApp.Common.ApplicationConstants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(cfg =>
     ConfigureIdentity(builder, cfg);
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders()
 .AddRoles<IdentityRole<Guid>>()
 .AddSignInManager<SignInManager<ApplicationUser>>()
 .AddUserManager<UserManager<ApplicationUser>>()
@@ -28,6 +30,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(cfg =>
 
 builder.Services.RegisterRepositories();
 builder.Services.RegisterUserDefinedServices(typeof(IDiaryService).Assembly);
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
