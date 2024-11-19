@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Diary\" />
+    <None Remove="Views\Team\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Diary\" />
@@ -47,6 +48,7 @@
     <Folder Include="wwwroot\js\Diary\Popovers\" />
     <Folder Include="wwwroot\js\Diary\AddGrades\" />
     <Folder Include="wwwroot\js\Diary\DateValidation\" />
+    <Folder Include="Views\Team\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
