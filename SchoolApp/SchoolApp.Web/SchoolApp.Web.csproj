@@ -40,6 +40,11 @@
   <ItemGroup>
     <None Remove="Views\Diary\" />
     <None Remove="Views\Team\" />
+    <None Remove="Areas\Admin\Controllers\" />
+    <None Remove="Areas\Admin\Views\" />
+    <None Remove="Areas\Admin\.DS_Store" />
+    <None Remove="Areas\Admin\Views\Shared\" />
+    <None Remove="Areas\Admin\Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Diary\" />
@@ -49,13 +54,19 @@
     <Folder Include="wwwroot\js\Diary\AddGrades\" />
     <Folder Include="wwwroot\js\Diary\DateValidation\" />
     <Folder Include="Views\Team\" />
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Admin\Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
-    <Content Remove="wwwroot\lib\css\all.min.css" />
     <Content Remove="wwwroot\js\Diary\" />
     <Content Remove="wwwroot\js\Diary\Popovers\" />
     <Content Remove="wwwroot\js\Diary\AddGrades\" />
     <Content Remove="wwwroot\js\Diary\DateValidation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\lib\css\.DS_Store" />
   </ItemGroup>
 </Project>

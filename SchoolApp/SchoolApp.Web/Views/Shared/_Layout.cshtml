@@ -28,7 +28,10 @@
                             <a id="diaryLink" class="nav-link" asp-area="" asp-controller="Diary" asp-action="Index">Електронен дневник</a>
                         </li>
                         <li class="nav-item">
-                            <a id="diaryLink" class="nav-link" asp-area="" asp-controller="Team" asp-action="Index">Екип</a>
+                            <a id="teamLink" class="nav-link" asp-area="" asp-controller="Team" asp-action="Index">Екип</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="adminLink" class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Админ Панел</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -37,7 +40,7 @@
         </nav>
     </header>
     <div class="container-fluid">
-        <main role="main" class="pb-0">
+        <main role="main" class="pb-3 main">
             @RenderBody()
         </main>
     </div>
