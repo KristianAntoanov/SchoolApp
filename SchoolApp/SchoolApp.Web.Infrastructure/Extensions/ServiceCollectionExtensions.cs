@@ -32,7 +32,7 @@ namespace SchoolApp.Web.Infrastructure.Extensions
 
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequireDigit =
                     configuration.GetValue<bool>("Identity:Password:RequireDigits");
@@ -59,7 +59,7 @@ namespace SchoolApp.Web.Infrastructure.Extensions
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
-            .AddRoles<IdentityRole<Guid>>()
+            .AddRoles<ApplicationRole>()
             .AddSignInManager<SignInManager<ApplicationUser>>()
             .AddUserManager<UserManager<ApplicationUser>>()
             .AddDefaultUI();
