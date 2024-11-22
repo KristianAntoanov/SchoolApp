@@ -7,7 +7,7 @@ using SchoolApp.Data.Models;
 
 namespace SchoolApp.Data;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -24,7 +24,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public virtual DbSet<Teacher> Teachers { get; set; }
     public virtual DbSet<SubjectTeacher> SubjectsTeachers { get; set; }
     public virtual DbSet<SubjectStudent> SubjectsStudents { get; set; }
-    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
