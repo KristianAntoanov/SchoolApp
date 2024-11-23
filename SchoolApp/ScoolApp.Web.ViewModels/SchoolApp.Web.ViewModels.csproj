@@ -17,6 +17,7 @@
     <None Remove="Diary\Remarks\" />
     <None Remove="Diary\AddForms\" />
     <None Remove="Team\" />
+    <None Remove="Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Diary\" />
@@ -25,5 +26,6 @@
     <Folder Include="Diary\Remarks\" />
     <Folder Include="Diary\AddForms\" />
     <Folder Include="Team\" />
+    <Folder Include="Admin\" />
   </ItemGroup>
 </Project>
