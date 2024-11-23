@@ -45,6 +45,7 @@
     <None Remove="Areas\Admin\.DS_Store" />
     <None Remove="Areas\Admin\Views\Shared\" />
     <None Remove="Areas\Admin\Views\Home\" />
+    <None Remove="Areas\Admin\Views\Students\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Diary\" />
@@ -58,6 +59,8 @@
     <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Admin\Views\Home\" />
+    <Folder Include="Areas\Admin\Views\Students\" />
+    <Folder Include="wwwroot\js\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
@@ -65,6 +68,7 @@
     <Content Remove="wwwroot\js\Diary\Popovers\" />
     <Content Remove="wwwroot\js\Diary\AddGrades\" />
     <Content Remove="wwwroot\js\Diary\DateValidation\" />
+    <Content Remove="wwwroot\js\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\lib\css\.DS_Store" />
