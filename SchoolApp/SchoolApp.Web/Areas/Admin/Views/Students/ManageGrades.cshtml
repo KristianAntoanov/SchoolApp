@@ -1,0 +1,174 @@
+﻿@model StudentGradesManagementViewModel
+@{
+    string GetColumnKey(DateTime date)
+    {
+        return date.Month switch
+        {
+            9 => "IX",
+            10 => "X",
+            11 => "XI",
+            12 => "XII",
+            1 or 2 => "I_II",
+            3 => "III",
+            4 => "IV",
+            5 => "V",
+            6 or 7 => "VI_VII",
+            _ => ""
+        };
+    }
+}
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    Оценки на @Model.FirstName @Model.LastName
+                </h5>
+                <a asp-controller="Students" asp-action="Index" class="btn btn-light">
+                    <i class="fas fa-arrow-left me-2"></i>Назад
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th rowspan="2" class="align-middle">Предмет</th>
+                            <th colspan="6" class="text-center bg-light">Първи срок</th>
+                            <th colspan="5" class="text-center bg-light">Втори срок</th>
+                            <th rowspan="2" class="align-middle">Годишна</th>
+                        </tr>
+                        <tr>
+                            <th>IX</th>
+                            <th>X</th>
+                            <th>XI</th>
+                            <th>XII</th>
+                            <th>I, II</th>
+                            <th class="table-secondary">Срочна</th>
+                            <th>III</th>
+                            <th>IV</th>
+                            <th>V</th>
+                            <th>VI, VII</th>
+                            <th class="table-secondary">Срочна</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var subject in Model.SubjectGrades)
+                        {
+                            <tr>
+                                <td class="text-start fw-bold">@subject.SubjectName</td>
+                                @{
+                                    var months = new[] { "IX", "X", "XI", "XII", "I_II", "Term1",
+                                                       "III", "IV", "V", "VI_VII", "Term2", "Year" };
+
+                                    foreach (var month in months)
+                                    {
+                                        var grades = subject.Grades
+                                            .Where(g => GetColumnKey(g.GradeDate) == month)
+                                            .ToList();
+
+                                        <td class="grade-cell position-relative">
+                                            @foreach (var grade in grades)
+                                            {
+                                                <div class="grade-container">
+                                                    <span class="grade">@grade.GradeValue</span>
+                                                    <button type="button"
+                                                            class="btn btn-link delete-grade p-0 border-0"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#deleteGradeModal"
+                                                            data-grade-id="@grade.Id"
+                                                            data-subject-name="@subject.SubjectName"
+                                                            data-grade-value="@grade.GradeValue">
+                                                        <i class="fas fa-trash-alt text-danger"></i>
+                                                    </button>
+                                                </div>
+                                            }
+                                        </td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Grade Modal -->
+<div class="modal fade" id="deleteGradeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Потвърждение за изтриване</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Сигурни ли сте, че искате да изтриете оценка <span id="gradeToDelete"></span> по предмет <span id="subjectName"></span>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
+                <form id="deleteGradeForm" method="post" asp-controller="Students" asp-action="DeleteGrade">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="gradeIdToDelete" name="gradeId" />
+                    <input type="hidden" name="studentId" value="@Model.StudentId" />
+                    <button type="submit" class="btn btn-danger">Изтрий</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .grade-cell {
+        min-width: 80px;
+        height: 50px;
+        padding: 0.5rem !important;
+    }
+
+    .grade-container {
+        position: relative;
+        display: inline-block;
+        padding: 0.25rem 1.5rem 0.25rem 0.25rem;
+    }
+
+    .grade {
+        font-weight: 500;
+    }
+
+    .delete-grade {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .grade-container:hover .delete-grade {
+        opacity: 1;
+    }
+
+    .delete-grade:hover {
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    th {
+        white-space: nowrap;
+    }
+</style>
+
+@section Scripts {
+    <script>document.getElementById('deleteGradeModal').addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var gradeId = button.getAttribute('data-grade-id');
+            var gradeValue = button.getAttribute('data-grade-value');
+            var subjectName = button.getAttribute('data-subject-name');
+
+            document.getElementById('gradeToDelete').textContent = gradeValue;
+            document.getElementById('subjectName').textContent = subjectName;
+            document.getElementById('gradeIdToDelete').value = gradeId;
+        });</script>
+}
