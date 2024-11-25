@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using SchoolApp.Data.Models;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin;
 
@@ -7,10 +9,12 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
     public class StudentsController : AdminBaseController
     {
         private readonly IAdminService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public StudentsController(IAdminService service)
+        public StudentsController(IAdminService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index(int page = 1, string search = null)
@@ -104,6 +108,45 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             TempData["ErrorMessage"] = "Възникна грешка при изтриване на оценката.";
             return RedirectToAction(nameof(ManageGrades));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            var model = new AddStudentFormModel
+            {
+                AvailableClasses = await _service.GetAvailableClassesAsync()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddStudentFormModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model.AvailableClasses = await _service.GetAvailableClassesAsync();
+                return View(model);
+            }
+
+            string userId = _userManager.GetUserId(User)!;
+            if (String.IsNullOrWhiteSpace(userId))
+            {
+                return Redirect("/Identity/Account/Login");
+            }
+
+            bool result = await _service.AddStudentAsync(model, userId);
+
+            if (result)
+            {
+                TempData["SuccessMessage"] = "Студентът беше успешно добавен.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData["ErrorMessage"] = "Възникна грешка при добавянето на студента.";
+            model.AvailableClasses = await _service.GetAvailableClassesAsync();
+            return View(model);
         }
     }
 }

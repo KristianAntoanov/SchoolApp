@@ -17,5 +17,7 @@ namespace SchoolApp.Services.Data.Contrancts
         Task<StudentGradesManagementViewModel?> GetStudentGradesAsync(int studentId);
 
         Task<bool> DeleteGradeAsync(int gradeId);
+
+        Task<bool> AddStudentAsync(AddStudentFormModel model, string userId);
     }
 }

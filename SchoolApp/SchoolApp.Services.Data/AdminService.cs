@@ -130,7 +130,6 @@ namespace SchoolApp.Services.Data
 
         public async Task<StudentGradesManagementViewModel?> GetStudentGradesAsync(int studentId)
         {
-            // Взимаме студента с неговите предмети и оценки
             var student = await _repository.GetAllAttached<Student>()
                 .Include(s => s.SubjectStudents)
                     .ThenInclude(ss => ss.Subject)
@@ -142,7 +141,6 @@ namespace SchoolApp.Services.Data
                 return null;
             }
 
-            // Създаваме списък от предмети със съответните им оценки
             var subjectGrades = student.SubjectStudents
                 .Select(ss => new SubjectGradesViewModel
                 {
@@ -180,6 +178,26 @@ namespace SchoolApp.Services.Data
             }
 
             return await _repository.DeleteAsync<Grade>(gradeId);
+        }
+
+        public async Task<bool> AddStudentAsync(AddStudentFormModel model, string userId)
+        {
+            if (model == null)
+            {
+                return false;
+            }
+
+            var student = new Student
+            {
+                FirstName = model.FirstName,
+                MiddleName = model.MiddleName,
+                LastName = model.LastName,
+                ClassId = model.ClassId,
+                ApplicationUserId = Guid.Parse(userId)
+            };
+
+            await _repository.AddAsync(student);
+            return true;
         }
     }
 }
