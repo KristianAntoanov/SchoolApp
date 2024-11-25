@@ -185,52 +185,6 @@
     </div>
 </div>
 
-<!-- Add Student Modal -->
-<div class="modal fade" id="addStudentModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">Добавяне на студент</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="addStudentForm" asp-controller="Students" asp-action="Add" method="post">
-                <div class="modal-body">
-                    <div class="form-group mb-3">
-                        <label for="FirstName" class="form-label">Име</label>
-                        <input type="text" class="form-control" id="FirstName" name="FirstName" />
-                        <span class="text-danger field-validation-valid" data-valmsg-for="FirstName"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="MiddleName" class="form-label">Презиме</label>
-                        <input type="text" class="form-control" id="MiddleName" name="MiddleName" />
-                        <span class="text-danger field-validation-valid" data-valmsg-for="MiddleName"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="LastName" class="form-label">Фамилия</label>
-                        <input type="text" class="form-control" id="LastName" name="LastName" />
-                        <span class="text-danger field-validation-valid" data-valmsg-for="LastName"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="ClassId" class="form-label">Изберете Клас</label>
-                        <select class="form-control" id="ClassId" name="ClassId">
-                            <option value="">-- Изберете клас --</option>
-                        </select>
-                        <span class="text-danger field-validation-valid" data-valmsg-for="ClassId"></span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times"></i> Отказ
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Запази
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 @section Scripts {
     <script src="~/js/Admin/DeleteModal.js" asp-append-version="true"></script>
     <script src="~/js/Admin/SearchBar.js" asp-append-version="true"></script>

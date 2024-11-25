@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolApp.Data.Models;
 using SchoolApp.Services.Data.Contrancts;
-using SchoolApp.Web.ViewModels.Admin;
+using SchoolApp.Web.ViewModels.Admin.Students;
 
 namespace SchoolApp.Web.Areas.Admin.Controllers
 {
     public class StudentsController : AdminBaseController
     {
-        private readonly IAdminService _service;
+        private readonly IAdminStudentsService _service;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public StudentsController(IAdminService service, UserManager<ApplicationUser> userManager)
+        public StudentsController(IAdminStudentsService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
             _userManager = userManager;

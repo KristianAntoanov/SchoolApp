@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SchoolApp.Web.ViewModels.Admin
+namespace SchoolApp.Web.ViewModels.Admin.Students
 {
 	public class ClassesViewModel
 	{

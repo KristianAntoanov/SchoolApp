@@ -3,7 +3,7 @@
 using static SchoolApp.Common.EntityValidationConstants.Student;
 using static SchoolApp.Common.ErrorMessages;
 
-namespace SchoolApp.Web.ViewModels.Admin
+namespace SchoolApp.Web.ViewModels.Admin.Students
 {
     public class EditStudentFormModel
 	{

@@ -46,6 +46,7 @@
     <None Remove="Areas\Admin\Views\Shared\" />
     <None Remove="Areas\Admin\Views\Home\" />
     <None Remove="Areas\Admin\Views\Students\" />
+    <None Remove="Areas\Admin\Views\Teachers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Diary\" />
@@ -61,6 +62,7 @@
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Areas\Admin\Views\Students\" />
     <Folder Include="wwwroot\js\Admin\" />
+    <Folder Include="Areas\Admin\Views\Teachers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />

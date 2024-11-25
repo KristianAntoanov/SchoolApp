@@ -1,9 +1,9 @@
-﻿using SchoolApp.Web.ViewModels.Admin;
+﻿using SchoolApp.Web.ViewModels.Admin.Students;
 
 namespace SchoolApp.Services.Data.Contrancts
 {
-	public interface IAdminService
-	{
+	public interface IAdminStudentsService
+    {
         Task<PaginatedList<StudentsViewModel>> GetAllStudentsAsync(int pageNumber, int pageSize, string searchTerm = null);
 
         Task<bool> DeleteStudent(int id);

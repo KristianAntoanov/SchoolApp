@@ -1,4 +1,4 @@
-﻿namespace SchoolApp.Web.ViewModels.Admin
+﻿namespace SchoolApp.Web.ViewModels.Admin.Students
 {
 	public class StudentGradesManagementViewModel
 	{

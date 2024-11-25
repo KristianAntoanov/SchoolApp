@@ -4,14 +4,15 @@ using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
 using SchoolApp.Web.ViewModels.Admin;
+using SchoolApp.Web.ViewModels.Admin.Students;
 
 namespace SchoolApp.Services.Data
 {
-    public class AdminService : IAdminService
+    public class AdminStudentsService : IAdminStudentsService
 	{
         private readonly IRepository _repository;
 
-        public AdminService(IRepository repository)
+        public AdminStudentsService(IRepository repository)
 		{
             _repository = repository;
 		}
