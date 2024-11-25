@@ -11,12 +11,12 @@ namespace SchoolApp.Web.Controllers
 	public class DiaryController : BaseController
 	{
         private readonly IDiaryService _service;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public DiaryController(IDiaryService service, UserManager<ApplicationUser> userManager)
         {
             _service = service;
-            this.userManager = userManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -82,7 +82,7 @@ namespace SchoolApp.Web.Controllers
                 return View(model);
             }
 
-            string userId = this.userManager.GetUserId(User)!;
+            string userId = _userManager.GetUserId(User)!;
             if (String.IsNullOrWhiteSpace(userId))
             {
                 return Redirect("/Identity/Account/Login");
@@ -148,10 +148,10 @@ namespace SchoolApp.Web.Controllers
                 return View(model);
             }
 
-            string userId = this.userManager.GetUserId(User)!;
+            string userId = _userManager.GetUserId(User)!;
             if (String.IsNullOrWhiteSpace(userId))
             {
-                return this.RedirectToPage("/Identity/Account/Login");
+                return Redirect("/Identity/Account/Login");
             }
 
             bool result = await _service.AddRemark(userId, model);
