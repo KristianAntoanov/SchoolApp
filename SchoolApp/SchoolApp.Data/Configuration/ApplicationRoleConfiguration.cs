@@ -26,6 +26,12 @@ namespace SchoolApp.Data.Configuration
                     Id = Guid.Parse("951a0b30-2bcb-4e61-b0fa-d90512119130"),
                     Name = "Parent",
                     NormalizedName = "PARENT"
+                },
+                new ApplicationRole()
+                {
+                    Id = Guid.Parse("167b9fd4-2252-4d5f-9b5d-867599a3e746"),
+                    Name = "Teacher",
+                    NormalizedName = "TEACHER"
                 }
             };
 
