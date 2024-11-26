@@ -3,7 +3,6 @@ using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels;
-using SchoolApp.Web.ViewModels.Admin;
 using SchoolApp.Web.ViewModels.Admin.Students;
 
 namespace SchoolApp.Services.Data
