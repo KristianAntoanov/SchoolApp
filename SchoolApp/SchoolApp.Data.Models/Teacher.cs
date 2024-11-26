@@ -26,11 +26,10 @@ namespace SchoolApp.Data.Models
         [MaxLength(JobTitleMaxLength)]
         public string JobTitle { get; set; } = null!;
 
-        [Required]
-        public Guid ApplicationUserId { get; set; }
+        public Guid? ApplicationUserId { get; set; }
 
         [ForeignKey(nameof(ApplicationUserId))]
-        public virtual ApplicationUser ApplicationUser { get; set; } = null!;
+        public virtual ApplicationUser? ApplicationUser { get; set; }
 
         public virtual ICollection<SubjectTeacher> SubjectTeachers { get; set; }
             = new HashSet<SubjectTeacher>();
