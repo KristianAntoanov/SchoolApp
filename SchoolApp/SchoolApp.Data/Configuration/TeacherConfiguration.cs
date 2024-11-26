@@ -9,6 +9,14 @@ namespace SchoolApp.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Teacher> builder)
         {
+            builder.HasKey(t => t.GuidId);
+
+            builder.HasOne(t => t.ApplicationUser)
+                   .WithOne()
+                   .HasForeignKey<Teacher>(t => t.ApplicationUserId)
+                   .IsRequired(false)
+                   .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasData(this.SeedTeacher());
         }
 

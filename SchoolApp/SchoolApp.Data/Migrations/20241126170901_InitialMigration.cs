@@ -193,7 +193,7 @@ namespace SchoolApp.Data.Migrations
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false),
                     JobTitle = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -202,8 +202,7 @@ namespace SchoolApp.Data.Migrations
                         name: "FK_Teachers_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -406,6 +405,7 @@ namespace SchoolApp.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
+                    { new Guid("167b9fd4-2252-4d5f-9b5d-867599a3e746"), null, "Teacher", "TEACHER" },
                     { new Guid("951a0b30-2bcb-4e61-b0fa-d90512119130"), null, "Parent", "PARENT" },
                     { new Guid("bc1bfaec-7297-48f0-a649-f290de46ad74"), null, "Admin", "ADMIN" }
                 });
@@ -415,12 +415,12 @@ namespace SchoolApp.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), 0, "944bb355-96c7-4429-bb03-5425e32e3647", "Tsveti@gmail.com", false, true, null, "TSVETI@GMAIL.COM", "TSVETI@GMAIL.COM", "AQAAAAIAAYagAAAAEAG14hnsHDN0kWZC+Yc/1/WsJx04wh8+qjCAf42GMER4TbZgX6xMrLhJKQwa91Hscg==", null, false, "13F62C2B-AE77-4407-A27E-6348C1BB94B9", false, "Tsveti@gmail.com" },
-                    { new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), 0, "d278de35-5d57-4888-88f3-f9b39e8a2aad", "Stefan@gmail.com", false, true, null, "STEFAN@GMAIL.COM", "STEFAN@GMAIL.COM", "AQAAAAIAAYagAAAAEB4rTJCYzBCXxBwX8ZDT01j+EZlM4EakC5NmZW8i5hqto8YEZj1yX76LJoGprhn+nw==", null, false, "C0E11C6A-89C5-4BD9-86CA-4553534F1791", false, "Stefan@gmail.com" },
-                    { new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), 0, "22b5cce2-0ed7-4d25-8e9e-fce954f29721", "Margarita@gmail.com", false, true, null, "MARGARITA@GMAIL.COM", "MARGARITA@GMAIL.COM", "AQAAAAIAAYagAAAAEE5Q26IO2tzC2qKeqbigjp8p1t7AxTWFay84O54iOrx+MbMPjJfw8GAGQzb6OBPhzA==", null, false, "DE2E0CDB-73C1-4EC4-878E-D721D6811A88", false, "Margarita@gmail.com" },
-                    { new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), 0, "9d876d8c-ec6e-4edf-83fe-5042173110b7", "Ani@gmail.com", false, true, null, "ANI@GMAIL.COM", "ANI@GMAIL.COM", "AQAAAAIAAYagAAAAEB7njsKBbc8Dr2us9AQirE3ZisOBhbrWCVafpBopkLK3XLMK+SnvkhIeDgFb/vwe4Q==", null, false, "FCDF43EB-444B-4EC3-BEAD-1B405B8BB0A6", false, "Ani@gmail.com" },
-                    { new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), 0, "9de9bbb2-50e6-4784-97c2-6584890bd53a", "Maria@gmail.com", false, true, null, "MARIA@GMAIL.COM", "MARIA@GMAIL.COM", "AQAAAAIAAYagAAAAEMbC4FxGD6UgWFhzGHvsn7s1IQsj4qh1Snh1SU+115dLMjAuNDWcKoxE6X1lNJa78w==", null, false, "E71D9CBD-7A87-4940-9C65-746074DD050C", false, "Maria@gmail.com" },
-                    { new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), 0, "a57e700b-9bcf-40f7-8e0e-79419cbba9f8", "Emilia@gmail.com", false, true, null, "EMILIA@GMAIL.COM", "EMILIA@GMAIL.COM", "AQAAAAIAAYagAAAAEAH8hKp9A3lFliMz5QgN+maPgj5aH8ExjbKzanhOdk2ONBDLdzCzMqY9h05bTf0pGw==", null, false, "D244AC37-05CD-4632-B19D-D6CD934171FE", false, "Emilia@gmail.com" }
+                    { new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), 0, "c3a555bc-2699-4e71-8a78-3c21e68b0274", "Tsveti@gmail.com", true, true, null, "TSVETI@GMAIL.COM", "TSVETI@GMAIL.COM", "AQAAAAIAAYagAAAAEMFicfQ7Gc7G2lsTHr6Ml9gL6+6vo8QdQM8DUkl/ax/bqdiRYOHqnCgrv0rKn+eu3Q==", null, false, "405769F8-BE15-475F-A5E5-9025B7FEC684", false, "Tsveti@gmail.com" },
+                    { new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), 0, "8a995494-52d7-4932-84ec-525948fbc699", "Stefan@gmail.com", true, true, null, "STEFAN@GMAIL.COM", "STEFAN@GMAIL.COM", "AQAAAAIAAYagAAAAEGLZhQFSjLv5LmkCkWpmAj2C3FGow5ASPlFITyoR8tnmrBa1hOe/UYhYgFKJzmDjRw==", null, false, "2E90C6BF-A6B2-4094-A89B-8719D6F20F36", false, "Stefan@gmail.com" },
+                    { new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), 0, "b11d8751-a7ab-4f81-9032-4644dcce993f", "Margarita@gmail.com", true, true, null, "MARGARITA@GMAIL.COM", "MARGARITA@GMAIL.COM", "AQAAAAIAAYagAAAAEJZrH3WAhWEXCAM42MeyolPdZxFOCZN7sMk27QnetFkPvN90+c2FJZZIoo17Bld4Bg==", null, false, "C6596C09-E5CB-4173-816B-455540DA4943", false, "Margarita@gmail.com" },
+                    { new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), 0, "18aa70ed-89d4-49ab-8b68-109d7c7b96ff", "Ani@gmail.com", true, true, null, "ANI@GMAIL.COM", "ANI@GMAIL.COM", "AQAAAAIAAYagAAAAEBz7K66uak/iyQZMFyBPTVLuXZibu5r8n8b04GwGfHnsjKziwiH3eKQhszh39BMOJA==", null, false, "E91A1311-E47B-4CB1-89F9-131E76370BF4", false, "Ani@gmail.com" },
+                    { new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), 0, "563ff890-a8f0-480b-b007-9666cf171826", "Maria@gmail.com", true, true, null, "MARIA@GMAIL.COM", "MARIA@GMAIL.COM", "AQAAAAIAAYagAAAAEBqz88d+sZIT2UWfxZrUAg6CQ7nvnzwC9dgfDecG3VqRNbaUXrEVn3tzzcs9bv8Dpw==", null, false, "3AD5C3FF-72AA-4FC6-B1A5-7A911F86763C", false, "Maria@gmail.com" },
+                    { new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), 0, "0bab1ffc-8656-4aea-b2c3-5ba73a4490c7", "Emilia@gmail.com", true, true, null, "EMILIA@GMAIL.COM", "EMILIA@GMAIL.COM", "AQAAAAIAAYagAAAAEEPZfDaJBD7hpLrgct6X7+xl1avUAaL3CjqGEDxus26wFfP5nY0YBn7ZNJZeXCyVVg==", null, false, "30D4DB53-AF9B-4FCE-B02E-62711A562196", false, "Emilia@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -470,12 +470,12 @@ namespace SchoolApp.Data.Migrations
                 columns: new[] { "GuidId", "ApplicationUserId", "FirstName", "ImageUrl", "JobTitle", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("25f03fa0-2667-41c0-a78e-ae37d6bbd011"), new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), "Цветелина", "/img/No_Image.jpg", "Заместник-директор", "Томова" },
-                    { new Guid("415cced4-61dc-4e0b-ac51-7bfdd74a9bc8"), new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), "Ани", "/img/No_Image.jpg", "Учител", "Григорова" },
-                    { new Guid("6cf88d72-527a-4c38-9c04-135377870eef"), new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), "Маргарита", "/img/No_Image.jpg", "Учител", "Йорданова" },
-                    { new Guid("c3ef5eb3-94ea-4979-8420-ade4100e1ae3"), new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), "Емилия", "/img/No_Image.jpg", "Заместник-директор", "Истаткова" },
-                    { new Guid("c448329a-e3a3-4c48-bbb4-e6a3b61a7a6f"), new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), "Мария", "/img/No_Image.jpg", "Учител", "Чавдарова" },
-                    { new Guid("f5f03f08-b2f6-47d7-8093-fb305bcf5ec8"), new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), "Стефан", "/img/No_Image.jpg", "Учител", "Николов" }
+                    { new Guid("0b8ed107-7ddc-46dc-a2df-83a8918f59cc"), new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), "Ани", "/img/No_Image.jpg", "Учител", "Григорова" },
+                    { new Guid("2192cdae-685a-4568-a20c-25bfaa7fc15c"), new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), "Маргарита", "/img/No_Image.jpg", "Учител", "Йорданова" },
+                    { new Guid("511df3a5-749c-4d12-a516-6f76c4824072"), new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), "Емилия", "/img/No_Image.jpg", "Заместник-директор", "Истаткова" },
+                    { new Guid("b880cdb6-6676-4064-9653-87f8084a905b"), new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), "Стефан", "/img/No_Image.jpg", "Учител", "Николов" },
+                    { new Guid("ebc52886-531a-4ccc-87ae-cd9004abcdf6"), new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), "Мария", "/img/No_Image.jpg", "Учител", "Чавдарова" },
+                    { new Guid("f2ffa878-5628-45b4-a8c9-692ff369c35d"), new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), "Цветелина", "/img/No_Image.jpg", "Заместник-директор", "Томова" }
                 });
 
             migrationBuilder.InsertData(
@@ -725,7 +725,9 @@ namespace SchoolApp.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Teachers_ApplicationUserId",
                 table: "Teachers",
-                column: "ApplicationUserId");
+                column: "ApplicationUserId",
+                unique: true,
+                filter: "[ApplicationUserId] IS NOT NULL");
         }
 
         /// <inheritdoc />
