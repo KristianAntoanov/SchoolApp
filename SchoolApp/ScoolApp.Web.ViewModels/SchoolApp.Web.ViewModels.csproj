@@ -20,6 +20,7 @@
     <None Remove="Admin\" />
     <None Remove="Admin\Students\" />
     <None Remove="Admin\Teachers\" />
+    <None Remove="Admin\Roles\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Diary\" />
@@ -31,5 +32,6 @@
     <Folder Include="Admin\" />
     <Folder Include="Admin\Students\" />
     <Folder Include="Admin\Teachers\" />
+    <Folder Include="Admin\Roles\" />
   </ItemGroup>
 </Project>

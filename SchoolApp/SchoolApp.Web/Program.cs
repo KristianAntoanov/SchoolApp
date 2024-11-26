@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Identity;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-
-using SchoolApp.Data;
-using SchoolApp.Data.Models;
 using SchoolApp.Services.Data;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.Infrastructure.Extensions;
@@ -12,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddApplicationDatabase(builder.Configuration);
+
+builder.Services.AddSingleton(x =>
+    new BlobServiceClient(builder.Configuration.GetConnectionString("AzureStorage") ??
+        throw new InvalidOperationException("Connection string 'AzureStorage' not found.")));
 
 builder.Services.AddApplicationIdentity(builder.Configuration);
 

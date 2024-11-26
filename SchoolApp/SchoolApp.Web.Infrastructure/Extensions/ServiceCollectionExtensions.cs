@@ -18,11 +18,6 @@ namespace SchoolApp.Web.Infrastructure.Extensions
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-            //services.AddScoped<AzureBlobService>(x =>
-            //	new AzureBlobService(builder.Configuration.GetConnectionString("AzureStorage") ??
-            //		throw new InvalidOperationException("Connection string 'AzureStorage' not found.")));
-
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             services.AddDatabaseDeveloperPageExceptionFilter();
