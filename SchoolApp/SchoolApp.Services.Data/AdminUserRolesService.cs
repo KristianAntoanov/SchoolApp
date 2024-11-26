@@ -10,16 +10,14 @@ namespace SchoolApp.Services.Data
 	public class AdminUserRolesService : IAdminUserRolesService
     {
         private readonly IRepository _repository;
-        private readonly IAzureBlobService _azureBlobService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
 
-        public AdminUserRolesService(IRepository repository, IAzureBlobService azureBlobService,
-                                    UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public AdminUserRolesService(IRepository repository, UserManager<ApplicationUser> userManager,
+                                        RoleManager<ApplicationRole> roleManager)
         {
             _repository = repository;
-            _azureBlobService = azureBlobService;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -37,7 +35,7 @@ namespace SchoolApp.Services.Data
         {
             return await _repository
                 .GetAllAttached<Teacher>()
-                .Where(t => t.ApplicationUserId == null) // Само несвързаните учители
+                .Where(t => t.ApplicationUserId == null)
                 .OrderBy(t => t.FirstName)
                 .ThenBy(t => t.LastName)
                 .Select(t => new TeacherDropdownViewModel
@@ -50,19 +48,16 @@ namespace SchoolApp.Services.Data
 
         public async Task<bool> UpdateTeacherUserAsync(Guid userId, Guid? teacherId)
         {
-            // Първо намираме текущия учител на този потребител (ако има такъв)
             var currentTeacher = await _repository
                 .GetAllAttached<Teacher>()
                 .FirstOrDefaultAsync(t => t.ApplicationUserId == userId);
 
-            // Ако има текущ учител, премахваме връзката
             if (currentTeacher != null)
             {
                 currentTeacher.ApplicationUserId = null;
                 await _repository.UpdateAsync(currentTeacher);
             }
 
-            // Ако е подаден нов teacherId, създаваме новата връзка
             if (teacherId.HasValue)
             {
                 var newTeacher = await _repository
@@ -89,7 +84,6 @@ namespace SchoolApp.Services.Data
                 var teacherId = await GetTeacherIdByUserIdAsync(user.Id);
                 var availableTeachers = await GetAvailableTeachersForAssignmentAsync();
 
-                // Ако потребителят вече има учител, добавяме го към списъка с достъпни
                 if (teacherId.HasValue)
                 {
                     var currentTeacher = await GetTeacherBasicInfoAsync(teacherId.Value);
@@ -123,20 +117,17 @@ namespace SchoolApp.Services.Data
 
         public async Task<(bool success, string message)> UpdateUserTeacherAsync(Guid userId, Guid? teacherId)
         {
-            // Намираме потребителя
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
                 return (false, "Потребителят не беше намерен.");
             }
 
-            // Обновяваме връзката с учителя
             if (!await UpdateTeacherUserAsync(userId, teacherId))
             {
                 return (false, "Възникна грешка при обновяването на връзката с учител.");
             }
 
-            // Управляваме Teacher ролята
             if (teacherId.HasValue)
             {
                 if (!await _userManager.IsInRoleAsync(user, "Teacher"))

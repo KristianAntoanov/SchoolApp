@@ -101,7 +101,6 @@ namespace SchoolApp.Services.Data
                 return (false, "Позволените формати са само JPG, JPEG и PNG");
             }
 
-            // Upload image to Azure and get URL
             var result = await _azureBlobService.UploadTeacherImageAsync(model.Image, model.FirstName, model.LastName);
 
             if (!string.IsNullOrEmpty(result.errorMessage) || result.imageUrl == null)
@@ -168,7 +167,6 @@ namespace SchoolApp.Services.Data
             string? currentFileName = null;
             if (!string.IsNullOrEmpty(teacher.ImageUrl))
             {
-                // Extract filename from URL
                 currentFileName = Path.GetFileName(new Uri(teacher.ImageUrl).LocalPath);
             }
 
@@ -205,7 +203,6 @@ namespace SchoolApp.Services.Data
 
             if (model.Image != null)
             {
-                // Validate image
                 if (model.Image.Length > 2 * 1024 * 1024)
                 {
                     return (false, "Файлът трябва да е по-малък от 2MB");
@@ -218,7 +215,6 @@ namespace SchoolApp.Services.Data
                     return (false, "Позволените формати са само JPG, JPEG и PNG");
                 }
 
-                // Delete old image if exists
                 if (string.IsNullOrEmpty(teacher.ImageUrl))
                 {
                     bool isOldImageDeleted = await _azureBlobService.DeleteTeacherImageAsync(teacher.ImageUrl);
@@ -228,7 +224,6 @@ namespace SchoolApp.Services.Data
                     }
                 }
 
-                // Upload new image
                 var result = await _azureBlobService.UploadTeacherImageAsync(model.Image, model.FirstName, model.LastName);
                 if (!string.IsNullOrEmpty(result.errorMessage) || result.imageUrl == null)
                 {
@@ -242,31 +237,25 @@ namespace SchoolApp.Services.Data
                 return (false, "Моля добавете снимка!");
             }
 
-            // Update basic info
             teacher.FirstName = model.FirstName;
             teacher.LastName = model.LastName;
             teacher.JobTitle = model.JobTitle;
 
-            // Update teacher
             bool isTeacherUpdated = await _repository.UpdateAsync(teacher);
             if (!isTeacherUpdated)
             {
                 return (false, "Възникна грешка при обновяването на учителя!");
             }
 
-            // Взимаме текущите SubjectId-та
             var currentSubjectIds = teacher.SubjectTeachers.Select(st => st.SubjectId).ToList();
 
-            // Сравняваме дали има разлика между текущите и новите
             bool hasSubjectsChanged = !currentSubjectIds.OrderBy(id => id)
                 .SequenceEqual(model.SelectedSubjects.OrderBy(id => id));
 
             if (hasSubjectsChanged)
             {
-                // Delete old subject relations
                 await _repository.DeleteRangeAsync(teacher.SubjectTeachers);
 
-                // Add new subject relations
                 foreach (var subjectId in model.SelectedSubjects)
                 {
                     var subjectTeacher = new SubjectTeacher
