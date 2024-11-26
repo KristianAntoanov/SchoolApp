@@ -75,13 +75,17 @@ namespace SchoolApp.Services.Data
 
         public async Task<IEnumerable<UserRolesViewModel>> GetAllUsersWithRolesAsync()
         {
-            var users = await _userManager.Users.ToListAsync();
-            var viewModels = new List<UserRolesViewModel>();
+            IEnumerable<ApplicationUser> users =
+                await _repository.GetAllAsync<ApplicationUser>();
+
+            List<UserRolesViewModel> viewModels = new List<UserRolesViewModel>();
 
             foreach (var user in users)
             {
-                var roles = await _userManager.GetRolesAsync(user);
-                var teacherId = await GetTeacherIdByUserIdAsync(user.Id);
+                IList<string> roles = await _userManager.GetRolesAsync(user);
+
+                Guid? teacherId = await GetTeacherIdByUserIdAsync(user.Id);
+
                 var availableTeachers = await GetAvailableTeachersForAssignmentAsync();
 
                 if (teacherId.HasValue)
@@ -154,7 +158,7 @@ namespace SchoolApp.Services.Data
             var currentRoles = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, currentRoles);
 
-            if (roles?.Any() == true)
+            if (roles.Count != 0)
             {
                 await _userManager.AddToRolesAsync(user, roles);
             }
