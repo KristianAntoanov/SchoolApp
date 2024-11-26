@@ -72,6 +72,48 @@ namespace SchoolApp.Data.Repository
             return true;
         }
 
+        public bool DeleteByGuidId<T>(Guid id) where T : class
+        {
+            T? entity = GetByGuidId<T>(id);
+
+            if (entity == null)
+            {
+                return false;
+            }
+
+            GetDbSet<T>().Remove(entity);
+            _dbContext.SaveChanges();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteByGuidIdAsync<T>(Guid id) where T : class
+        {
+            T? entity = await GetByGuidIdAsync<T>(id);
+
+            if (entity == null)
+            {
+                return false;
+            }
+
+            GetDbSet<T>().Remove(entity);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public void DeleteRange<T>(IEnumerable<T> entities) where T : class
+        {
+            GetDbSet<T>().RemoveRange(entities);
+            _dbContext.SaveChanges();
+        }
+
+        public async Task DeleteRangeAsync<T>(IEnumerable<T> entities) where T : class
+        {
+            GetDbSet<T>().RemoveRange(entities);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public IEnumerable<T> GetAll<T>() where T : class
         {
             return GetDbSet<T>().ToArray();
@@ -93,6 +135,16 @@ namespace SchoolApp.Data.Repository
         }
 
         public async Task<T?> GetByIdAsync<T>(int id) where T : class
+        {
+            return await GetDbSet<T>().FindAsync(id);
+        }
+
+        public T? GetByGuidId<T>(Guid id) where T : class
+        {
+            return GetDbSet<T>().Find(id);
+        }
+
+        public async Task<T?> GetByGuidIdAsync<T>(Guid id) where T : class
         {
             return await GetDbSet<T>().FindAsync(id);
         }
