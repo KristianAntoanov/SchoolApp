@@ -14,6 +14,19 @@ namespace SchoolApp.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Albums",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Albums", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -76,6 +89,25 @@ namespace SchoolApp.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subjects", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GalleryImages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false),
+                    AlbumId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GalleryImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GalleryImages_Albums_AlbumId",
+                        column: x => x.AlbumId,
+                        principalTable: "Albums",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -415,12 +447,12 @@ namespace SchoolApp.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), 0, "c3a555bc-2699-4e71-8a78-3c21e68b0274", "Tsveti@gmail.com", true, true, null, "TSVETI@GMAIL.COM", "TSVETI@GMAIL.COM", "AQAAAAIAAYagAAAAEMFicfQ7Gc7G2lsTHr6Ml9gL6+6vo8QdQM8DUkl/ax/bqdiRYOHqnCgrv0rKn+eu3Q==", null, false, "405769F8-BE15-475F-A5E5-9025B7FEC684", false, "Tsveti@gmail.com" },
-                    { new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), 0, "8a995494-52d7-4932-84ec-525948fbc699", "Stefan@gmail.com", true, true, null, "STEFAN@GMAIL.COM", "STEFAN@GMAIL.COM", "AQAAAAIAAYagAAAAEGLZhQFSjLv5LmkCkWpmAj2C3FGow5ASPlFITyoR8tnmrBa1hOe/UYhYgFKJzmDjRw==", null, false, "2E90C6BF-A6B2-4094-A89B-8719D6F20F36", false, "Stefan@gmail.com" },
-                    { new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), 0, "b11d8751-a7ab-4f81-9032-4644dcce993f", "Margarita@gmail.com", true, true, null, "MARGARITA@GMAIL.COM", "MARGARITA@GMAIL.COM", "AQAAAAIAAYagAAAAEJZrH3WAhWEXCAM42MeyolPdZxFOCZN7sMk27QnetFkPvN90+c2FJZZIoo17Bld4Bg==", null, false, "C6596C09-E5CB-4173-816B-455540DA4943", false, "Margarita@gmail.com" },
-                    { new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), 0, "18aa70ed-89d4-49ab-8b68-109d7c7b96ff", "Ani@gmail.com", true, true, null, "ANI@GMAIL.COM", "ANI@GMAIL.COM", "AQAAAAIAAYagAAAAEBz7K66uak/iyQZMFyBPTVLuXZibu5r8n8b04GwGfHnsjKziwiH3eKQhszh39BMOJA==", null, false, "E91A1311-E47B-4CB1-89F9-131E76370BF4", false, "Ani@gmail.com" },
-                    { new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), 0, "563ff890-a8f0-480b-b007-9666cf171826", "Maria@gmail.com", true, true, null, "MARIA@GMAIL.COM", "MARIA@GMAIL.COM", "AQAAAAIAAYagAAAAEBqz88d+sZIT2UWfxZrUAg6CQ7nvnzwC9dgfDecG3VqRNbaUXrEVn3tzzcs9bv8Dpw==", null, false, "3AD5C3FF-72AA-4FC6-B1A5-7A911F86763C", false, "Maria@gmail.com" },
-                    { new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), 0, "0bab1ffc-8656-4aea-b2c3-5ba73a4490c7", "Emilia@gmail.com", true, true, null, "EMILIA@GMAIL.COM", "EMILIA@GMAIL.COM", "AQAAAAIAAYagAAAAEEPZfDaJBD7hpLrgct6X7+xl1avUAaL3CjqGEDxus26wFfP5nY0YBn7ZNJZeXCyVVg==", null, false, "30D4DB53-AF9B-4FCE-B02E-62711A562196", false, "Emilia@gmail.com" }
+                    { new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), 0, "3fbbc87c-69df-4bd8-a65b-517998e07720", "Tsveti@gmail.com", true, true, null, "TSVETI@GMAIL.COM", "TSVETI@GMAIL.COM", "AQAAAAIAAYagAAAAEAas5qwdXDKtIWkcDLZM7sbyHzNpX8/w7BC4RcWfKg1khmbc1UyqN9eGse26E7zMhw==", null, false, "C3BC186E-44D4-402F-8DDB-2DE63A2AB158", false, "Tsveti@gmail.com" },
+                    { new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), 0, "8598d505-b6bc-4c94-aacd-07aa7741974a", "Stefan@gmail.com", true, true, null, "STEFAN@GMAIL.COM", "STEFAN@GMAIL.COM", "AQAAAAIAAYagAAAAEB2VuazMCofKTWlnq1l243vqUhYgLRshawtUfQpZkhW+CmqYFF0VZjkAWAtERzbb+A==", null, false, "890EE940-3AAE-46E6-95AD-2ECA8BE435FE", false, "Stefan@gmail.com" },
+                    { new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), 0, "95f22177-c225-441a-8f0f-aa5e81ed8b9b", "Margarita@gmail.com", true, true, null, "MARGARITA@GMAIL.COM", "MARGARITA@GMAIL.COM", "AQAAAAIAAYagAAAAENsJQ+RuYCZPE/RH/XG3EnWETdZuLfW3zmeCbiR/GiEvq3VfO/UHtwdgG2NW2No8Rw==", null, false, "BF5C9BEB-89BC-4CBB-BAA7-C128DC16E9A9", false, "Margarita@gmail.com" },
+                    { new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), 0, "4a731234-20a2-4ab3-a4ae-26d93fa93ce7", "Ani@gmail.com", true, true, null, "ANI@GMAIL.COM", "ANI@GMAIL.COM", "AQAAAAIAAYagAAAAEJN/IszneKm+89UDjEnSAfYAxhXf6jOMc47mTY6RXRzAE7YAAys6dfGV85/eFOCegA==", null, false, "ECBD3795-C281-4775-8006-9B25547142F3", false, "Ani@gmail.com" },
+                    { new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), 0, "ce786201-b2f9-4cc2-b1b2-7bd0bc19cce4", "Maria@gmail.com", true, true, null, "MARIA@GMAIL.COM", "MARIA@GMAIL.COM", "AQAAAAIAAYagAAAAEN0R4i3IScS4OdKTsfcscxDhP1kBtEkja/rCIlQ5hz1/sRQ2FMccUHidfSKT0MLdBA==", null, false, "9DBB058A-1A90-4978-8DCB-62343ECE28D3", false, "Maria@gmail.com" },
+                    { new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), 0, "29a30401-e47b-4b62-b3d2-24f1cc6b360b", "Emilia@gmail.com", true, true, null, "EMILIA@GMAIL.COM", "EMILIA@GMAIL.COM", "AQAAAAIAAYagAAAAEKbMhXR80yr8lhgCZ3/UMLH98EMga/OKWiWyryF7s5gLyaeB5lXpkfzyIdJu1dnIpQ==", null, false, "8CFC6061-9F7A-4EFC-9010-028098B64F2A", false, "Emilia@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -470,12 +502,12 @@ namespace SchoolApp.Data.Migrations
                 columns: new[] { "GuidId", "ApplicationUserId", "FirstName", "ImageUrl", "JobTitle", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("0b8ed107-7ddc-46dc-a2df-83a8918f59cc"), new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), "Ани", "/img/No_Image.jpg", "Учител", "Григорова" },
-                    { new Guid("2192cdae-685a-4568-a20c-25bfaa7fc15c"), new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), "Маргарита", "/img/No_Image.jpg", "Учител", "Йорданова" },
-                    { new Guid("511df3a5-749c-4d12-a516-6f76c4824072"), new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), "Емилия", "/img/No_Image.jpg", "Заместник-директор", "Истаткова" },
-                    { new Guid("b880cdb6-6676-4064-9653-87f8084a905b"), new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), "Стефан", "/img/No_Image.jpg", "Учител", "Николов" },
-                    { new Guid("ebc52886-531a-4ccc-87ae-cd9004abcdf6"), new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), "Мария", "/img/No_Image.jpg", "Учител", "Чавдарова" },
-                    { new Guid("f2ffa878-5628-45b4-a8c9-692ff369c35d"), new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), "Цветелина", "/img/No_Image.jpg", "Заместник-директор", "Томова" }
+                    { new Guid("0092861f-d556-4a51-8c95-f5e4c57d03b1"), new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), "Ани", "/img/No_Image.jpg", "Учител", "Григорова" },
+                    { new Guid("169ad8fa-4927-4edf-850a-6e9265b09828"), new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), "Цветелина", "/img/No_Image.jpg", "Заместник-директор", "Томова" },
+                    { new Guid("2aae8c2c-2a3c-4ce1-b229-0e016a105ad3"), new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), "Мария", "/img/No_Image.jpg", "Учител", "Чавдарова" },
+                    { new Guid("ba4b873d-1309-4dcb-84d0-5b76af4b25fd"), new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), "Маргарита", "/img/No_Image.jpg", "Учител", "Йорданова" },
+                    { new Guid("cdae4a55-b20b-4201-abe1-7f08cd498bde"), new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), "Емилия", "/img/No_Image.jpg", "Заместник-директор", "Истаткова" },
+                    { new Guid("d844feed-844b-4564-9460-dab9c5bb36f3"), new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), "Стефан", "/img/No_Image.jpg", "Учител", "Николов" }
                 });
 
             migrationBuilder.InsertData(
@@ -673,6 +705,11 @@ namespace SchoolApp.Data.Migrations
                 column: "SectionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GalleryImages_AlbumId",
+                table: "GalleryImages",
+                column: "AlbumId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Grades_StudentId",
                 table: "Grades",
                 column: "StudentId");
@@ -752,6 +789,9 @@ namespace SchoolApp.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "GalleryImages");
+
+            migrationBuilder.DropTable(
                 name: "Grades");
 
             migrationBuilder.DropTable(
@@ -765,6 +805,9 @@ namespace SchoolApp.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Albums");
 
             migrationBuilder.DropTable(
                 name: "Students");

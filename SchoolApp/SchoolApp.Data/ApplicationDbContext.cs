@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Reflection.Emit;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolApp.Data.Models;
@@ -24,6 +22,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public virtual DbSet<Teacher> Teachers { get; set; }
     public virtual DbSet<SubjectTeacher> SubjectsTeachers { get; set; }
     public virtual DbSet<SubjectStudent> SubjectsStudents { get; set; }
+    public virtual DbSet<Album> Albums { get; set; }
+    public virtual DbSet<GalleryImage> GalleryImages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -163,6 +163,26 @@ namespace SchoolApp.Data.Migrations
                     b.ToTable("Absences");
                 });
 
+            modelBuilder.Entity("SchoolApp.Data.Models.Album", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Albums");
+                });
+
             modelBuilder.Entity("SchoolApp.Data.Models.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
@@ -281,15 +301,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8a995494-52d7-4932-84ec-525948fbc699",
+                            ConcurrencyStamp = "8598d505-b6bc-4c94-aacd-07aa7741974a",
                             Email = "Stefan@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "STEFAN@GMAIL.COM",
                             NormalizedUserName = "STEFAN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGLZhQFSjLv5LmkCkWpmAj2C3FGow5ASPlFITyoR8tnmrBa1hOe/UYhYgFKJzmDjRw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB2VuazMCofKTWlnq1l243vqUhYgLRshawtUfQpZkhW+CmqYFF0VZjkAWAtERzbb+A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2E90C6BF-A6B2-4094-A89B-8719D6F20F36",
+                            SecurityStamp = "890EE940-3AAE-46E6-95AD-2ECA8BE435FE",
                             TwoFactorEnabled = false,
                             UserName = "Stefan@gmail.com"
                         },
@@ -297,15 +317,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b11d8751-a7ab-4f81-9032-4644dcce993f",
+                            ConcurrencyStamp = "95f22177-c225-441a-8f0f-aa5e81ed8b9b",
                             Email = "Margarita@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MARGARITA@GMAIL.COM",
                             NormalizedUserName = "MARGARITA@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJZrH3WAhWEXCAM42MeyolPdZxFOCZN7sMk27QnetFkPvN90+c2FJZZIoo17Bld4Bg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENsJQ+RuYCZPE/RH/XG3EnWETdZuLfW3zmeCbiR/GiEvq3VfO/UHtwdgG2NW2No8Rw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "C6596C09-E5CB-4173-816B-455540DA4943",
+                            SecurityStamp = "BF5C9BEB-89BC-4CBB-BAA7-C128DC16E9A9",
                             TwoFactorEnabled = false,
                             UserName = "Margarita@gmail.com"
                         },
@@ -313,15 +333,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "563ff890-a8f0-480b-b007-9666cf171826",
+                            ConcurrencyStamp = "ce786201-b2f9-4cc2-b1b2-7bd0bc19cce4",
                             Email = "Maria@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MARIA@GMAIL.COM",
                             NormalizedUserName = "MARIA@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBqz88d+sZIT2UWfxZrUAg6CQ7nvnzwC9dgfDecG3VqRNbaUXrEVn3tzzcs9bv8Dpw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEN0R4i3IScS4OdKTsfcscxDhP1kBtEkja/rCIlQ5hz1/sRQ2FMccUHidfSKT0MLdBA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3AD5C3FF-72AA-4FC6-B1A5-7A911F86763C",
+                            SecurityStamp = "9DBB058A-1A90-4978-8DCB-62343ECE28D3",
                             TwoFactorEnabled = false,
                             UserName = "Maria@gmail.com"
                         },
@@ -329,15 +349,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("d040cb3e-ae29-4045-943c-4030a4249476"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "18aa70ed-89d4-49ab-8b68-109d7c7b96ff",
+                            ConcurrencyStamp = "4a731234-20a2-4ab3-a4ae-26d93fa93ce7",
                             Email = "Ani@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "ANI@GMAIL.COM",
                             NormalizedUserName = "ANI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBz7K66uak/iyQZMFyBPTVLuXZibu5r8n8b04GwGfHnsjKziwiH3eKQhszh39BMOJA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJN/IszneKm+89UDjEnSAfYAxhXf6jOMc47mTY6RXRzAE7YAAys6dfGV85/eFOCegA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "E91A1311-E47B-4CB1-89F9-131E76370BF4",
+                            SecurityStamp = "ECBD3795-C281-4775-8006-9B25547142F3",
                             TwoFactorEnabled = false,
                             UserName = "Ani@gmail.com"
                         },
@@ -345,15 +365,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c3a555bc-2699-4e71-8a78-3c21e68b0274",
+                            ConcurrencyStamp = "3fbbc87c-69df-4bd8-a65b-517998e07720",
                             Email = "Tsveti@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "TSVETI@GMAIL.COM",
                             NormalizedUserName = "TSVETI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMFicfQ7Gc7G2lsTHr6Ml9gL6+6vo8QdQM8DUkl/ax/bqdiRYOHqnCgrv0rKn+eu3Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAas5qwdXDKtIWkcDLZM7sbyHzNpX8/w7BC4RcWfKg1khmbc1UyqN9eGse26E7zMhw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "405769F8-BE15-475F-A5E5-9025B7FEC684",
+                            SecurityStamp = "C3BC186E-44D4-402F-8DDB-2DE63A2AB158",
                             TwoFactorEnabled = false,
                             UserName = "Tsveti@gmail.com"
                         },
@@ -361,15 +381,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0bab1ffc-8656-4aea-b2c3-5ba73a4490c7",
+                            ConcurrencyStamp = "29a30401-e47b-4b62-b3d2-24f1cc6b360b",
                             Email = "Emilia@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "EMILIA@GMAIL.COM",
                             NormalizedUserName = "EMILIA@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEPZfDaJBD7hpLrgct6X7+xl1avUAaL3CjqGEDxus26wFfP5nY0YBn7ZNJZeXCyVVg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKbMhXR80yr8lhgCZ3/UMLH98EMga/OKWiWyryF7s5gLyaeB5lXpkfzyIdJu1dnIpQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "30D4DB53-AF9B-4FCE-B02E-62711A562196",
+                            SecurityStamp = "8CFC6061-9F7A-4EFC-9010-028098B64F2A",
                             TwoFactorEnabled = false,
                             UserName = "Emilia@gmail.com"
                         });
@@ -432,6 +452,27 @@ namespace SchoolApp.Data.Migrations
                             GradeLevel = 6,
                             SectionId = 3
                         });
+                });
+
+            modelBuilder.Entity("SchoolApp.Data.Models.GalleryImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AlbumId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(2083)
+                        .HasColumnType("nvarchar(2083)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("GalleryImages");
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Grade", b =>
@@ -1408,7 +1449,7 @@ namespace SchoolApp.Data.Migrations
                     b.HasData(
                         new
                         {
-                            GuidId = new Guid("b880cdb6-6676-4064-9653-87f8084a905b"),
+                            GuidId = new Guid("d844feed-844b-4564-9460-dab9c5bb36f3"),
                             ApplicationUserId = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
                             FirstName = "Стефан",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1417,7 +1458,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("2192cdae-685a-4568-a20c-25bfaa7fc15c"),
+                            GuidId = new Guid("ba4b873d-1309-4dcb-84d0-5b76af4b25fd"),
                             ApplicationUserId = new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"),
                             FirstName = "Маргарита",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1426,7 +1467,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("ebc52886-531a-4ccc-87ae-cd9004abcdf6"),
+                            GuidId = new Guid("2aae8c2c-2a3c-4ce1-b229-0e016a105ad3"),
                             ApplicationUserId = new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"),
                             FirstName = "Мария",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1435,7 +1476,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("0b8ed107-7ddc-46dc-a2df-83a8918f59cc"),
+                            GuidId = new Guid("0092861f-d556-4a51-8c95-f5e4c57d03b1"),
                             ApplicationUserId = new Guid("d040cb3e-ae29-4045-943c-4030a4249476"),
                             FirstName = "Ани",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1444,7 +1485,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("f2ffa878-5628-45b4-a8c9-692ff369c35d"),
+                            GuidId = new Guid("169ad8fa-4927-4edf-850a-6e9265b09828"),
                             ApplicationUserId = new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"),
                             FirstName = "Цветелина",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1453,7 +1494,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("511df3a5-749c-4d12-a516-6f76c4824072"),
+                            GuidId = new Guid("cdae4a55-b20b-4201-abe1-7f08cd498bde"),
                             ApplicationUserId = new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"),
                             FirstName = "Емилия",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1541,6 +1582,17 @@ namespace SchoolApp.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("SchoolApp.Data.Models.GalleryImage", b =>
+                {
+                    b.HasOne("SchoolApp.Data.Models.Album", "Album")
+                        .WithMany("Images")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Grade", b =>
@@ -1660,6 +1712,11 @@ namespace SchoolApp.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("SchoolApp.Data.Models.Album", b =>
+                {
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Class", b =>
