@@ -10,11 +10,11 @@ namespace SchoolApp.Services.Data.Contrancts
 
         Task<(bool success, string message)> UpdateUserRolesAsync(Guid userId, List<string> roles);
 
+        Task<bool> UpdateTeacherUserAsync(Guid userId, Guid? teacherId);
+
         Task<Guid?> GetTeacherIdByUserIdAsync(Guid userId);
 
-        Task<IEnumerable<TeacherDropdownViewModel>> GetAvailableTeachersForAssignmentAsync();
-
-        Task<bool> UpdateTeacherUserAsync(Guid userId, Guid? teacherId);
+        Task<IEnumerable<TeacherDropdownViewModel>> GetAvailableTeachersForAssignmentAsync(Guid? currentTeacherId = null);
 
         Task<TeacherBasicInfoViewModel?> GetTeacherBasicInfoAsync(Guid teacherId);
     }

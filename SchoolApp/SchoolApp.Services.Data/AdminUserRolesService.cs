@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
@@ -22,87 +23,18 @@ namespace SchoolApp.Services.Data
             _roleManager = roleManager;
         }
 
-        public async Task<Guid?> GetTeacherIdByUserIdAsync(Guid userId)
-        {
-            return await _repository
-                .GetAllAttached<Teacher>()
-                .Where(t => t.ApplicationUserId == userId)
-                .Select(t => t.GuidId)
-                .FirstOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<TeacherDropdownViewModel>> GetAvailableTeachersForAssignmentAsync()
-        {
-            return await _repository
-                .GetAllAttached<Teacher>()
-                .Where(t => t.ApplicationUserId == null)
-                .OrderBy(t => t.FirstName)
-                .ThenBy(t => t.LastName)
-                .Select(t => new TeacherDropdownViewModel
-                {
-                    Id = t.GuidId,
-                    DisplayName = $"{t.FirstName} {t.LastName} - {t.JobTitle}"
-                })
-                .ToListAsync();
-        }
-
-        public async Task<bool> UpdateTeacherUserAsync(Guid userId, Guid? teacherId)
-        {
-            var currentTeacher = await _repository
-                .GetAllAttached<Teacher>()
-                .FirstOrDefaultAsync(t => t.ApplicationUserId == userId);
-
-            if (currentTeacher != null)
-            {
-                currentTeacher.ApplicationUserId = null;
-                await _repository.UpdateAsync(currentTeacher);
-            }
-
-            if (teacherId.HasValue)
-            {
-                var newTeacher = await _repository
-                    .GetAllAttached<Teacher>()
-                    .FirstOrDefaultAsync(t => t.GuidId == teacherId.Value);
-
-                if (newTeacher != null)
-                {
-                    newTeacher.ApplicationUserId = userId;
-                    return await _repository.UpdateAsync(newTeacher);
-                }
-            }
-            return true;
-        }
-
         public async Task<IEnumerable<UserRolesViewModel>> GetAllUsersWithRolesAsync()
         {
-            IEnumerable<ApplicationUser> users =
-                await _repository.GetAllAsync<ApplicationUser>();
-
+            IEnumerable<ApplicationUser> users = await _repository.GetAllAsync<ApplicationUser>();
             List<UserRolesViewModel> viewModels = new List<UserRolesViewModel>();
 
             foreach (var user in users)
             {
                 IList<string> roles = await _userManager.GetRolesAsync(user);
-
                 Guid? teacherId = await GetTeacherIdByUserIdAsync(user.Id);
 
-                var availableTeachers = await GetAvailableTeachersForAssignmentAsync();
-
-                if (teacherId.HasValue)
-                {
-                    var currentTeacher = await GetTeacherBasicInfoAsync(teacherId.Value);
-                    if (currentTeacher != null)
-                    {
-                        availableTeachers = availableTeachers.Concat(new[]
-                        {
-                            new TeacherDropdownViewModel
-                            {
-                                Id = teacherId.Value,
-                                DisplayName = $"{currentTeacher.FirstName} {currentTeacher.LastName} - {currentTeacher.JobTitle}"
-                            }
-                        });
-                    }
-                }
+                // Подаваме текущия teacherId към метода
+                var availableTeachers = await GetAvailableTeachersForAssignmentAsync(teacherId);
 
                 viewModels.Add(new UserRolesViewModel
                 {
@@ -166,9 +98,55 @@ namespace SchoolApp.Services.Data
             return (true, "Успешно обновени роли.");
         }
 
-        public async Task<TeacherBasicInfoViewModel?> GetTeacherBasicInfoAsync(Guid teacherId)
+        public async Task<bool> UpdateTeacherUserAsync(Guid userId, Guid? teacherId)
         {
-            return await _repository
+            var currentTeacher = await _repository
+                .GetAllAttached<Teacher>()
+                .FirstOrDefaultAsync(t => t.ApplicationUserId == userId);
+
+            if (currentTeacher != null)
+            {
+                currentTeacher.ApplicationUserId = null;
+                await _repository.UpdateAsync(currentTeacher);
+            }
+
+            if (teacherId.HasValue)
+            {
+                var newTeacher = await _repository
+                    .GetAllAttached<Teacher>()
+                    .FirstOrDefaultAsync(t => t.GuidId == teacherId.Value);
+
+                if (newTeacher != null)
+                {
+                    newTeacher.ApplicationUserId = userId;
+                    return await _repository.UpdateAsync(newTeacher);
+                }
+            }
+            return true;
+        }
+
+        public async Task<Guid?> GetTeacherIdByUserIdAsync(Guid userId)
+            => await _repository
+                .GetAllAttached<Teacher>()
+                .Where(t => t.ApplicationUserId == userId)
+                .Select(t => t.GuidId)
+                .FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<TeacherDropdownViewModel>> GetAvailableTeachersForAssignmentAsync(Guid? currentTeacherId = null)
+            => await _repository
+                .GetAllAttached<Teacher>()
+                .Where(t => t.ApplicationUserId == null || t.GuidId == currentTeacherId)
+                .OrderBy(t => t.FirstName)
+                .ThenBy(t => t.LastName)
+                .Select(t => new TeacherDropdownViewModel
+                {
+                    Id = t.GuidId,
+                    DisplayName = $"{t.FirstName} {t.LastName} - {t.JobTitle}"
+                })
+                .ToListAsync();
+
+        public async Task<TeacherBasicInfoViewModel?> GetTeacherBasicInfoAsync(Guid teacherId)
+            => await _repository
                 .GetAllAttached<Teacher>()
                 .Where(t => t.GuidId == teacherId)
                 .Select(t => new TeacherBasicInfoViewModel
@@ -178,6 +156,5 @@ namespace SchoolApp.Services.Data
                     JobTitle = t.JobTitle
                 })
                 .FirstOrDefaultAsync();
-        }
     }
 }
