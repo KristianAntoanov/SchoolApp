@@ -11,6 +11,7 @@
         public const string TeacherJobTitleRequiredMessage = "Длъжността на учител е задължителнa";
         public const string TeacherImageRequiredMessage = "Моля изберете снимка";
         public const string TeacherSubjectRequiredMessage = "Моля изберете поне един предмет";
+        public const string GalleryImageRequiredMessage = "Моля, изберете поне една снимка.";
 
 
         //StringLengthMessages

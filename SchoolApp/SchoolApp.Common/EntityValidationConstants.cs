@@ -41,5 +41,19 @@
             public const int JobTitleMinLength = 5;
             public const int JobTitleMaxLength = 150;
         }
+
+        public static class Album
+        {
+            public const int TitleMinLength = 3;
+            public const int TitleMaxLength = 100;
+
+            public const int DescriptionMinLength = 5;
+            public const int DescriptionMaxLength = 500;
+        }
+
+        public static class GalleryImage
+        {
+            public const int ImageUrlMaxLength = 2083;
+        }
     }
 }
