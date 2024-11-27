@@ -55,5 +55,41 @@ namespace SchoolApp.Services.Data
 
             return false;
         }
+
+        public async Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadGalleryImageAsync(IFormFile file, Guid imageId)
+        {
+            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient("galleryimages");
+            await containerClient.CreateIfNotExistsAsync();
+
+            string extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            string blobName = $"image-{imageId}{extension}";
+
+            BlobClient blobClient = containerClient.GetBlobClient(blobName);
+
+            await using (var stream = file.OpenReadStream())
+            {
+                await blobClient.UploadAsync(stream, overwrite: true);
+            }
+
+            return (true, string.Empty, blobClient.Uri.ToString());
+        }
+
+        public async Task<bool> DeleteGalleryImageAsync(string imageUrl)
+        {
+            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient("galleryimages");
+
+            Uri uri = new Uri(imageUrl);
+            string blobName = Path.GetFileName(uri.LocalPath);
+
+            BlobClient blobClient = containerClient.GetBlobClient(blobName);
+
+            if (await blobClient.ExistsAsync())
+            {
+                await blobClient.DeleteAsync();
+                return true;
+            }
+
+            return false;
+        }
     }
 }
