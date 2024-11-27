@@ -21,6 +21,8 @@
     <None Remove="Admin\Students\" />
     <None Remove="Admin\Teachers\" />
     <None Remove="Admin\Roles\" />
+    <None Remove="Gallery\" />
+    <None Remove="Admin\Gallery\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Diary\" />
@@ -33,5 +35,7 @@
     <Folder Include="Admin\Students\" />
     <Folder Include="Admin\Teachers\" />
     <Folder Include="Admin\Roles\" />
+    <Folder Include="Gallery\" />
+    <Folder Include="Admin\Gallery\" />
   </ItemGroup>
 </Project>
