@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<StudentGradesViewModel>
 
 @{
-    // Помощна функция за определяне на колоната според месеца
     string GetColumnKey(DateTime date)
     {
         return date.Month switch
@@ -49,15 +48,12 @@
                 <tr>
                     <td>@student.FirstName @student.LastName</td>
                     @{
-                        // Групиране на оценките по месеци
                         var gradesByMonth = student.Grades
                             .GroupBy(g => GetColumnKey(g.GradeDate))
                             .ToDictionary(g => g.Key, g => g.ToList());
 
-                        // Масив с всички възможни колони в реда, в който трябва да се показват
                         var columns = new[] { "IX", "X", "XI", "XII", "I_II", "Term1", "III", "IV", "V", "VI_VII", "Term2", "Year" };
 
-                        // Показване на оценките за всяка колона
                         foreach (var column in columns)
                         {
                             <td class="grade-cell">
