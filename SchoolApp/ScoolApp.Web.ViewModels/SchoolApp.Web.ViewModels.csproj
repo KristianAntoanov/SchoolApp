@@ -23,6 +23,7 @@
     <None Remove="Admin\Roles\" />
     <None Remove="Gallery\" />
     <None Remove="Admin\Gallery\" />
+    <None Remove="News\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Diary\" />
@@ -37,5 +38,6 @@
     <Folder Include="Admin\Roles\" />
     <Folder Include="Gallery\" />
     <Folder Include="Admin\Gallery\" />
+    <Folder Include="News\" />
   </ItemGroup>
 </Project>
