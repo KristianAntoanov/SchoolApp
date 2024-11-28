@@ -24,6 +24,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
     public virtual DbSet<SubjectStudent> SubjectsStudents { get; set; }
     public virtual DbSet<Album> Albums { get; set; }
     public virtual DbSet<GalleryImage> GalleryImages { get; set; }
+    public virtual DbSet<News> News { get; set; }
+    public virtual DbSet<Announcement> Announcements { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
