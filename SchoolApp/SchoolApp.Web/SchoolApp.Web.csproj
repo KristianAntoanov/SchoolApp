@@ -76,6 +76,7 @@
     <Folder Include="wwwroot\js\Admin\Gallery\" />
     <Folder Include="wwwroot\js\Admin\Teachers\" />
     <Folder Include="wwwroot\css\Admin\" />
+    <Folder Include="wwwroot\css\News\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
@@ -89,6 +90,7 @@
     <Content Remove="wwwroot\js\Admin\Gallery\" />
     <Content Remove="wwwroot\js\Admin\Teachers\" />
     <Content Remove="wwwroot\css\Admin\" />
+    <Content Remove="wwwroot\css\News\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\lib\css\.DS_Store" />
