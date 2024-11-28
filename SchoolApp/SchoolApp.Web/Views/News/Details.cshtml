@@ -1,0 +1,98 @@
+﻿@model NewsViewModel
+@{
+    ViewData["Title"] = "Детайли";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-3">Детайли</h2>
+    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">@Model.Title</h5>
+                <div class="d-flex gap-2">
+                    <a asp-controller="News" asp-action="Index" class="btn btn-light">
+                        <i class="fas fa-arrow-left me-2"></i>Назад
+                    </a>
+                    <button type="button"
+                            class="btn btn-danger"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal"
+                            data-news-id="@Model.Id"
+                            data-news-title="@Model.Title">
+                        <i class="fas fa-trash me-2"></i>Изтрий
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="@Model.ImageUrl" class="img-fluid rounded" alt="@Model.Title">
+                    <div class="mt-3">
+                        <p class="text-muted mb-2">
+                            <i class="fas fa-calendar me-2"></i>
+                            @Model.PublicationDate.ToString("dd.MM.yyyy HH:mm")
+                        </p>
+                        <p class="text-muted">
+                            <i class="fas fa-tag me-2"></i>
+                            @Model.Category
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <p class="card-text" style="white-space: pre-wrap;">@Model.Content</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Потвърждение за изтриване</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Сигурни ли сте, че искате да изтриете новината /<span id="newsTitle"></span>/?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
+                <form id="deleteForm" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Изтрий</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>document.getElementById('deleteModal').addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var newsId = button.getAttribute('data-news-id');
+            var newsTitle = button.getAttribute('data-news-title');
+
+            document.getElementById('newsTitle').textContent = newsTitle;
+            document.getElementById('deleteForm').action = '/News/Delete/' + newsId;
+        });</script>
+}

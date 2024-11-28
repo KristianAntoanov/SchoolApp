@@ -50,6 +50,7 @@
     <None Remove="Areas\Admin\Views\Roles\" />
     <None Remove="Views\Gallery\" />
     <None Remove="Areas\Admin\Views\Gallery\" />
+    <None Remove="Views\News\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Diary\" />
@@ -69,6 +70,7 @@
     <Folder Include="Areas\Admin\Views\Roles\" />
     <Folder Include="Views\Gallery\" />
     <Folder Include="Areas\Admin\Views\Gallery\" />
+    <Folder Include="Views\News\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />

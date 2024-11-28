@@ -1,0 +1,79 @@
+﻿@model IEnumerable<NewsViewModel>
+
+<div class="container mt-4">
+    <h2 class="text-center mb-3">Успехи на ученици</h2>
+    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center my-5">
+            <div class="mb-4">
+                <i class="fas fa-trophy fa-4x text-muted"></i>
+            </div>
+            <h3 class="text-muted mb-4">Няма добавени постижения</h3>
+            <a asp-controller="News"
+               asp-action="Add"
+               class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Добави постижение
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-end mb-4">
+            <a asp-controller="News"
+               asp-action="Add"
+               class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Добави постижение
+            </a>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var achievement in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        @if (!string.IsNullOrEmpty(achievement.ImageUrl))
+                        {
+                            <img src="@achievement.ImageUrl" class="card-img-top" alt="@achievement.Title" style="height: 200px; object-fit: cover;">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@achievement.Title</h5>
+                            <p class="card-text">
+                                @(achievement.Content.Length > 50
+                                    ? $"{achievement.Content.Substring(0, 50)}..."
+                                    : achievement.Content)
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    @achievement.PublicationDate.ToString("dd.MM.yyyy")
+                                </small>
+                                <a asp-controller="News"
+                                   asp-action="Details"
+                                   asp-route-id="@achievement.Id"
+                                   class="btn btn-primary">
+                                    <i class="fas fa-info-circle me-2"></i>Детайли
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        background-color: #f8f9fa;
+        transition: transform 0.2s;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+</style>
+
