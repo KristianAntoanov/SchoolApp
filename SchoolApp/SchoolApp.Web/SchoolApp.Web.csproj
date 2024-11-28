@@ -71,6 +71,8 @@
     <Folder Include="Views\Gallery\" />
     <Folder Include="Areas\Admin\Views\Gallery\" />
     <Folder Include="Views\News\" />
+    <Folder Include="wwwroot\js\Admin\Students\" />
+    <Folder Include="wwwroot\js\Admin\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
@@ -79,6 +81,8 @@
     <Content Remove="wwwroot\js\Diary\AddGrades\" />
     <Content Remove="wwwroot\js\Diary\DateValidation\" />
     <Content Remove="wwwroot\js\Admin\" />
+    <Content Remove="wwwroot\js\Admin\Students\" />
+    <Content Remove="wwwroot\js\Admin\Home\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\lib\css\.DS_Store" />
