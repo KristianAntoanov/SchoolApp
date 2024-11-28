@@ -19,12 +19,19 @@ namespace SchoolApp.Services.Data
         {
             IEnumerable<TeachersViewModel> teachers = await _repository
                 .GetAllAttached<Teacher>()
+                .Include(st => st.SubjectTeachers)
                 .Select(t => new TeachersViewModel()
                 {
                     FirstName = t.FirstName,
                     LastName = t.LastName,
                     JobTitle = t.JobTitle,
-                    Photo = t.ImageUrl
+                    Photo = t.ImageUrl,
+                    Subjects = t.SubjectTeachers.Select(st => new TeacherSubjectsViewModel()
+                    {
+                        Id = st.SubjectId,
+                        Name = st.Subject.Name
+                    })
+                    .ToArray()
                 })
                 .ToArrayAsync();
 

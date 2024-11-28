@@ -45,19 +45,16 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             var (isSuccessful, errorMessage) = await _service.AddTeacherAsync(model);
 
-            if (isSuccessful)
+            if (!isSuccessful)
             {
-                TempData["SuccessMessage"] = "Учителят беше успешно добавен.";
-                return RedirectToAction(nameof(Index));
+                TempData["ErrorMessage"] = errorMessage;
+
+                model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
+                return View(model);
             }
 
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                ModelState.AddModelError(string.Empty, errorMessage);
-            }
-
-            model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
-            return View(model);
+            TempData["SuccessMessage"] = "Учителят беше успешно добавен.";
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
