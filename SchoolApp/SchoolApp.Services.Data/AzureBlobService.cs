@@ -27,7 +27,7 @@ namespace SchoolApp.Services.Data
             {
                 return (false, "Снимка с това име вече съществува!", string.Empty);
             }
-
+             
             await using (var stream = file.OpenReadStream())
             {
                 await blobClient.UploadAsync(stream, overwrite: true);
@@ -77,6 +77,47 @@ namespace SchoolApp.Services.Data
         public async Task<bool> DeleteGalleryImageAsync(string imageUrl)
         {
             BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient("galleryimages");
+
+            Uri uri = new Uri(imageUrl);
+            string blobName = Path.GetFileName(uri.LocalPath);
+
+            BlobClient blobClient = containerClient.GetBlobClient(blobName);
+
+            if (await blobClient.ExistsAsync())
+            {
+                await blobClient.DeleteAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadNewsImageAsync(IFormFile file, string title)
+        {
+            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient("newsimages");
+            await containerClient.CreateIfNotExistsAsync();
+
+            string extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            string blobName = $"news-{title.ToLower()}{extension}";
+
+            BlobClient blobClient = containerClient.GetBlobClient(blobName);
+
+            if (await blobClient.ExistsAsync())
+            {
+                return (false, "Снимка с това име вече съществува!", string.Empty);
+            }
+
+            await using (var stream = file.OpenReadStream())
+            {
+                await blobClient.UploadAsync(stream, overwrite: true);
+            }
+
+            return (true, string.Empty, blobClient.Uri.ToString());
+        }
+
+        public async Task<bool> DeleteNewsImageAsync(string imageUrl)
+        {
+            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient("newsimages");
 
             Uri uri = new Uri(imageUrl);
             string blobName = Path.GetFileName(uri.LocalPath);

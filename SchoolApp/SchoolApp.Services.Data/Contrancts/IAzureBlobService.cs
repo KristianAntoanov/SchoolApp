@@ -11,5 +11,9 @@ namespace SchoolApp.Services.Data.Contrancts
         Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadGalleryImageAsync(IFormFile file, Guid imageId);
 
         Task<bool> DeleteGalleryImageAsync(string imageUrl);
+
+        Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadNewsImageAsync(IFormFile file, string title);
+
+        Task<bool> DeleteNewsImageAsync(string imageUrl);
     }
 }
