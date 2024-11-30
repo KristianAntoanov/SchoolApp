@@ -3,22 +3,6 @@
     ViewData["Title"] = "Детайли";
 }
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["SuccessMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
 <div class="container mt-4">
     <h2 class="text-center mb-3">Детайли</h2>
     <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
@@ -87,12 +71,5 @@
 </div>
 
 @section Scripts {
-    <script>document.getElementById('deleteModal').addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget;
-            var newsId = button.getAttribute('data-news-id');
-            var newsTitle = button.getAttribute('data-news-title');
-
-            document.getElementById('newsTitle').textContent = newsTitle;
-            document.getElementById('deleteForm').action = '/News/Delete/' + newsId;
-        });</script>
+    <script src="~/js/News/DeleteNewsModal.js" asp-append-version="true"></script>
 }
