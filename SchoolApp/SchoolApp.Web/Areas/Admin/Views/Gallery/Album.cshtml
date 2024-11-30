@@ -67,8 +67,9 @@
                 <div class="modal-body">
                     <input type="hidden" name="albumId" value="@Model.Id" />
                     <div class="mb-3">
-                        <label for="file" class="form-label">Изберете снимка</label>
-                        <input type="file" name="file" class="form-control" accept="image/*" required />
+                        <label asp-for="Image" class="form-label">Изберете снимка</label>
+                        <input asp-for="Image" type="file" name="Image" class="form-control" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -104,5 +105,6 @@
 </div>
 
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script src="~/js/Admin/Gallery/DeleteImageModal.js" asp-append-version="true"></script>
 }

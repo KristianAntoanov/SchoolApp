@@ -13,31 +13,26 @@ namespace SchoolApp.Web.ViewModels.Admin.Teachers
 
         [Required(ErrorMessage = TeacherNameRequiredMessage)]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength,
-            ErrorMessage = "Името трябва да е между {2} и {1} символа")]
-        [Display(Name = "Име")]
+            ErrorMessage = NameStringLengthMessage)]
         public string FirstName { get; set; } = null!;
 
         [Required(ErrorMessage = TeacherNameRequiredMessage)]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength,
-            ErrorMessage = "Фамилията трябва да е между {2} и {1} символа")]
-        [Display(Name = "Фамилия")]
+            ErrorMessage = NameStringLengthMessage)]
         public string LastName { get; set; } = null!;
 
         [Required(ErrorMessage = TeacherJobTitleRequiredMessage)]
         [StringLength(JobTitleMaxLength, MinimumLength = JobTitleMinLength,
-            ErrorMessage = "Длъжността трябва да е между {2} и {1} символа")]
-        [Display(Name = "Длъжност")]
+            ErrorMessage = NameStringLengthMessage)]
         public string JobTitle { get; set; } = null!;
 
         public string? CurrentImageUrl { get; set; }
 
         public string? CurrentImageFileName { get; set; }
 
-        [Display(Name = "Снимка")]
         public IFormFile? Image { get; set; }
 
         [Required(ErrorMessage = TeacherSubjectRequiredMessage)]
-        [Display(Name = "Предмети")]
         public IEnumerable<SubjectsViewModel> AvailableSubjects { get; set; }
             = new HashSet<SubjectsViewModel>();
 

@@ -11,17 +11,17 @@ namespace SchoolApp.Web.ViewModels.Admin.Students
 
         [Required(ErrorMessage = StudentNameRequiredMessage)]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength,
-            ErrorMessage = StudentNameStringLengthMessage)]
+            ErrorMessage = NameStringLengthMessage)]
         public string FirstName { get; set; } = null!;
 
         [Required(ErrorMessage = StudentNameRequiredMessage)]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength,
-            ErrorMessage = StudentNameStringLengthMessage)]
+            ErrorMessage = NameStringLengthMessage)]
         public string MiddleName { get; set; } = null!;
 
         [Required(ErrorMessage = StudentNameRequiredMessage)]
         [StringLength(NameMaxLength, MinimumLength = NameMinLength,
-            ErrorMessage = StudentNameStringLengthMessage)]
+            ErrorMessage = NameStringLengthMessage)]
         public string LastName { get; set; } = null!;
 
         [Required(ErrorMessage = ClassRequiredMessage)]

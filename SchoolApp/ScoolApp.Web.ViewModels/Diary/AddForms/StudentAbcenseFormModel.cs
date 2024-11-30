@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static SchoolApp.Common.ApplicationConstants;
+
+using static SchoolApp.Common.EntityValidationConstants.Student;
+using static SchoolApp.Common.ErrorMessages;
 
 namespace SchoolApp.Web.ViewModels.Diary.AddForms
 {
@@ -8,16 +10,17 @@ namespace SchoolApp.Web.ViewModels.Diary.AddForms
         [Required]
         public int Id { get; set; }
 
-        [Required]
-        [MinLength(NameMinLength)]
-        [MaxLength(NameMaxLength)]
+        [Required(ErrorMessage = StudentNameRequiredMessage)]
+        [StringLength(NameMaxLength, MinimumLength = NameMinLength,
+            ErrorMessage = NameStringLengthMessage)]
         public string FirstName { get; set; } = null!;
 
-        [Required]
-        [MinLength(NameMinLength)]
-        [MaxLength(NameMaxLength)]
+        [Required(ErrorMessage = StudentNameRequiredMessage)]
+        [StringLength(NameMaxLength, MinimumLength = NameMinLength,
+            ErrorMessage = NameStringLengthMessage)]
         public string LastName { get; set; } = null!;
 
+        [Required]
         public bool IsChecked { get; set; } = false;
     }
 }

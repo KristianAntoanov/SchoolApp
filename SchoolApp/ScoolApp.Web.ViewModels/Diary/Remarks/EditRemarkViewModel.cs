@@ -1,6 +1,9 @@
-﻿using SchoolApp.Web.Infrastructure.ValidationAttributes;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
+using SchoolApp.Web.Infrastructure.ValidationAttributes;
+
 using static SchoolApp.Common.ErrorMessages;
+using static SchoolApp.Common.EntityValidationConstants.Remark;
 
 namespace SchoolApp.Web.ViewModels.Diary.Remarks
 {
@@ -20,6 +23,8 @@ namespace SchoolApp.Web.ViewModels.Diary.Remarks
         public int StudentId { get; set; }
 
         [Required(ErrorMessage = RemarkRequiredMessage)]
+        [StringLength(RemarkTextMaxLength, MinimumLength = RemarkTextMinLength,
+            ErrorMessage = RemarkTextStringLengthMessage)]
         public string RemarkText { get; set; } = null!;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static SchoolApp.Common.ApplicationConstants;
+
+using static SchoolApp.Common.EntityValidationConstants.Remark;
 using static SchoolApp.Common.ErrorMessages;
 
 namespace SchoolApp.Web.ViewModels.Diary.AddForms

@@ -1,14 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using static SchoolApp.Common.ErrorMessages;
+using static SchoolApp.Common.EntityValidationConstants.Album;
+
 namespace SchoolApp.Web.ViewModels.Admin.Gallery
 {
 	public class AddAlbumViewModel
 	{
-        [Required(ErrorMessage = "Заглавието е задължително")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "Заглавието трябва да е между 3 и 50 символа")]
+        [Required(ErrorMessage = GalleryTitleRequiredMessage)]
+        [StringLength(TitleMaxLength, MinimumLength = TitleMinLength,
+            ErrorMessage = GalleryTitleStringLengthMessage)]
         public string Title { get; set; } = null!;
 
-        [StringLength(200, ErrorMessage = "Описанието не може да надвишава 200 символа")]
+        [Required(ErrorMessage = GalleryDescriptionRequiredMessage)]
+        [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength,
+            ErrorMessage = GalleryDescriptionStringLengthMessage)]
         public string? Description { get; set; }
     }
 }

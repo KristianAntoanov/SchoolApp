@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 using SchoolApp.Web.Infrastructure.ValidationAttributes;
+
 using static SchoolApp.Common.ErrorMessages;
 
 namespace SchoolApp.Web.ViewModels.Diary.AddForms
