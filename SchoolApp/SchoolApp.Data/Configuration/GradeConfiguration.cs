@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection.Emit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using SchoolApp.Data.Models;
@@ -9,7 +10,9 @@ namespace SchoolApp.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Grade> builder)
         {
-            //throw new NotImplementedException();
+            builder.HasOne(g => g.Teacher)
+                   .WithMany()
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

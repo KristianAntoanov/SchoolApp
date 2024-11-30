@@ -20,6 +20,11 @@ namespace SchoolApp.Data.Models
         [ForeignKey(nameof(SubjectId))]
         public virtual Subject Subject { get; set; } = null!;
 
+        public Guid? TeacherId { get; set; }
+
+        [ForeignKey(nameof(TeacherId))]
+        public Teacher Teacher { get; set; } = null!;
+
         [Required]
         public int GradeValue { get; set; }
 

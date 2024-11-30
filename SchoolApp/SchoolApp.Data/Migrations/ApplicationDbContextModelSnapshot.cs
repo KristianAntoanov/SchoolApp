@@ -22,34 +22,6 @@ namespace SchoolApp.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -132,6 +104,13 @@ namespace SchoolApp.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"),
+                            RoleId = new Guid("bc1bfaec-7297-48f0-a649-f290de46ad74")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -182,6 +161,100 @@ namespace SchoolApp.Data.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Absences");
+                });
+
+            modelBuilder.Entity("SchoolApp.Data.Models.Album", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Albums");
+                });
+
+            modelBuilder.Entity("SchoolApp.Data.Models.Announcement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("PublicationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Announcements");
+                });
+
+            modelBuilder.Entity("SchoolApp.Data.Models.ApplicationRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("bc1bfaec-7297-48f0-a649-f290de46ad74"),
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("951a0b30-2bcb-4e61-b0fa-d90512119130"),
+                            Name = "Parent",
+                            NormalizedName = "PARENT"
+                        },
+                        new
+                        {
+                            Id = new Guid("167b9fd4-2252-4d5f-9b5d-867599a3e746"),
+                            Name = "Teacher",
+                            NormalizedName = "TEACHER"
+                        });
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.ApplicationUser", b =>
@@ -254,17 +327,97 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "464e248f-9049-4db7-ab0d-d29fa437a7d6",
-                            Email = "Peshko@abv.com",
-                            EmailConfirmed = false,
+                            ConcurrencyStamp = "8a093ebf-f3b9-403e-bcbf-5533f224854c",
+                            Email = "Stefan@gmail.com",
+                            EmailConfirmed = true,
                             LockoutEnabled = true,
-                            NormalizedEmail = "PESHKO@ABV.COM",
-                            NormalizedUserName = "PESHKO@ABV.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELyBNC4og2ZWJXHRMHPEdAALdt10Rghc7hLSD15BLqiaoFKpfAgiSbKYLem1zzalUg==",
+                            NormalizedEmail = "STEFAN@GMAIL.COM",
+                            NormalizedUserName = "STEFAN@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGfSSKzMXZf01041tvOFOM+ytNr7GN8drggzzDSvMpG4Hy70+UJJ7QDEsobAVBrP/w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4E84AACC-2DE5-4D08-8761-B93DA7F96F86",
+                            SecurityStamp = "46A8A765-124C-4BB6-9885-E9DED7A7949E",
                             TwoFactorEnabled = false,
-                            UserName = "Peshko@abv.com"
+                            UserName = "Stefan@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "117956f5-15db-400c-903d-63a9c0157193",
+                            Email = "Margarita@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "MARGARITA@GMAIL.COM",
+                            NormalizedUserName = "MARGARITA@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKCEORRGWK/14Ywm9ko3iTMGUzFGsKZvGQOY0Xz+rpf0LRur8cmXtIZG6ALnE9WeKg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "270A966E-DFC5-49F7-A4E7-426394B559E0",
+                            TwoFactorEnabled = false,
+                            UserName = "Margarita@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "17f62ab4-da94-41ec-b94e-442df079043b",
+                            Email = "Maria@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "MARIA@GMAIL.COM",
+                            NormalizedUserName = "MARIA@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEW0N8aOEr9gfpZK52QGJA4tCSl/7oMKGrgwQSLrLwcsN6CKqW1j9BCRy1TSej6YBQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1ED56D26-BAB0-4436-BE12-5D475C6A199E",
+                            TwoFactorEnabled = false,
+                            UserName = "Maria@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("d040cb3e-ae29-4045-943c-4030a4249476"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "3759b6ff-3b61-4cd4-af8c-d2c1d827eb7a",
+                            Email = "Ani@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "ANI@GMAIL.COM",
+                            NormalizedUserName = "ANI@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMpOMYszk6RfMSD2XcmdoReFCt3xixgK+7ffQj58LpTccVz4E6U5JXCOqMmheoXQkg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "98F44674-7EC8-48FE-BB0B-1444B0C2A8B2",
+                            TwoFactorEnabled = false,
+                            UserName = "Ani@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a02cb12a-702a-4223-b6bc-2aed3c0ecbb6",
+                            Email = "Tsveti@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "TSVETI@GMAIL.COM",
+                            NormalizedUserName = "TSVETI@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEr5ssKigIYrp+yQweiI2oyLfZ+TJ3adFWa29WnJKzFshHXCaiJpg+wzrl8arZr7hA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "C5306DA7-98D7-4C13-B981-36CACB3C76D1",
+                            TwoFactorEnabled = false,
+                            UserName = "Tsveti@gmail.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e55ea35e-4612-42d0-bbce-fab5e4b07b14",
+                            Email = "Emilia@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "EMILIA@GMAIL.COM",
+                            NormalizedUserName = "EMILIA@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGwjAEzX2ERXY/TrH/f+VDO0WERhnud9mMJsBc0zMXLX/c0CWXatiU3HAlY6TaSEEA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0EF0F0C3-3B6A-43E7-8C1C-F782FA7F7504",
+                            TwoFactorEnabled = false,
+                            UserName = "Emilia@gmail.com"
                         });
                 });
 
@@ -327,6 +480,27 @@ namespace SchoolApp.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("SchoolApp.Data.Models.GalleryImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AlbumId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(2083)
+                        .HasColumnType("nvarchar(2083)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("GalleryImages");
+                });
+
             modelBuilder.Entity("SchoolApp.Data.Models.Grade", b =>
                 {
                     b.Property<int>("Id")
@@ -347,13 +521,56 @@ namespace SchoolApp.Data.Migrations
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("StudentId");
 
                     b.HasIndex("SubjectId");
 
+                    b.HasIndex("TeacherId");
+
                     b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("SchoolApp.Data.Models.News", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(2083)
+                        .HasColumnType("nvarchar(2083)");
+
+                    b.Property<bool>("IsArchived")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime>("PublicationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Remark", b =>
@@ -378,11 +595,16 @@ namespace SchoolApp.Data.Migrations
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("TeacherId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("StudentId");
 
                     b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Remarks");
                 });
@@ -1257,7 +1479,7 @@ namespace SchoolApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ApplicationUserId")
+                    b.Property<Guid?>("ApplicationUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
@@ -1282,14 +1504,16 @@ namespace SchoolApp.Data.Migrations
 
                     b.HasKey("GuidId");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("ApplicationUserId")
+                        .IsUnique()
+                        .HasFilter("[ApplicationUserId] IS NOT NULL");
 
                     b.ToTable("Teachers");
 
                     b.HasData(
                         new
                         {
-                            GuidId = new Guid("d3c9013f-544d-419d-a5fd-8ea3be1845a5"),
+                            GuidId = new Guid("8dba352b-6027-4bcb-b5d9-4585381b3930"),
                             ApplicationUserId = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
                             FirstName = "Стефан",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1298,8 +1522,8 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("5410f987-f5e2-4c36-812f-f202591beb17"),
-                            ApplicationUserId = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
+                            GuidId = new Guid("24eebace-ba21-4a57-b421-c74b131aca68"),
+                            ApplicationUserId = new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"),
                             FirstName = "Маргарита",
                             ImageUrl = "/img/No_Image.jpg",
                             JobTitle = "Учител",
@@ -1307,8 +1531,8 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("cbd04e6a-a63d-4f6b-81d1-222f306dda47"),
-                            ApplicationUserId = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
+                            GuidId = new Guid("790ed914-ac05-441a-a2cd-60cf81051e92"),
+                            ApplicationUserId = new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"),
                             FirstName = "Мария",
                             ImageUrl = "/img/No_Image.jpg",
                             JobTitle = "Учител",
@@ -1316,8 +1540,8 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("ff202b5a-0e0e-44c7-b035-d179a02d9d0d"),
-                            ApplicationUserId = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
+                            GuidId = new Guid("f189e8ec-6c34-4053-a84f-42e8a7ec7f9e"),
+                            ApplicationUserId = new Guid("d040cb3e-ae29-4045-943c-4030a4249476"),
                             FirstName = "Ани",
                             ImageUrl = "/img/No_Image.jpg",
                             JobTitle = "Учител",
@@ -1325,8 +1549,8 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("44795218-56d3-4083-a973-126dbd5f90bd"),
-                            ApplicationUserId = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
+                            GuidId = new Guid("9b3d7d44-d831-42c7-abae-ff5af6e72e03"),
+                            ApplicationUserId = new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"),
                             FirstName = "Цветелина",
                             ImageUrl = "/img/No_Image.jpg",
                             JobTitle = "Заместник-директор",
@@ -1334,8 +1558,8 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("5f82fcaf-733a-44d8-af03-541c970719ab"),
-                            ApplicationUserId = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
+                            GuidId = new Guid("5d14d4c1-3245-46cb-a361-08c6ab596dab"),
+                            ApplicationUserId = new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"),
                             FirstName = "Емилия",
                             ImageUrl = "/img/No_Image.jpg",
                             JobTitle = "Заместник-директор",
@@ -1345,7 +1569,7 @@ namespace SchoolApp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                    b.HasOne("SchoolApp.Data.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1372,7 +1596,7 @@ namespace SchoolApp.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                    b.HasOne("SchoolApp.Data.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1424,6 +1648,17 @@ namespace SchoolApp.Data.Migrations
                     b.Navigation("Section");
                 });
 
+            modelBuilder.Entity("SchoolApp.Data.Models.GalleryImage", b =>
+                {
+                    b.HasOne("SchoolApp.Data.Models.Album", "Album")
+                        .WithMany("Images")
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
+                });
+
             modelBuilder.Entity("SchoolApp.Data.Models.Grade", b =>
                 {
                     b.HasOne("SchoolApp.Data.Models.Student", "Student")
@@ -1438,9 +1673,16 @@ namespace SchoolApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SchoolApp.Data.Models.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Student");
 
                     b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Remark", b =>
@@ -1457,9 +1699,16 @@ namespace SchoolApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SchoolApp.Data.Models.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Student");
 
                     b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Student", b =>
@@ -1522,12 +1771,16 @@ namespace SchoolApp.Data.Migrations
             modelBuilder.Entity("SchoolApp.Data.Models.Teacher", b =>
                 {
                     b.HasOne("SchoolApp.Data.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithOne()
+                        .HasForeignKey("SchoolApp.Data.Models.Teacher", "ApplicationUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("SchoolApp.Data.Models.Album", b =>
+                {
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Class", b =>

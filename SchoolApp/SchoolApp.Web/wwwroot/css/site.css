@@ -20,3 +20,333 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Grade Table Style */
+
+.grade-cell {
+    width: 50px;
+    padding: 0.6em 0.6em;
+    justify-content: center;
+}
+
+.th-ix {
+    width: 50px;
+}
+
+.th-x {
+    width: 50px;
+}
+
+.th-xi {
+    width: 50px;
+}
+
+.th-xii {
+    width: 50px;
+}
+
+.th-i-ii {
+    width: 65px;
+}
+
+.th-term1 {
+    width: 100px;
+}
+
+.th-iii {
+    width: 50px;
+}
+
+.th-iv {
+    width: 50px;
+}
+
+.th-v {
+    width: 50px;
+}
+
+.th-vi-vii {
+    width: 65px;
+}
+
+.th-term2 {
+    width: 115px;
+}
+
+.grade-value {
+    padding: 0.3em 0.6em;
+    border-radius: 10%;
+    font-size: 95%;
+    color: white;
+    font-weight: bold;
+}
+    .grade-value:not(:last-child) {
+        margin-bottom: 2px;
+    }
+
+.grade-2 {
+    background-color: red;
+}
+
+.grade-3 {
+    background-color: #ff8000;
+}
+
+.grade-4 {
+    background-color: #f0c800;
+}
+
+.grade-5 {
+    background-color: #a3c20a;
+}
+
+.grade-6 {
+    background-color: #393;
+}
+
+.grade-box {
+    width: 30px;  
+    height: 30px;
+    border: 1px solid #ccc;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .grade-box:hover {
+        background-color: #e9ecef;
+    }
+
+    .grade-box.selected {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+
+.grade-display {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 4px;
+    background-color: #f8f9fa;
+}
+
+/* Popover Style */
+
+.popover {
+    max-width: 400px;
+}
+
+.popover-body {
+    padding: 20px;
+}
+
+/* Това ще направи курсора да показва, че елементът е кликабилен */
+.grade-value {
+    cursor: pointer;
+    max-width: 30px;
+    max-height: 30px;
+}
+
+/* Home Image Style */
+
+@keyframes slideFromBottom {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.slide-up {
+    animation: slideFromBottom 1s ease-out forwards;
+}
+
+.image-container {
+    overflow: hidden;
+    position: relative;
+}
+
+/* Contact Info Style */
+
+.contact-input {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+    .contact-input:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+        outline: none;
+    }
+
+.contact-info {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+}
+
+/* Опционално: Ако искате hover ефект */
+.contact-input:hover {
+    border-color: #0d6efd;
+}
+
+.contact-container {
+    position: relative;
+}
+
+.map-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+.custom-navbar {
+    padding: 1rem 0;
+    background-color: #6A1E55 !important;
+}
+
+    .custom-navbar .navbar-brand,
+    .custom-navbar .nav-link {
+        color: white !important;
+    }
+
+    .custom-navbar .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    .custom-navbar .nav-link {
+        font-size: 1.1rem;
+        margin: 0 10px;
+        position: relative;
+        overflow: hidden;
+    }
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #e76f51;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease-out;
+}
+
+.nav-link:hover::before {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* Добавете тези стилове във вашия CSS файл */
+.navbar-toggler {
+    border-color: rgba(255,255,255,.7) !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* За да сме сигурни, че менюто ще е видимо при collapse състояние */
+.navbar-collapse {
+    background-color: #6A1E55;
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden; /* Добавете това */
+}
+
+.container-fluid {
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 100vw; /* Добавете това */
+}
+
+@media (max-width: 768px) {
+    .navbar-collapse {
+        margin-top: 10px;
+    }
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.custom-footer {
+    background-color: #6A1E55 !important;
+    color: white !important;
+    padding: 2rem 0;
+    width: 100%;
+    flex-shrink: 0; /* Това предотвратява свиването на footer-а */
+}
+/* Ако имате някакъв margin отдолу на main секцията, премахнете го */
+.main {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+.mainDiv{
+    justify-content: center;
+}
+
+.positionUp{
+    position:relative;
+    right: 0;
+    left: 0;
+}
+
+/* Start Dropdown Custom Styles */
+.dropdown-menu {
+    background-color: #6A1E55 !important;
+    border: none;
+}
+
+.dropdown-item {
+    color: white !important;
+    position: relative;
+    overflow: hidden;
+}
+
+    .dropdown-item::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: #e76f51;
+        transform: translateX(-50%) scaleX(0);
+        transform-origin: center;
+        transition: transform 0.3s ease-out;
+    }
+
+    .dropdown-item:hover {
+        background-color: #6A1E55 !important;
+    }
+
+        .dropdown-item:hover::before {
+            transform: translateX(-50%) scaleX(1);
+        }
+/* End Dropdown Custom Styles */
+
+#toast-container > div {
+    opacity: 1 !important;
+}

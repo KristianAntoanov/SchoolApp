@@ -1,54 +1,95 @@
 ﻿using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
-using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Data.Repository;
+using SchoolApp.Data;
+using Microsoft.AspNetCore.Identity;
+using SchoolApp.Data.Models;
 
 namespace SchoolApp.Web.Infrastructure.Extensions
 {
-	public static class ServiceCollectionExtensions
-	{
-		public static void RegisterRepositories(this IServiceCollection services, Assembly modelsAssembly)
-		{
-			//TODO Re-write this ! 
+    public static class ServiceCollectionExtensions
+    {
+        public static IServiceCollection AddApplicationDatabase(this IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-			Type[] typesToExclude = new Type[] { typeof(ApplicationUser) };
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
-			Type[] modelTypes = modelsAssembly.GetTypes()
-				.Where(t => !t.IsAbstract && !t.IsInterface)
-				.ToArray();
+            return services;
+        }
 
-			foreach (var type in modelTypes)
-			{
-				if (!typesToExclude.Contains(type))
-				{
-					Type repositoryInterface = typeof(IRepository<,>);
-					Type repositoryInstanceType = typeof(BaseRepository<,>);
+        public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
+                options.Password.RequireDigit =
+                    configuration.GetValue<bool>("Identity:Password:RequireDigits");
+                options.Password.RequireLowercase =
+                    configuration.GetValue<bool>("Identity:Password:RequireLowercase");
+                options.Password.RequireUppercase =
+                    configuration.GetValue<bool>("Identity:Password:RequireUppercase");
+                options.Password.RequireNonAlphanumeric =
+                    configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
+                options.Password.RequiredLength =
+                    configuration.GetValue<int>("Identity:Password:RequiredLength");
+                options.Password.RequiredUniqueChars =
+                    configuration.GetValue<int>("Identity:Password:RequiredUniqueCharacters");
 
-					PropertyInfo? idPropInfo = type
-						.GetProperties()
-						.Where(p => p.Name.ToLower() == "id")
-						.FirstOrDefault();
+                options.SignIn.RequireConfirmedAccount =
+                    configuration.GetValue<bool>("Identity:SignIn:RequiredConfirmedAccount");
+                options.SignIn.RequireConfirmedEmail =
+                    configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedEmail");
+                options.SignIn.RequireConfirmedPhoneNumber =
+                    configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedPhoneNumber");
 
-					Type[] constructArgs = new Type[2];
-					constructArgs[0] = type;
+                options.User.RequireUniqueEmail =
+                    configuration.GetValue<bool>("Identity:User:RequireUniqueEmail");
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders()
+            .AddRoles<ApplicationRole>()
+            .AddSignInManager<SignInManager<ApplicationUser>>()
+            .AddUserManager<UserManager<ApplicationUser>>()
+            .AddDefaultUI();
 
-                    if (idPropInfo == null)
-					{
-						constructArgs[1] = typeof(object);
-                    }
-					else
-					{
-						constructArgs[1] = idPropInfo.PropertyType;
-                    }
-					repositoryInterface = repositoryInterface.MakeGenericType(constructArgs);
-					repositoryInstanceType = repositoryInstanceType.MakeGenericType(constructArgs);
+            return services;
+        }
 
-					services.AddScoped(repositoryInterface, repositoryInstanceType);
-				}
-			}
-		}
-	}
+        public static void RegisterRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IRepository, BaseRepository>();
+        }
+
+        public static void RegisterUserDefinedServices(this IServiceCollection services, Assembly serviceAssembly)
+        {
+            Type[] serviceInterfaceTypes = serviceAssembly
+                .GetTypes()
+                .Where(t => t.IsInterface)
+                .ToArray();
+            Type[] serviceTypes = serviceAssembly
+                .GetTypes()
+                .Where(t => !t.IsInterface && !t.IsAbstract &&
+                             t.Name.ToLower().EndsWith("service"))
+                .ToArray();
+
+            foreach (Type serviceInterfaceType in serviceInterfaceTypes)
+            {
+                Type? serviceType = serviceTypes
+                    .SingleOrDefault(t => "i" + t.Name.ToLower() == serviceInterfaceType.Name.ToLower());
+                if (serviceType == null)
+                {
+                    throw new NullReferenceException($"Service type could not be obtained for the service {serviceInterfaceType.Name}");
+                }
+
+                services.AddScoped(serviceInterfaceType, serviceType);
+            }
+        }
+    }
 }

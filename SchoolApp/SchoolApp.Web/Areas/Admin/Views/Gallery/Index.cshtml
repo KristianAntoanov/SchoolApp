@@ -1,0 +1,100 @@
+﻿@model IEnumerable<MenageAlbumsViewModel>
+@{
+    ViewBag.Title = "Управление на галерия";
+}
+
+<div class="text-center mt-3 mb-3">
+    <h1 class="text-uppercase fw-bold mb-3" style="font-size: 2rem;">
+        Управление на галерия
+    </h1>
+    <div class="mx-auto" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Списък с албуми</h5>
+            <div class="d-flex gap-2">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-light">
+                    <i class="fas fa-arrow-left me-2"></i>Назад
+                </a>
+                <a asp-controller="Gallery" asp-action="AddAlbum" class="btn btn-light">
+                    <i class="fa-solid fa-plus me-2"></i>Добави албум
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <div class="text-center">
+                <p>Няма добавени албуми</p>
+            </div>
+        }
+        else
+        {
+            @foreach (var album in Model)
+            {
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <h5 class="mb-0">@album.Title</h5>
+                            </div>
+                            <div class="col-md-5">
+                                <p class="mb-0 text-muted">@(album.Description ?? "Няма описание")</p>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a asp-controller="Gallery"
+                                       asp-action="Album"
+                                       asp-route-id="@album.Id"
+                                       class="btn btn-primary">
+                                        <i class="fas fa-folder-open me-2"></i>Отвори
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-album-id="@album.Id"
+                                            data-album-title="@album.Title">
+                                        <i class="fas fa-trash me-2"></i>Изтрий
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Потвърждение за изтриване</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Сигурни ли сте, че искате да изтриете албум <span id="albumTitleToDelete" class="fw-bold"></span>?</p>
+                <p class="text-danger mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Внимание: Всички снимки в албума ще бъдат изтрити!
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
+                <form id="deleteForm" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Изтрий</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Admin/Gallery/DeleteAlbumModal.js" asp-append-version="true"></script>
+}

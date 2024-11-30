@@ -1,0 +1,81 @@
+﻿@model IEnumerable<StudentGradesViewModel>
+
+@{
+    string GetColumnKey(DateTime date)
+    {
+        return date.Month switch
+        {
+            9 => "IX",
+            10 => "X",
+            11 => "XI",
+            12 => "XII",
+            1 or 2 => "I_II",
+            3 => "III",
+            4 => "IV",
+            5 => "V",
+            6 or 7 => "VI_VII",
+            _ => ""
+        };
+    }
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-light">
+            <tr>
+                <th rowspan="2">Ученик</th>
+                <th colspan="6">Първи срок</th>
+                <th colspan="5">Втори срок</th>
+                <th rowspan="2">Годишна</th>
+            </tr>
+            <tr>
+                <th class="th-ix">IX</th>
+                <th class="th-x">X</th>
+                <th class="th-xi">XI</th>
+                <th class="th-xii">XII</th>
+                <th class="th-i-ii">I, II</th>
+                <th class="th-term1 table-secondary">Срочна</th>
+                <th class="th-iii">III</th>
+                <th class="th-iv">IV</th>
+                <th class="th-v">V</th>
+                <th class="th-vi-vii">VI, VII</th>
+                <th class="th-term2 table-secondary">Срочна</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.FirstName @student.LastName</td>
+                    @{
+                        var gradesByMonth = student.Grades
+                            .GroupBy(g => GetColumnKey(g.GradeDate))
+                            .ToDictionary(g => g.Key, g => g.ToList());
+
+                        var columns = new[] { "IX", "X", "XI", "XII", "I_II", "Term1", "III", "IV", "V", "VI_VII", "Term2", "Year" };
+
+                        foreach (var column in columns)
+                        {
+                            <td class="grade-cell">
+                                @if (gradesByMonth.ContainsKey(column))
+                                {
+                                    foreach (var grade in gradesByMonth[column])
+                                    {
+                                        <div class="@($"grade-value grade-{grade.GradeValue}")"
+                                             tabindex="0"
+                                             data-bs-toggle="popover"
+                                             data-bs-custom-class="custom-popover"
+                                             data-bs-title="Детайли за оценката"
+                                             data-bs-content="Създадено от @grade.TeacherName на @grade.GradeDate.ToString("dd/MM/yyyy")">
+                                            @grade.GradeValue
+                                        </div>
+                                    }
+                                }
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

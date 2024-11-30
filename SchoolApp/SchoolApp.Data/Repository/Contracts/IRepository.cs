@@ -1,28 +1,40 @@
-﻿namespace SchoolApp.Data.Repository.Contracts
+﻿using System.Linq.Expressions;
+
+namespace SchoolApp.Data.Repository.Contracts
 {
-	public interface IRepository<TType, TId>
+	public interface IRepository
 	{
-        TType? GetById(TId id);
+        void Add<T>(T item) where T : class;
+        Task AddAsync<T>(T item) where T : class;
 
-        Task<TType?> GetByIdAsync(TId id);
+        void AddRange<T>(ICollection<T> items) where T : class;
+        Task AddRangeAsync<T>(ICollection<T> items) where T : class;
 
-		IEnumerable<TType> GetAll();
+        bool Delete<T>(int id) where T : class;
+        Task<bool> DeleteAsync<T>(int id) where T : class;
 
-		Task<IEnumerable<TType>> GetAllAsync();
+        bool DeleteByGuidId<T>(Guid id) where T : class;
+        Task<bool> DeleteByGuidIdAsync<T>(Guid id) where T : class;
 
-        IQueryable<TType> GetAllAttached();
+        void DeleteRange<T>(IEnumerable<T> entities) where T : class;
+        Task DeleteRangeAsync<T>(IEnumerable<T> entities) where T : class;
 
-        void Add(TType item);
+        IEnumerable<T> GetAll<T>() where T : class;
+        Task<IEnumerable<T>> GetAllAsync<T>() where T : class;
 
-		Task AddAsync(TType item);
+        IQueryable<T> GetAllAttached<T>() where T : class;
 
-		bool Delete(TId id);
+        T? GetById<T>(int id) where T : class;
+        Task<T?> GetByIdAsync<T>(int id) where T : class;
 
-		Task<bool> DeleteAsync(TId id);
+        T? GetByGuidId<T>(Guid id) where T : class;
+        Task<T?> GetByGuidIdAsync<T>(Guid id) where T : class;
 
-		bool Update(TType item);
+        T? FirstOrDefault<T>(Func<T, bool> predicate) where T : class;
+        Task<T?> FirstOrDefaultAsync<T>(Expression<Func<T, bool>> predicate) where T : class;
 
-		Task<bool> UpdateAsync(TType item);
+        bool Update<T>(T item) where T : class;
+        Task<bool> UpdateAsync<T>(T item) where T : class;
 
         //TODO to think about making save methods
     }

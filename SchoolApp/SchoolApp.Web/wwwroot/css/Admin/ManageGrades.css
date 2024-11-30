@@ -1,0 +1,36 @@
+﻿.grade-cell {
+    min-width: 80px;
+    height: 50px;
+    padding: 0.5rem !important;
+}
+
+.grade-container {
+    position: relative;
+    display: inline-block;
+    padding: 0.25rem 1.5rem 0.25rem 0.25rem;
+}
+
+.grade {
+    font-weight: 500;
+}
+
+.delete-grade {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.grade-container:hover .delete-grade {
+    opacity: 1;
+}
+
+.delete-grade:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+th {
+    white-space: nowrap;
+}

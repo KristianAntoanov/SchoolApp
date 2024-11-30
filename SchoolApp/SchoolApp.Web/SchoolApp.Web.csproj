@@ -17,6 +17,7 @@
 <PrivateAssets>all</PrivateAssets>
 </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,15 +33,68 @@
     <ProjectReference Include="..\ScoolApp.Web.ViewModels\SchoolApp.Web.ViewModels.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\SchoolApp.Common\SchoolApp.Common.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\Diary\" />
+    <None Remove="Views\Team\" />
+    <None Remove="Areas\Admin\Controllers\" />
+    <None Remove="Areas\Admin\Views\" />
+    <None Remove="Areas\Admin\.DS_Store" />
+    <None Remove="Areas\Admin\Views\Shared\" />
+    <None Remove="Areas\Admin\Views\Home\" />
+    <None Remove="Areas\Admin\Views\Students\" />
+    <None Remove="Areas\Admin\Views\Teachers\" />
+    <None Remove="Areas\Admin\Views\Roles\" />
+    <None Remove="Views\Gallery\" />
+    <None Remove="Areas\Admin\Views\Gallery\" />
+    <None Remove="Views\News\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Diary\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\js\Diary\" />
+    <Folder Include="wwwroot\js\Diary\Popovers\" />
+    <Folder Include="wwwroot\js\Diary\AddGrades\" />
+    <Folder Include="wwwroot\js\Diary\DateValidation\" />
+    <Folder Include="Views\Team\" />
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Admin\Views\Home\" />
+    <Folder Include="Areas\Admin\Views\Students\" />
+    <Folder Include="wwwroot\js\Admin\" />
+    <Folder Include="Areas\Admin\Views\Teachers\" />
+    <Folder Include="Areas\Admin\Views\Roles\" />
+    <Folder Include="Views\Gallery\" />
+    <Folder Include="Areas\Admin\Views\Gallery\" />
+    <Folder Include="Views\News\" />
+    <Folder Include="wwwroot\js\Admin\Students\" />
+    <Folder Include="wwwroot\js\Admin\Home\" />
+    <Folder Include="wwwroot\js\Admin\Gallery\" />
+    <Folder Include="wwwroot\js\Admin\Teachers\" />
+    <Folder Include="wwwroot\css\Admin\" />
+    <Folder Include="wwwroot\css\News\" />
+    <Folder Include="wwwroot\js\News\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
+    <Content Remove="wwwroot\js\Diary\" />
+    <Content Remove="wwwroot\js\Diary\Popovers\" />
+    <Content Remove="wwwroot\js\Diary\AddGrades\" />
+    <Content Remove="wwwroot\js\Diary\DateValidation\" />
+    <Content Remove="wwwroot\js\Admin\" />
+    <Content Remove="wwwroot\js\Admin\Students\" />
+    <Content Remove="wwwroot\js\Admin\Home\" />
+    <Content Remove="wwwroot\js\Admin\Gallery\" />
+    <Content Remove="wwwroot\js\Admin\Teachers\" />
+    <Content Remove="wwwroot\css\Admin\" />
+    <Content Remove="wwwroot\css\News\" />
+    <Content Remove="wwwroot\js\News\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\lib\css\.DS_Store" />
   </ItemGroup>
 </Project>

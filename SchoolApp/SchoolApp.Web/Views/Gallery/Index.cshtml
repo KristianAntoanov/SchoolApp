@@ -1,0 +1,92 @@
+﻿@model IEnumerable<AlbumViewModel>
+
+<div class="container mt-5">
+    <h2 class="text-center">Галерия</h2>
+    <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+    @if (!Model.Any())
+    {
+        <div class="text-center my-5">
+            <i class="fas fa-images fa-4x mb-3 text-muted"></i>
+            <h3 class="text-muted">Все още няма създадени албуми</h3>
+            <p class="text-muted">Моля, проверете отново по-късно.</p>
+        </div>
+    }
+    else
+    {
+        foreach (var album in Model)
+        {
+            <div class="card mb-5 shadow">
+                <div class="card-header text-dark">
+                    <h3 class="text-center mb-1 mt-1">@album.Title</h3>
+                    @if (!string.IsNullOrEmpty(album.Description))
+                    {
+                        <div class="text-center mb-0 mt-2 text-dark-50 mx-5">
+                            <i class="fas fa-quote-left fa-sm me-2"></i>
+                            <span>@album.Description</span>
+                            <i class="fas fa-quote-right fa-sm ms-2"></i>
+                        </div>
+                    }
+                </div>
+                <div class="card-body p-0">
+                    @if (album.Images.Any())
+                    {
+                        var carouselId = $"carousel_{album.Id}";
+
+                        <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                @for (int i = 0; i < album.Images.Count(); i++)
+                                {
+                                    <button type="button"
+                                            data-bs-target="#@carouselId"
+                                            data-bs-slide-to="@i"
+                                            class="@(i == 0 ? "active" : "")"
+                                            aria-current="@(i == 0 ? "true" : "false")"
+                                            aria-label="Slide @(i + 1)">
+                                    </button>
+                                }
+                            </div>
+
+                            <div class="carousel-inner">
+                                @{
+                                    var isFirst = true;
+                                    foreach (var image in album.Images)
+                                    {
+                                        <div class="carousel-item @(isFirst ? "active" : "")">
+                                            <img src="@image.ImageUrl"
+                                                 class="d-block w-100"
+                                                 alt="Image from @album.Title"
+                                                 style="height: 600px; object-fit: cover;">
+                                        </div>
+                                        isFirst = false;
+                                    }
+                                }
+                            </div>
+
+                            <button class="carousel-control-prev"
+                                    type="button"
+                                    data-bs-target="#@carouselId"
+                                    data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next"
+                                    type="button"
+                                    data-bs-target="#@carouselId"
+                                    data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center my-4">
+                            <i class="fas fa-image fa-2x mb-2 text-muted"></i>
+                            <p class="text-muted">Този албум все още няма добавени снимки</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>

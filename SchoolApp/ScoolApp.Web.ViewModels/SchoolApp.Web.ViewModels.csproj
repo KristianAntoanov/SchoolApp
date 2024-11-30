@@ -6,4 +6,38 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SchoolApp.Common\SchoolApp.Common.csproj" />
+    <ProjectReference Include="..\SchoolApp.Web.Infrastructure\SchoolApp.Web.Infrastructure.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Diary\" />
+    <None Remove="Diary\Absences\" />
+    <None Remove="Diary\Grades\" />
+    <None Remove="Diary\Remarks\" />
+    <None Remove="Diary\AddForms\" />
+    <None Remove="Team\" />
+    <None Remove="Admin\" />
+    <None Remove="Admin\Students\" />
+    <None Remove="Admin\Teachers\" />
+    <None Remove="Admin\Roles\" />
+    <None Remove="Gallery\" />
+    <None Remove="Admin\Gallery\" />
+    <None Remove="News\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Diary\" />
+    <Folder Include="Diary\Absences\" />
+    <Folder Include="Diary\Grades\" />
+    <Folder Include="Diary\Remarks\" />
+    <Folder Include="Diary\AddForms\" />
+    <Folder Include="Team\" />
+    <Folder Include="Admin\" />
+    <Folder Include="Admin\Students\" />
+    <Folder Include="Admin\Teachers\" />
+    <Folder Include="Admin\Roles\" />
+    <Folder Include="Gallery\" />
+    <Folder Include="Admin\Gallery\" />
+    <Folder Include="News\" />
+  </ItemGroup>
 </Project>
