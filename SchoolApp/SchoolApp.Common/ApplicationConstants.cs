@@ -12,5 +12,9 @@
 
         public const int RemarkTextMinLength = 5;
         public const int RemarkTextMaxLength = 300;
+
+        public const string AzureNewsContainerName = "newsimages";
+        public const string AzureGalleryContainerName = "galleryimages";
+        public const string AzureTeacherContainerName = "teachersimages";
     }
 }
