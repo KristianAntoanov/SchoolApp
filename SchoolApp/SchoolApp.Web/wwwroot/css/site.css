@@ -347,3 +347,6 @@ html, body {
         }
 /* End Dropdown Custom Styles */
 
+#toast-container > div {
+    opacity: 1 !important;
+}

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SchoolApp.Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/toastr.js/toastr.min.css" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
@@ -66,8 +67,21 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script defer>
+            message.showSuccess('@TempData["SuccessMessage"]');
+        </script>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script defer>
+            message.showError('@TempData["SuccessMessage"]');
+        </script>
+    }
 </body>
 </html>
 
