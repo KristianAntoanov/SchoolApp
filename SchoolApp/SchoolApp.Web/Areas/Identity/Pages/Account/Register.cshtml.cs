@@ -132,8 +132,24 @@ namespace SchoolApp.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Потвърждение на регистрация",
+                                $@"<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;'>
+                                    <h2>Добре дошли!</h2>
+                                    <p>Благодарим Ви за регистрацията в нашата система.</p>
+                                    <p>За да активирате своя акаунт, моля натиснете бутона по-долу:</p>
+                                    <div style='text-align: center; margin: 30px 0;'>
+                                        <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' 
+                                           style='background-color: #007bff; color: white; padding: 12px 30px; 
+                                                  text-decoration: none; border-radius: 5px; display: inline-block;'>
+                                            Потвърди регистрацията
+                                        </a>
+                                    </div>
+                                    <p>Ако бутонът не работи, можете да копирате и поставите следния линк в браузъра си:</p>
+                                    <p style='word-break: break-all;'>{HtmlEncoder.Default.Encode(callbackUrl)}</p>
+                                    <p>Ако не сте заявили тази регистрация, можете да игнорирате това съобщение.</p>
+                                    <hr style='margin: 20px 0;'>
+                                    <p style='color: #666; font-size: 12px;'>Това е автоматично генериран имейл, моля не отговаряйте на него.</p>
+                                </div>");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
