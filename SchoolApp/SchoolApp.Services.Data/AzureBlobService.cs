@@ -19,6 +19,7 @@ namespace SchoolApp.Services.Data
             _newsContainerClient = _blobServiceClient.GetBlobContainerClient(AzureNewsContainerName);
             _galleryContainerClient = _blobServiceClient.GetBlobContainerClient(AzureGalleryContainerName);
             _teacherContainerClient = _blobServiceClient.GetBlobContainerClient(AzureTeacherContainerName);
+            //TODO think to use GetBlobContainersAsync()
         }
 
         public async Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadTeacherImageAsync(IFormFile file, string firstName, string lastName)

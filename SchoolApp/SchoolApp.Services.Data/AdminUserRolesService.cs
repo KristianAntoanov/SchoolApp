@@ -5,6 +5,7 @@ using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Roles;
+using SchoolApp.Web.ViewModels.Admin.Students;
 
 namespace SchoolApp.Services.Data
 {
@@ -23,18 +24,26 @@ namespace SchoolApp.Services.Data
             _roleManager = roleManager;
         }
 
-        public async Task<IEnumerable<UserRolesViewModel>> GetAllUsersWithRolesAsync()
+        public async Task<PaginatedList<UserRolesViewModel>> GetPagedUsersWithRolesAsync(int pageNumber, int pageSize)
         {
-            IEnumerable<ApplicationUser> users = await _repository.GetAllAsync<ApplicationUser>();
+            var totalItems = await _repository.GetAllAttached<ApplicationUser>().CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var pagedUsers = await _repository
+                .GetAllAttached<ApplicationUser>()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
             List<UserRolesViewModel> viewModels = new List<UserRolesViewModel>();
 
-            foreach (var user in users)
+            foreach (var user in pagedUsers)
             {
                 IList<string> roles = await _userManager.GetRolesAsync(user);
                 Guid? teacherId = await GetTeacherIdByUserIdAsync(user.Id);
 
-                // Подаваме текущия teacherId към метода
-                var availableTeachers = await GetAvailableTeachersForAssignmentAsync(teacherId);
+                IEnumerable<TeacherDropdownViewModel> availableTeachers =
+                    await GetAvailableTeachersForAssignmentAsync(teacherId);
 
                 viewModels.Add(new UserRolesViewModel
                 {
@@ -48,12 +57,19 @@ namespace SchoolApp.Services.Data
                 });
             }
 
-            return viewModels;
+            return new PaginatedList<UserRolesViewModel>
+            {
+                Items = viewModels,
+                PageNumber = pageNumber,
+                TotalPages = totalPages,
+                TotalItems = totalItems
+            };
         }
 
         public async Task<(bool success, string message)> UpdateUserTeacherAsync(Guid userId, Guid? teacherId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
+
             if (user == null)
             {
                 return (false, "Потребителят не беше намерен.");
@@ -82,6 +98,7 @@ namespace SchoolApp.Services.Data
         public async Task<(bool success, string message)> UpdateUserRolesAsync(Guid userId, List<string> roles)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
+
             if (user == null)
             {
                 return (false, "Потребителят не беше намерен.");
@@ -100,7 +117,7 @@ namespace SchoolApp.Services.Data
 
         public async Task<bool> UpdateTeacherUserAsync(Guid userId, Guid? teacherId)
         {
-            var currentTeacher = await _repository
+            Teacher? currentTeacher = await _repository
                 .GetAllAttached<Teacher>()
                 .FirstOrDefaultAsync(t => t.ApplicationUserId == userId);
 
@@ -112,7 +129,7 @@ namespace SchoolApp.Services.Data
 
             if (teacherId.HasValue)
             {
-                var newTeacher = await _repository
+                Teacher? newTeacher = await _repository
                     .GetAllAttached<Teacher>()
                     .FirstOrDefaultAsync(t => t.GuidId == teacherId.Value);
 
