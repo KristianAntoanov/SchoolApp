@@ -1,0 +1,18 @@
+﻿.director-card, .team-card {
+    background-color: #f8f9fa;
+    transition: transform 0.2s;
+}
+
+    .director-card:hover, .team-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+.team-member-img, .director-img {
+    object-fit: cover;
+    height: 300px;
+}
+
+.director-img {
+    height: 300px;
+}

@@ -8,6 +8,8 @@
 
         public int TotalItems { get; set; }
 
+        public string? SearchTerm { get; set; }
+
         public IEnumerable<T> Items { get; set; }
             = new HashSet<T>();
     }

@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<TeachersViewModel>
 
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Team/DirectorCardStyle.css" asp-append-version="true" />
+}
+
 <div class="container py-5">
     <h2 class="text-center mb-3">Нашият Екип</h2>
     <div class="mx-auto mb-3" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
@@ -10,7 +15,7 @@
     }
 
     @if (director != null)
-     {
+    {
         <div class="card director-card mb-5">
             <div class="row g-0">
                 <div class="col-md-4">
@@ -26,11 +31,11 @@
                 </div>
             </div>
         </div>
-     }
+    }
 
     <div class="row row-cols-1 row-cols-md-4 g-4">
         @foreach (var teacher in teachers)
-         {
+        {
             <div class="col">
                 <div class="card h-100 team-card">
                     <img src="@teacher.Photo"
@@ -41,34 +46,14 @@
                         <p class="text-muted mb-1">@teacher.JobTitle</p>
                         @if (teacher.Subjects.Any())
                         {
-                            <p class="text-muted mb-3">Преподава по: 
+                            <p class="text-muted mb-3">
+                                Преподава по:
                                 @string.Join(", ", teacher.Subjects.Select(s => s.Name))
                             </p>
-                         }
-                        </div>
+                        }
+                    </div>
                 </div>
             </div>
-         }
+        }
     </div>
 </div>
-
-<style>
-    .director-card, .team-card {
-        background-color: #f8f9fa;
-        transition: transform 0.2s;
-    }
-
-        .director-card:hover, .team-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-    .team-member-img, .director-img {
-        object-fit: cover;
-        height: 300px;
-    }
-
-    .director-img {
-        height: 300px;
-    }
-</style>

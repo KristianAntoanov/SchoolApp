@@ -78,6 +78,7 @@
     <Folder Include="wwwroot\css\Admin\" />
     <Folder Include="wwwroot\css\News\" />
     <Folder Include="wwwroot\js\News\" />
+    <Folder Include="wwwroot\css\Team\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
@@ -93,6 +94,7 @@
     <Content Remove="wwwroot\css\Admin\" />
     <Content Remove="wwwroot\css\News\" />
     <Content Remove="wwwroot\js\News\" />
+    <Content Remove="wwwroot\css\Team\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\lib\css\.DS_Store" />
