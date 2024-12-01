@@ -10,6 +10,7 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
     {
         private readonly IAdminStudentsService _service;
         private readonly UserManager<ApplicationUser> _userManager;
+        private const int PageSize = 10;
 
         public StudentsController(IAdminStudentsService service, UserManager<ApplicationUser> userManager)
         {
@@ -19,15 +20,10 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int page = 1, string search = null)
         {
-            const int PageSize = 10;
-
             var result = await _service.GetAllStudentsAsync(page, PageSize, search);
+            result.SearchTerm = search;
 
-            ViewBag.CurrentPage = result.PageNumber;
-            ViewBag.TotalPages = result.TotalPages;
-            ViewBag.Search = search;
-
-            return View(result.Items);
+            return View(result);
         }
 
         public async Task<IActionResult> Delete(int id)

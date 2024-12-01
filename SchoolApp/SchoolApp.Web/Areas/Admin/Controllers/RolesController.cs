@@ -6,6 +6,7 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
     public class RolesController : AdminBaseController
     {
         private readonly IAdminUserRolesService _userRolesService;
+        private const int PageSize = 5;
 
         public RolesController(IAdminUserRolesService userRolesService)
         {
@@ -13,11 +14,11 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1)
         {
-            var users = await _userRolesService.GetAllUsersWithRolesAsync();
+            var pagedUsers = await _userRolesService.GetPagedUsersWithRolesAsync(pageNumber, PageSize);
 
-            return View(users);
+            return View(pagedUsers);
         }
 
         [HttpPost]
