@@ -19,7 +19,6 @@ namespace SchoolApp.Services.Data
             _newsContainerClient = _blobServiceClient.GetBlobContainerClient(AzureNewsContainerName);
             _galleryContainerClient = _blobServiceClient.GetBlobContainerClient(AzureGalleryContainerName);
             _teacherContainerClient = _blobServiceClient.GetBlobContainerClient(AzureTeacherContainerName);
-            //TODO think to use GetBlobContainersAsync()
         }
 
         public async Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadTeacherImageAsync(IFormFile file, string firstName, string lastName)
@@ -39,12 +38,10 @@ namespace SchoolApp.Services.Data
 
         public async Task<bool> DeleteTeacherImageAsync(string imageUrl)
         {
-            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient("teachersimages");
-
             Uri uri = new Uri(imageUrl);
             string blobName = Path.GetFileName(uri.LocalPath);
 
-            BlobClient blobClient = containerClient.GetBlobClient(blobName);
+            BlobClient blobClient = _teacherContainerClient.GetBlobClient(blobName);
 
             if (await blobClient.ExistsAsync())
             {
@@ -72,12 +69,10 @@ namespace SchoolApp.Services.Data
 
         public async Task<bool> DeleteGalleryImageAsync(string imageUrl)
         {
-            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient("galleryimages");
-
             Uri uri = new Uri(imageUrl);
             string blobName = Path.GetFileName(uri.LocalPath);
 
-            BlobClient blobClient = containerClient.GetBlobClient(blobName);
+            BlobClient blobClient = _galleryContainerClient.GetBlobClient(blobName);
 
             if (await blobClient.ExistsAsync())
             {
@@ -105,12 +100,10 @@ namespace SchoolApp.Services.Data
 
         public async Task<bool> DeleteNewsImageAsync(string imageUrl)
         {
-            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient("newsimages");
-
             Uri uri = new Uri(imageUrl);
             string blobName = Path.GetFileName(uri.LocalPath);
 
-            BlobClient blobClient = containerClient.GetBlobClient(blobName);
+            BlobClient blobClient = _newsContainerClient.GetBlobClient(blobName);
 
             if (await blobClient.ExistsAsync())
             {
