@@ -14,12 +14,12 @@ namespace SchoolApp.Web.Infrastructure.ValidationAttributes
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var file = value as IFormFile;
+            IFormFile? file = value as IFormFile;
             if (file != null)
             {
                 if (file.Length > _maxFileSize)
                 {
-                    return new ValidationResult($"File size cannot exceed {_maxFileSize} bytes");
+                    return new ValidationResult($"Максималният размер на файла трябва да бъде {_maxFileSize / 1024 / 1024}MB");
                 }
             }
 
