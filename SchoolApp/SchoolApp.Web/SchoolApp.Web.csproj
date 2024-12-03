@@ -51,6 +51,9 @@
     <None Remove="Views\Gallery\" />
     <None Remove="Areas\Admin\Views\Gallery\" />
     <None Remove="Views\News\" />
+    <None Remove="Components\" />
+    <None Remove="Areas\Admin\Views\Shared\Components\" />
+    <None Remove="Areas\Admin\Views\Shared\Components\UploadImage\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Diary\" />
@@ -79,6 +82,9 @@
     <Folder Include="wwwroot\css\News\" />
     <Folder Include="wwwroot\js\News\" />
     <Folder Include="wwwroot\css\Team\" />
+    <Folder Include="Components\" />
+    <Folder Include="Areas\Admin\Views\Shared\Components\" />
+    <Folder Include="Areas\Admin\Views\Shared\Components\UploadImage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />

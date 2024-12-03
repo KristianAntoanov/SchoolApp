@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SchoolApp.Web.ViewModels.Admin.Gallery;
+using SchoolApp.Web.ViewModels.Admin.Gallery.Components;
 
 namespace SchoolApp.Services.Data.Contrancts
 {
@@ -11,7 +12,7 @@ namespace SchoolApp.Services.Data.Contrancts
 
         Task<MenageAlbumsViewModel?> GetDetailsForAlbumAsync(string id);
 
-        Task<(bool success, string message)> AddImagesAsync(string albumId, IFormFile file);
+        Task<(bool success, string message)> AddImagesAsync(AddAlbumImageFormModel model);
 
         Task<(bool success, string message)> DeleteImageAsync(string imageId);
 

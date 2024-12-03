@@ -1,0 +1,26 @@
+﻿@model AddAlbumImageFormModel
+
+<div class="modal fade" id="addImagesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Добавяне на снимки</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-controller="Gallery" asp-action="AddImage" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input asp-for="AlbumId" type="hidden" />
+                    <div class="mb-3">
+                        <label asp-for="Image" class="form-label">Изберете снимка</label>
+                        <input asp-for="Image" type="file" class="form-control" accept=".jpg,.jpeg,.png" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
+                    <button type="submit" class="btn btn-primary">Качи</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

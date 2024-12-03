@@ -4,6 +4,7 @@ using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Gallery;
+using SchoolApp.Web.ViewModels.Admin.Gallery.Components;
 
 namespace SchoolApp.Services.Data
 {
@@ -98,9 +99,9 @@ namespace SchoolApp.Services.Data
             return album;
         }
 
-        public async Task<(bool success, string message)> AddImagesAsync(string albumId, IFormFile file)
+        public async Task<(bool success, string message)> AddImagesAsync(AddAlbumImageFormModel model)
         {
-            bool isIdValid = Guid.TryParse(albumId, out Guid guidId);
+            bool isIdValid = Guid.TryParse(model.AlbumId, out Guid guidId);
 
             if (!isIdValid)
             {
@@ -114,13 +115,13 @@ namespace SchoolApp.Services.Data
                 return (false, "Албумът не беше намерен!");
             }
 
-            if (file.Length > 2 * 1024 * 1024)
+            if (model.Image.Length > 2 * 1024 * 1024)
             {
-                return (false, $"Файлът {file.FileName} трябва да е по-малък от 2MB");
+                return (false, $"Файлът {model.Image.FileName} трябва да е по-малък от 2MB");
             }
 
             string[] allowedExtensions = { ".jpg", ".jpeg", ".png" };
-            string extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            string extension = Path.GetExtension(model.Image.FileName).ToLowerInvariant();
             if (!allowedExtensions.Contains(extension))
             {
                 return (false, "Позволените формати са само JPG, JPEG и PNG");
@@ -129,7 +130,7 @@ namespace SchoolApp.Services.Data
             Guid imageId = Guid.NewGuid();
 
             var (isSuccessful, errorMessage, imageUrl) =
-                await _blobService.UploadGalleryImageAsync(file, imageId);
+                await _blobService.UploadGalleryImageAsync(model.Image, imageId);
 
             if (!isSuccessful || string.IsNullOrEmpty(imageUrl))
             {

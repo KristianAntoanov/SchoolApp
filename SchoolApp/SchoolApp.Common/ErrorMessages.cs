@@ -10,7 +10,7 @@
 
         public const string TeacherNameRequiredMessage = "Името на учител е задължително";
         public const string TeacherJobTitleRequiredMessage = "Длъжността на учител е задължителнa";
-        public const string TeacherImageRequiredMessage = "Моля изберете снимка";
+        public const string TeacherImageRequiredMessage = "Моля изберете профилна снимка за учител";
         public const string TeacherSubjectRequiredMessage = "Моля изберете поне един предмет";
 
         public const string GalleryImageRequiredMessage = "Моля изберете снимка.";
@@ -39,5 +39,14 @@
 
         public const string NewsTitleStringLengthMessage = "Заглавието трябва да е между {2} и {1} символа";
         public const string NewsContentStringLengthMessage = "Съдържание трябва да е между {2} и {1} символа";
+
+        //AllowedExtensions
+        public const string ImageAllowedExtensionJPG = ".jpg";
+        public const string ImageAllowedExtensionJPEG = ".jpeg";
+        public const string ImageAllowedExtensionPNG = ".png";
+
+        //FileLengthMessages
+        public const string ImageFileLengthMessage = "Файлът трябва да е не по-голям от 2MB";
+
     }
 }

@@ -20,11 +20,6 @@ namespace SchoolApp.Web.ViewModels.Admin.Gallery
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength, ErrorMessage = GalleryDescriptionStringLengthMessage)]
         public string? Description { get; set; }
 
-        [Required(ErrorMessage = GalleryImageRequiredMessage)]
-        [FileExtensions(Extensions = "jpg,jpeg,png", ErrorMessage = "Проба дали излиза")]
-        [MaxFileSize(2 * 1024 * 1024)]
-        public IFormFile Image { get; set; } = null!;
-
         public IList<MenageAlbumImageViewModel> Images { get; set; }
             = new List<MenageAlbumImageViewModel>();
     }

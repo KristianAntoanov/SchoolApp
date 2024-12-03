@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Gallery;
+using SchoolApp.Web.ViewModels.Admin.Gallery.Components;
 
 namespace SchoolApp.Web.Areas.Admin.Controllers
 {
@@ -73,15 +74,21 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddImage(string albumId, IFormFile file)
+        public async Task<IActionResult> AddImage(AddAlbumImageFormModel model)
         {
-            if (file == null)
+            if (model == null)
             {
-                TempData["ErrorMessage"] = "Моля, изберете поне една снимка.";
-                return RedirectToAction(nameof(Album), new { id = albumId });
+                TempData["ErrorMessage"] = "Невалидни данни.";
+                return RedirectToAction(nameof(Index));
             }
 
-            var (success, message) = await _service.AddImagesAsync(albumId, file);
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Моля, изберете валидна снимка.";
+                return RedirectToAction(nameof(Album), new { id = model.AlbumId });
+            }
+
+            var (success, message) = await _service.AddImagesAsync(model);
 
             if (success)
             {
@@ -92,7 +99,7 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
                 TempData["ErrorMessage"] = message;
             }
 
-            return RedirectToAction(nameof(Album), new { id = albumId });
+            return RedirectToAction(nameof(Album), new { id = model.AlbumId });
         }
 
         [HttpPost]
