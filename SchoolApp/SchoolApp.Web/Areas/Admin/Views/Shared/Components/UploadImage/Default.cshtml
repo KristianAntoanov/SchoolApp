@@ -13,6 +13,9 @@
                     <div class="mb-3">
                         <label asp-for="Image" class="form-label">Изберете снимка</label>
                         <input asp-for="Image" type="file" class="form-control" accept=".jpg,.jpeg,.png" />
+                        <div class="form-text">
+                            Позволени формати: JPG, JPEG, PNG. Максимален размер: 2MB.
+                        </div>
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
                 </div>
