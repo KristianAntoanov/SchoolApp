@@ -8,8 +8,8 @@ using SchoolApp.Web.ViewModels.Diary.Remarks;
 
 namespace SchoolApp.Web.Controllers
 {
-	public class DiaryController : BaseController
-	{
+    public class DiaryController : BaseController
+    {
         private readonly IDiaryService _service;
         private readonly UserManager<ApplicationUser> _userManager;
 
