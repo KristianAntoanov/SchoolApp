@@ -37,6 +37,12 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddTeacherFormModel model)
         {
+            if (model == null)
+            {
+                TempData["ErrorMessage"] = "Невалидни данни.";
+                return RedirectToAction(nameof(Add));
+            }
+
             if (!ModelState.IsValid)
             {
                 model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();

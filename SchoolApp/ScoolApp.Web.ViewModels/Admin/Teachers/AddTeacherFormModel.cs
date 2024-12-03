@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using SchoolApp.Common;
+using SchoolApp.Web.Infrastructure.ValidationAttributes;
 using System.ComponentModel.DataAnnotations;
 
 using static SchoolApp.Common.EntityValidationConstants.Teacher;
@@ -24,6 +26,8 @@ namespace SchoolApp.Web.ViewModels.Admin.Teachers
         public string JobTitle { get; set; } = null!;
 
         [Required(ErrorMessage = TeacherImageRequiredMessage)]
+        [AllowedExtensions(ImageAllowedExtensionJPG, ImageAllowedExtensionJPEG, ImageAllowedExtensionPNG)]
+        [MaxFileSize(2 * 1024 * 1024, ErrorMessage = ImageFileLengthMessage)]
         public IFormFile Image { get; set; } = null!;
 
         [Required(ErrorMessage = TeacherSubjectRequiredMessage)]
