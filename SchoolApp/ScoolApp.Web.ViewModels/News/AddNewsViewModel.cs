@@ -21,7 +21,7 @@ namespace SchoolApp.Web.ViewModels.News
             ErrorMessage = NewsContentStringLengthMessage)]
         public string Content { get; set; } = null!;
 
-        [FileExtensions(Extensions = "jpg,jpeg,png")]
+        [AllowedExtensions(ImageAllowedExtensionJPG, ImageAllowedExtensionJPEG, ImageAllowedExtensionPNG)]
         [MaxFileSize(2 * 1024 * 1024)]
         public IFormFile? Image { get; set; }
 
