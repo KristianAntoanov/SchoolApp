@@ -29,6 +29,9 @@ namespace SchoolApp.Data.Models
         public int GradeValue { get; set; }
 
         [Required]
+        public GradeType? GradeType { get; set; }
+
+        [Required]
         public DateTime AddedOn { get; set; }
     }
 }

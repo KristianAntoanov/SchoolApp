@@ -13,6 +13,10 @@ namespace SchoolApp.Data.Configuration
             builder.HasOne(g => g.Teacher)
                    .WithMany()
                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(g => g.GradeType)
+                   .HasDefaultValue(GradeType.Current)
+                   .IsRequired();
         }
     }
 }

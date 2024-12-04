@@ -29,6 +29,14 @@ body {
     justify-content: center;
 }
 
+.term-grade {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+}
+
 .th-ix {
     width: 50px;
 }

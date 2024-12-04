@@ -17,12 +17,26 @@
             _ => ""
         };
     }
+
+    string GetColumnForGradeType(GradeType? gradeType)
+    {
+        if (gradeType == null) return "";
+
+        return gradeType switch
+        {
+            GradeType.FirstTerm => "Term1",
+            GradeType.SecondTerm => "Term2",
+            GradeType.Yearly => "Year",
+            _ => ""
+        };
+    }
 }
 
 <div class="table-responsive">
-    <table class="table table-bordered text-center align-middle">
+    <table class="table table-bordered text-center align-middle mb-0">
         <thead class="table-light">
             <tr>
+                <th rowspan="2">#</th>
                 <th rowspan="2">Ученик</th>
                 <th colspan="6">Първи срок</th>
                 <th colspan="5">Втори срок</th>
@@ -43,25 +57,28 @@
             </tr>
         </thead>
         <tbody>
+            @{
+                var columns = new[] { "IX", "X", "XI", "XII", "I_II", "Term1", "III", "IV", "V", "VI_VII", "Term2", "Year" };
+                int studentCounter = 1;
+            }
             @foreach (var student in Model)
             {
                 <tr>
+                    <td>@studentCounter.</td>
                     <td>@student.FirstName @student.LastName</td>
                     @{
                         var gradesByMonth = student.Grades
-                            .GroupBy(g => GetColumnKey(g.GradeDate))
+                            .GroupBy(g => g.GradeType == GradeType.Current ? GetColumnKey(g.GradeDate) : GetColumnForGradeType(g.GradeType))
                             .ToDictionary(g => g.Key, g => g.ToList());
-
-                        var columns = new[] { "IX", "X", "XI", "XII", "I_II", "Term1", "III", "IV", "V", "VI_VII", "Term2", "Year" };
 
                         foreach (var column in columns)
                         {
-                            <td class="grade-cell">
+                            <td class="grade-cell @(column is "Term1" or "Term2" ? "table-light" : "")">
                                 @if (gradesByMonth.ContainsKey(column))
                                 {
                                     foreach (var grade in gradesByMonth[column])
                                     {
-                                        <div class="@($"grade-value grade-{grade.GradeValue}")"
+                                        <div class="@($"grade-value grade-{grade.GradeValue} {(grade.GradeType != GradeType.Current ? "term-grade" : "")}")"
                                              tabindex="0"
                                              data-bs-toggle="popover"
                                              data-bs-custom-class="custom-popover"
@@ -75,6 +92,7 @@
                         }
                     }
                 </tr>
+                studentCounter++;
             }
         </tbody>
     </table>

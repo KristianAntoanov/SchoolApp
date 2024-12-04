@@ -4,7 +4,7 @@
 	{
         public static class Grade
         {
-            public const int GradeMinValue = 2;
+            public const int GradeMinValue = 0;
             public const int GradeMaxValue = 6;
         }
 

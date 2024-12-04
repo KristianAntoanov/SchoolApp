@@ -51,7 +51,8 @@ namespace SchoolApp.Services.Data
                                 {
                                     GradeValue = g.GradeValue,
                                     GradeDate = g.AddedOn,
-                                    TeacherName = $"{g.Teacher.FirstName} {g.Teacher.LastName}"
+                                    TeacherName = $"{g.Teacher.FirstName} {g.Teacher.LastName}",
+                                    GradeType = g.GradeType
                                 })
                                 .ToArray()
                 })
@@ -198,6 +199,7 @@ namespace SchoolApp.Services.Data
                     StudentId = student.Id,
                     SubjectId = model.SubjectId,
                     TeacherId = teacher!.GuidId,
+                    GradeType = model.GradeType
                 };
                 grades.Add(grade);
             }

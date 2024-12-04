@@ -19,6 +19,15 @@
                         <option value="">Избери Предмет...</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label asp-for="@Model.GradeType" class="form-label-add-edit">Избери тип на оценката</label>
+                    <select asp-for="@Model.GradeType" class="form-control" aria-required="true">
+                        <option value="@GradeType.Current">Текуща оценка</option>
+                        <option value="@GradeType.FirstTerm">Първи срок</option>
+                        <option value="@GradeType.SecondTerm">Втори срок</option>
+                        <option value="@GradeType.Yearly">Годишна оценка</option>
+                    </select>
+                </div>
                 <div class="mt-4">
                     <table class="table table-bordered text-center">
                         <thead class="table-light">
