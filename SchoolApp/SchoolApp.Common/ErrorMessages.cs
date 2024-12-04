@@ -23,6 +23,11 @@
         public const string NewsTitleRequiredMessage = "Заглавието е задължително";
         public const string NewsContentRequiredMessage = "Съдържание е задължително";
 
+        //AccountRequiredMessages
+        public const string EmailRequiredMessage = "Имейла е задължителен.";
+        public const string PasswordRequiredMessage = "Паролата е задължителна.";
+
+
 
         //StringLengthMessages
         public const string RemarkTextStringLengthMessage = "Забележката трябва да е между {2} и {1} символа";
@@ -48,5 +53,9 @@
         //FileLengthMessages
         public const string ImageFileLengthMessage = "Файлът трябва да е не по-голям от 2MB";
 
+        //AccountValidationMessages
+        public const string ValidEmailMessage = "Моля, въведете валиден имейл адрес.";
+        public const string PasswordStringLengthMessage = "Паролата трябва да бъде между {2} и {1} символа.";
+        public const string PasswordNotMatchMessage = "Паролите не съвпадат.";
     }
 }

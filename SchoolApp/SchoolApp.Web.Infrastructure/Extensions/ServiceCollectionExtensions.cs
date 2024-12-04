@@ -52,15 +52,48 @@ namespace SchoolApp.Web.Infrastructure.Extensions
 
                 options.User.RequireUniqueEmail =
                     configuration.GetValue<bool>("Identity:User:RequireUniqueEmail");
+
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
             .AddRoles<ApplicationRole>()
             .AddSignInManager<SignInManager<ApplicationUser>>()
             .AddUserManager<UserManager<ApplicationUser>>()
+            .AddErrorDescriber<CustomIdentityErrorDescriber>()
             .AddDefaultUI();
 
+
             return services;
+        }
+
+        public class CustomIdentityErrorDescriber : IdentityErrorDescriber
+        {
+            public override IdentityError PasswordRequiresUpper()
+            {
+                return new IdentityError
+                {
+                    Code = nameof(PasswordRequiresUpper),
+                    Description = "Паролата трябва да съдържа поне една главна буква (А-Я)."
+                };
+            }
+
+            public override IdentityError PasswordRequiresLower()
+            {
+                return new IdentityError
+                {
+                    Code = nameof(PasswordRequiresLower),
+                    Description = "Паролата трябва да съдържа поне една малка буква (а-я)."
+                };
+            }
+
+            public override IdentityError PasswordRequiresDigit()
+            {
+                return new IdentityError
+                {
+                    Code = nameof(PasswordRequiresDigit),
+                    Description = "Паролата трябва да съдържа поне една цифра (0-9)."
+                };
+            }
         }
 
         public static void RegisterRepositories(this IServiceCollection services)
