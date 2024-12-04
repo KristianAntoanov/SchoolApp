@@ -243,6 +243,11 @@ namespace SchoolApp.Services.Data
         {
             Teacher? teacher = await _repository.FirstOrDefaultAsync<Teacher>(t => t.ApplicationUserId == Guid.Parse(userId));
 
+            if (teacher == null)
+            {
+                return false;
+            }
+
             Remark remark = new Remark()
             {
                 AddedOn = model.AddedOn,
