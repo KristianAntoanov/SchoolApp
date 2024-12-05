@@ -33,7 +33,6 @@
         public const string PasswordRequiredMessage = "Паролата е задължителна.";
 
 
-
         //StringLengthMessages
         public const string RemarkTextStringLengthMessage = "Забележката трябва да е между {2} и {1} символа";
         public const string NameStringLengthMessage = "Името трябва да е между {2} и {1} символа";
