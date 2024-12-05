@@ -9,6 +9,7 @@ using SchoolApp.Data.Repository;
 using SchoolApp.Data;
 using Microsoft.AspNetCore.Identity;
 using SchoolApp.Data.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace SchoolApp.Web.Infrastructure.Extensions
 {
@@ -124,6 +125,16 @@ namespace SchoolApp.Web.Infrastructure.Extensions
 
                 services.AddScoped(serviceInterfaceType, serviceType);
             }
+        }
+
+        public static IServiceCollection AddApplicationAuthentication(this IServiceCollection services)
+        {
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = PathString.FromUriComponent("/Home/AccessDenied");
+            });
+
+            return services;
         }
     }
 }

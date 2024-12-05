@@ -103,6 +103,6 @@
     <Content Remove="wwwroot\css\Team\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="wwwroot\lib\css\.DS_Store" />
+    <None Include="wwwroot\lib\FontAwesome\.DS_Store" />
   </ItemGroup>
 </Project>

@@ -130,6 +130,7 @@ namespace SchoolApp.Services.Data
                 return (false, "Новината не беше намерена.");
             }
 
+            //TODO and this!
             if (!string.IsNullOrEmpty(news.ImageUrl) && news.ImageUrl != "/img/default-news-image.jpeg")
             {
                 bool isImageDeleted = await _blobService.DeleteNewsImageAsync(news.ImageUrl);
@@ -138,6 +139,12 @@ namespace SchoolApp.Services.Data
                     return (false, "Възникна грешка при изтриването на снимката от хранилището!");
                 }
             }
+
+            //news.IsArchived = true;
+
+            //bool result = await _repository.UpdateAsync(news);
+
+            //TODO Need to change this!
 
             bool result = await _repository.DeleteAsync<News>(id);
             if (result)
