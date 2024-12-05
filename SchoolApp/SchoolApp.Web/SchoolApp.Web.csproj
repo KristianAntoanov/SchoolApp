@@ -54,6 +54,8 @@
     <None Remove="Components\" />
     <None Remove="Areas\Admin\Views\Shared\Components\" />
     <None Remove="Areas\Admin\Views\Shared\Components\UploadImage\" />
+    <None Remove="Views\Shared\Components\" />
+    <None Remove="Views\Shared\Components\ContactForm\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Diary\" />
@@ -85,6 +87,8 @@
     <Folder Include="Components\" />
     <Folder Include="Areas\Admin\Views\Shared\Components\" />
     <Folder Include="Areas\Admin\Views\Shared\Components\UploadImage\" />
+    <Folder Include="Views\Shared\Components\" />
+    <Folder Include="Views\Shared\Components\ContactForm\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />

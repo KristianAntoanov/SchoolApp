@@ -105,7 +105,6 @@
             </div>
 
             <!-- Contact Information -->
-            <!-- Contact Information - без бял контейнер -->
             <div class="col-md-4 mb-4" style="margin-top: 80px; padding-left: 70px;">
                 <div class="d-flex align-items-center mb-4">
                     <i class="fas fa-map-marker-alt fa-2x me-3 text-primary"></i>
@@ -132,47 +131,7 @@
                 </div>
             </div>
             <!-- Contact Form -->
-            <div class="col-md-8">
-                <form id="contactForm" class="p-4">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <input type="text"
-                                   class="form-control contact-input"
-                                   id="name"
-                                   name="name"
-                                   placeholder="Вашето име"
-                                   required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <input type="email"
-                                   class="form-control contact-input"
-                                   id="email"
-                                   name="email"
-                                   placeholder="Вашият имейл"
-                                   required>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <input type="text"
-                               class="form-control contact-input"
-                               id="subject"
-                               name="subject"
-                               placeholder="Относно"
-                               required>
-                    </div>
-                    <div class="mb-4">
-                        <textarea class="form-control contact-input"
-                                  id="message"
-                                  name="message"
-                                  rows="5"
-                                  placeholder="Вашето съобщение"
-                                  required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary px-4 py-2">
-                        Изпрати съобщение
-                    </button>
-                </form>
-            </div>
+            @await Component.InvokeAsync("ContactForm")
         </div>
     </div>
 </div>

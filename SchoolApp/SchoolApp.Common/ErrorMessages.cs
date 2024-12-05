@@ -23,6 +23,11 @@
         public const string NewsTitleRequiredMessage = "Заглавието е задължително";
         public const string NewsContentRequiredMessage = "Съдържание е задължително";
 
+        public const string ContactNameRequiredMessage = "Името е задължително";
+        public const string ContactEmailRequiredMessage = "Името е задължително";
+        public const string ContactSubjectRequiredMessage = "Името е задължително";
+        public const string ContactMessageRequiredMessage = "Името е задължително";
+
         //AccountRequiredMessages
         public const string EmailRequiredMessage = "Имейла е задължителен.";
         public const string PasswordRequiredMessage = "Паролата е задължителна.";
@@ -44,6 +49,9 @@
 
         public const string NewsTitleStringLengthMessage = "Заглавието трябва да е между {2} и {1} символа";
         public const string NewsContentStringLengthMessage = "Съдържание трябва да е между {2} и {1} символа";
+
+        public const string ContactMessageStringLengthMessage = "Съобщението трябва да e между {2} и {1} символа";
+
 
         //AllowedExtensions
         public const string ImageAllowedExtensionJPG = ".jpg";

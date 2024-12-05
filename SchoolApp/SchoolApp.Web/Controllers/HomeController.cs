@@ -1,18 +1,20 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.Models;
+using SchoolApp.Web.ViewModels.Home;
 
 namespace SchoolApp.Web.Controllers;
 
 public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IContactService _contactService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IContactService contactService)
     {
         _logger = logger;
+        _contactService = contactService;
     }
 
     [HttpGet]
@@ -61,5 +63,27 @@ public class HomeController : BaseController
     {
         return View("Error401");
     }
-}
 
+    [HttpPost]
+    public async Task<IActionResult> SubmitContact(ContactFormModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            TempData["ErrorMessage"] = "Моля, попълнете всички задължителни полета.";
+            return View("Index", model);
+        }
+
+        var result = await _contactService.SubmitContactFormAsync(model);
+
+        if (result)
+        {
+            TempData["SuccessMessage"] = "Вашето съобщение беше изпратено успешно!";
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Възникна грешка при изпращане на съобщението. Моля, опитайте отново или се свъжете с администратор.";
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+}
