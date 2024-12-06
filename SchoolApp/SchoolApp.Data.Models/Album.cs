@@ -1,22 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Microsoft.EntityFrameworkCore;
+
 using static SchoolApp.Common.EntityValidationConstants.Album;
 
-namespace SchoolApp.Data.Models
+namespace SchoolApp.Data.Models;
+
+[Comment("Albums table")]
+public class Album
 {
-	public class Album
-	{
-        [Key]
-        public Guid Id { get; set; }
+    [Key]
+    [Comment("Album identifier")]
+    public Guid Id { get; set; }
 
-        [Required]
-        [MaxLength(TitleMaxLength)]
-        public string Title { get; set; } = null!;
+    [Required]
+    [MaxLength(TitleMaxLength)]
+    [Comment("Album title")]
+    public string Title { get; set; } = null!;
 
-        [MaxLength(DescriptionMaxLength)]
-        public string? Description { get; set; }
+    [MaxLength(DescriptionMaxLength)]
+    [Comment("Album description")]
+    public string? Description { get; set; }
 
-        public ICollection<GalleryImage> Images { get; set; }
-            = new HashSet<GalleryImage>();
-    }
+    public ICollection<GalleryImage> Images { get; set; }
+        = new HashSet<GalleryImage>();
 }

@@ -1,29 +1,36 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SchoolApp.Data.Models
+using Microsoft.EntityFrameworkCore;
+
+namespace SchoolApp.Data.Models;
+
+[Comment("Absences table")]
+public class Absence
 {
-	public class Absence
-    {
-        [Key]
-        public int Id { get; set; }
+    [Key]
+    [Comment("Absence identifier")]
+    public int Id { get; set; }
 
-        [Required]
-        public int StudentId { get; set; }
+    [Required]
+    [Comment("Student identifier")]
+    public int StudentId { get; set; }
 
-        [ForeignKey(nameof(StudentId))]
-        public virtual Student Student { get; set; } = null!;
+    [ForeignKey(nameof(StudentId))]
+    public virtual Student Student { get; set; } = null!;
 
-        [Required]
-        public int SubjectId { get; set; }
+    [Required]
+    [Comment("Subject identifier")]
+    public int SubjectId { get; set; }
 
-        [ForeignKey(nameof(SubjectId))]
-        public virtual Subject Subject { get; set; } = null!;
+    [ForeignKey(nameof(SubjectId))]
+    public virtual Subject Subject { get; set; } = null!;
 
-        [Required]
-        public bool IsExcused { get; set; }
+    [Required]
+    [Comment("Absence status")]
+    public bool IsExcused { get; set; }
 
-        [Required]
-        public DateTime AddedOn { get; set; }
-    }
+    [Required]
+    [Comment("Date of creation")]
+    public DateTime AddedOn { get; set; }
 }
