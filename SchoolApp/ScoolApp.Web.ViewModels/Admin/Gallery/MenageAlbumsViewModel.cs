@@ -1,26 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 using static SchoolApp.Common.ErrorMessages;
 using static SchoolApp.Common.EntityValidationConstants.Album;
-using SchoolApp.Web.Infrastructure.ValidationAttributes;
 
-namespace SchoolApp.Web.ViewModels.Admin.Gallery
+namespace SchoolApp.Web.ViewModels.Admin.Gallery;
+
+public class MenageAlbumsViewModel
 {
-	public class MenageAlbumsViewModel
-	{
-        [Required]
-        public string Id { get; set; } = null!;
+    [Required]
+    public string Id { get; set; } = null!;
 
-        [Required(ErrorMessage = GalleryTitleRequiredMessage)]
-        [StringLength(TitleMaxLength, MinimumLength = TitleMinLength, ErrorMessage = GalleryTitleStringLengthMessage)]
-        public string Title { get; set; } = null!;
+    [Required(ErrorMessage = GalleryTitleRequiredMessage)]
+    [StringLength(TitleMaxLength, MinimumLength = TitleMinLength, ErrorMessage = GalleryTitleStringLengthMessage)]
+    public string Title { get; set; } = null!;
 
-        [Required(ErrorMessage = GalleryDescriptionRequiredMessage)]
-        [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength, ErrorMessage = GalleryDescriptionStringLengthMessage)]
-        public string? Description { get; set; }
+    [Required(ErrorMessage = GalleryDescriptionRequiredMessage)]
+    [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength, ErrorMessage = GalleryDescriptionStringLengthMessage)]
+    public string? Description { get; set; }
 
-        public IList<MenageAlbumImageViewModel> Images { get; set; }
-            = new List<MenageAlbumImageViewModel>();
-    }
+    public IList<MenageAlbumImageViewModel> Images { get; set; }
+        = new List<MenageAlbumImageViewModel>();
 }

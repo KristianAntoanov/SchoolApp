@@ -8,12 +8,10 @@
 
   <ItemGroup>
     <None Remove="Extensions\" />
-    <None Remove="ModelBinders\" />
     <None Remove="ValidationAttributes\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="ModelBinders\" />
     <Folder Include="ValidationAttributes\" />
   </ItemGroup>
   <ItemGroup>

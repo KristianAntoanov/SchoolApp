@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<SubjectViewModel>
+@{
+    ViewData["Title"] = "Електронен дневник";
+}
 
 <div class="nav-container d-flex justify-content-between">
     <ul class="nav nav-tabs">
@@ -18,31 +21,34 @@
             </a>
         </li>
     </ul>
-    <div class="AddGrade" id="addGradeButton" style="display: none;">
-        <form asp-controller="Diary" asp-action="AddGrades" method="get">
-            <input type="hidden" name="classId" id="hiddenClassIdForGrade" />
-            <input type="hidden" name="subjectId" id="hiddenSubjectIdForGrade" />
-            <button type="submit" class="btn btn-primary">
-                <i class="fa-solid fa-plus"></i> Добави Оценка
-            </button>
-        </form>
-    </div>
-    <div class="AddAbsence" id="addAbsenceButton" style="display: none;">
-        <form asp-controller="Diary" asp-action="AddAbsence" method="get">
-            <input type="hidden" name="classId" id="hiddenClassIdForAbsence" />
-            <button type="submit" class="btn btn-primary">
-                <i class="fa-solid fa-plus"></i> Добави Отсъствие
-            </button>
-        </form>
-    </div>
-    <div class="AddRemark" id="addRemarkButton" style="display: none;">
-        <form asp-controller="Diary" asp-action="AddRemark" method="get">
-            <input type="hidden" name="classId" id="hiddenClassIdForRemark" />
-            <button type="submit" class="btn btn-primary">
-                <i class="fa-solid fa-plus"></i> Добави Забележка
-            </button>
-        </form>
-    </div>
+    @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+    {
+        <div class="AddGrade" id="addGradeButton" style="display: none;">
+            <form asp-controller="Diary" asp-action="AddGrades" method="get">
+                <input type="hidden" name="classId" id="hiddenClassIdForGrade" />
+                <input type="hidden" name="subjectId" id="hiddenSubjectIdForGrade" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> Добави Оценка
+                </button>
+            </form>
+        </div>
+        <div class="AddAbsence" id="addAbsenceButton" style="display: none;">
+            <form asp-controller="Diary" asp-action="AddAbsence" method="get">
+                <input type="hidden" name="classId" id="hiddenClassIdForAbsence" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> Добави Отсъствие
+                </button>
+            </form>
+        </div>
+        <div class="AddRemark" id="addRemarkButton" style="display: none;">
+            <form asp-controller="Diary" asp-action="AddRemark" method="get">
+                <input type="hidden" name="classId" id="hiddenClassIdForRemark" />
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> Добави Забележка
+                </button>
+            </form>
+        </div>
+    }
 </div>
 <div class="row">
     <!-- Колона с вертикални бутони -->

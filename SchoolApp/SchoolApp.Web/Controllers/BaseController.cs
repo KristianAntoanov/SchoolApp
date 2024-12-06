@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace SchoolApp.Web.Controllers
+namespace SchoolApp.Web.Controllers;
+
+[Authorize(Roles = "Admin,Parent,Teacher")]
+public class BaseController : Controller
 {
-	public class BaseController : Controller
-    {
-		
-	}
+	
 }

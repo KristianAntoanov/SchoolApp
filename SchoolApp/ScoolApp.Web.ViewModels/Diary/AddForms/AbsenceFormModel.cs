@@ -1,8 +1,7 @@
-﻿namespace SchoolApp.Web.ViewModels.Diary.AddForms
+﻿namespace SchoolApp.Web.ViewModels.Diary.AddForms;
+
+public class AbsenceFormModel : StudentBaseViewModel
 {
-	public class AbsenceFormModel : StudentBaseViewModel
-	{
-        public IList<StudentAbcenseFormModel> Students { get; set; }
-            = new List<StudentAbcenseFormModel>();
-    }
+    public IList<StudentAbcenseFormModel> Students { get; set; }
+        = new List<StudentAbcenseFormModel>();
 }

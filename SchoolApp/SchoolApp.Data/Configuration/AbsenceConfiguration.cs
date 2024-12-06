@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 using SchoolApp.Data.Models;
 
-namespace SchoolApp.Data.Configuration
+namespace SchoolApp.Data.Configuration;
+
+public class AbsenceConfiguration : IEntityTypeConfiguration<Absence>
 {
-    public class AbsenceConfiguration : IEntityTypeConfiguration<Absence>
+    public void Configure(EntityTypeBuilder<Absence> builder)
     {
-        public void Configure(EntityTypeBuilder<Absence> builder)
-        {
-            builder.Property(a => a.IsExcused)
-                   .HasDefaultValue(false);
-        }
+        builder.Property(a => a.IsExcused)
+               .HasDefaultValue(false);
     }
 }

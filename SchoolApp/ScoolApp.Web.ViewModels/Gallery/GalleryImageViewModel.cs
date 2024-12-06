@@ -1,7 +1,6 @@
-﻿namespace SchoolApp.Web.ViewModels.Gallery
+﻿namespace SchoolApp.Web.ViewModels.Gallery;
+
+public class GalleryImageViewModel
 {
-	public class GalleryImageViewModel
-	{
-        public string ImageUrl { get; set; } = null!;
-    }
+    public string ImageUrl { get; set; } = null!;
 }

@@ -1,23 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SchoolApp.Web.Infrastructure.ValidationAttributes
+namespace SchoolApp.Web.Infrastructure.ValidationAttributes;
+
+public class IsDateValidAttribute : ValidationAttribute
 {
-    public class IsDateValidAttribute : ValidationAttribute
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        if (value is DateTime dateValue)
         {
-            if (value is DateTime dateValue)
+            if (dateValue.Date > DateTime.Today)
             {
-                if (dateValue.Date > DateTime.Today)
-                {
-                    return new ValidationResult(ErrorMessage);
-                }
+                return new ValidationResult(ErrorMessage);
             }
-            else
-            {
-                return new ValidationResult("Невалиден формат!");
-            }
-            return ValidationResult.Success;
         }
+        else
+        {
+            return new ValidationResult("Невалиден формат!");
+        }
+        return ValidationResult.Success;
     }
 }

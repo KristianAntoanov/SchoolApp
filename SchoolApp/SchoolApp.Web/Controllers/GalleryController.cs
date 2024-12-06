@@ -1,23 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
 using SchoolApp.Services.Data.Contrancts;
 
-namespace SchoolApp.Web.Controllers
+namespace SchoolApp.Web.Controllers;
+
+[AllowAnonymous]
+public class GalleryController : BaseController
 {
-    public class GalleryController : BaseController
+    private readonly IGalleryService _service;
+
+    public GalleryController(IGalleryService service)
     {
-        private readonly IGalleryService _service;
+        _service = service;
+    }
 
-        public GalleryController(IGalleryService service)
-        {
-            _service = service;
-        }
+    public async Task<IActionResult> Index()
+    {
+        var albums = await _service.GetAllAlbumsWithImagesAsync();
 
-        public async Task<IActionResult> Index()
-        {
-            var albums = await _service.GetAllAlbumsWithImagesAsync();
-
-            return View(albums);
-        }
+        return View(albums);
     }
 }
 

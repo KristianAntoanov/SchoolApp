@@ -1,11 +1,15 @@
 ﻿using System.Diagnostics;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.Models;
 using SchoolApp.Web.ViewModels.Home;
 
 namespace SchoolApp.Web.Controllers;
 
+[AllowAnonymous]
 public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;

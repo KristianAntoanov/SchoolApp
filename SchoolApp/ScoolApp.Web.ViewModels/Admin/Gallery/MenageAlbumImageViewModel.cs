@@ -2,14 +2,13 @@
 
 using static SchoolApp.Common.ErrorMessages;
 
-namespace SchoolApp.Web.ViewModels.Admin.Gallery
-{
-	public class MenageAlbumImageViewModel
-	{
-        [Required]
-        public string Id { get; set; } = null!;
+namespace SchoolApp.Web.ViewModels.Admin.Gallery;
 
-        [Required(ErrorMessage = GalleryImageRequiredMessage)]
-        public string ImageUrl { get; set; } = null!;
-    }
+public class MenageAlbumImageViewModel
+{
+    [Required]
+    public string Id { get; set; } = null!;
+
+    [Required(ErrorMessage = GalleryImageRequiredMessage)]
+    public string ImageUrl { get; set; } = null!;
 }

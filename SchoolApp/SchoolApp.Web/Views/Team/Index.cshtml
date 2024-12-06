@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<TeachersViewModel>
+@{
+    ViewData["Title"] = "Галерия";
 
+    var director = Model.FirstOrDefault(t => t.JobTitle == "Директор");
+    var teachers = Model.Where(t => t.JobTitle != "Директор");
+}
 
 @section Styles {
     <link rel="stylesheet" href="~/css/Team/DirectorCardStyle.css" asp-append-version="true" />
@@ -8,12 +13,6 @@
 <div class="container py-5">
     <h2 class="text-center mb-3">Нашият Екип</h2>
     <div class="mx-auto mb-3" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
-
-    @{
-        var director = Model.FirstOrDefault(t => t.JobTitle == "Директор");
-        var teachers = Model.Where(t => t.JobTitle != "Директор");
-    }
-
     @if (director != null)
     {
         <div class="card director-card mb-5">

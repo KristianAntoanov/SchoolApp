@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<StudentGradesViewModel>
-
 @{
+    ViewData["Title"] = "Оценки";
+
     string GetColumnKey(DateTime date)
     {
         return date.Month switch

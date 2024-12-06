@@ -1,33 +1,34 @@
 ﻿using System.Net;
+
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
+
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Home;
 
-namespace SchoolApp.Services.Data
-{
-    public class ContactService : IContactService
-    {
-        private readonly IEmailSender _emailSender;
-        private readonly IConfiguration _configuration;
+namespace SchoolApp.Services.Data;
 
-        public ContactService(IConfiguration configuration, IEmailSender emailSender)
+public class ContactService : IContactService
+{
+    private readonly IEmailSender _emailSender;
+    private readonly IConfiguration _configuration;
+
+    public ContactService(IConfiguration configuration, IEmailSender emailSender)
+    {
+        _emailSender = emailSender;
+        _configuration = configuration;
+    }
+
+    public async Task<bool> SubmitContactFormAsync(ContactFormModel model)
+    {
+        if (model == null)
         {
-            _emailSender = emailSender;
-            _configuration = configuration;
+            return false;
         }
 
-        public async Task<bool> SubmitContactFormAsync(ContactFormModel model)
-        {
-            if (model == null)
-            {
-                return false;
-            }
+        string subject = $"Съобщение от {model.Name}: {model.Subject}";
 
-            string subject = $"Съобщение от {model.Name}: {model.Subject}";
-
-            string htmlMessage = $@"
+        string htmlMessage = $@"
             <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;'>
                 <h2 style='color: #dc3545;'>Ново съобщение от контактната форма</h2>
                 <div style='margin: 20px 0;'>
@@ -48,16 +49,15 @@ namespace SchoolApp.Services.Data
                 </p>
             </div> ";
 
-            string? schoolEmail = _configuration["SendGrid:FromEmail"];
+        string? schoolEmail = _configuration["SendGrid:FromEmail"];
 
-            if (schoolEmail == null)
-            {
-                return false;
-            }
-
-            await _emailSender.SendEmailAsync(schoolEmail, subject, htmlMessage);
-
-            return true;
+        if (schoolEmail == null)
+        {
+            return false;
         }
+
+        await _emailSender.SendEmailAsync(schoolEmail, subject, htmlMessage);
+
+        return true;
     }
 }

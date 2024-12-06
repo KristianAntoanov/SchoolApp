@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<AnnouncementViewModel>
+@{
+    ViewData["Title"] = "Важни съобщения";
+}
 
 <div class="container mt-4">
     <h2 class="text-center mb-3">Важни съобщения</h2>
@@ -12,21 +15,27 @@
             </div>
             <h3 class="text-muted mb-2">Няма съобщения в момента</h3>
             <h6 class="text-muted mb-4">Моля проверете отново по-късно</h6>
-            <a asp-controller="News"
-               asp-action="AddAnnouncement"
-               class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Добави съобщение
-            </a>
+            @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+            {
+                <a asp-controller="News"
+                   asp-action="AddAnnouncement"
+                   class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Добави съобщение
+                </a>
+            }
         </div>
     }
     else
     {
         <div class="d-flex justify-content-end mb-4">
-            <a asp-controller="News"
-               asp-action="AddAnnouncement"
-               class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Добави съобщение
-            </a>
+            @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+            {
+                <a asp-controller="News"
+                   asp-action="AddAnnouncement"
+                   class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Добави съобщение
+                </a>
+            }
         </div>
 
         <div class="row gy-4">
@@ -44,22 +53,25 @@
                             </div>
                             <p class="card-text mb-3">@announcement.Content</p>
                             <div class="d-flex justify-content-end gap-2">
-                                <a asp-controller="News"
-                                   asp-action="EditAnnouncement"
-                                   asp-route-id="@announcement.Id"
-                                   class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit me-1"></i>
-                                    Редактирай
-                                </a>
-                                <button type="button"
-                                        class="btn btn-danger btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"
-                                        data-announcement-id="@announcement.Id"
-                                        data-announcement-title="@announcement.Title">
-                                    <i class="fas fa-trash me-1"></i>
-                                    Изтрий
-                                </button>
+                                @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+                                {
+                                    <a asp-controller="News"
+                                       asp-action="EditAnnouncement"
+                                       asp-route-id="@announcement.Id"
+                                       class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit me-1"></i>
+                                        Редактирай
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-danger btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-announcement-id="@announcement.Id"
+                                            data-announcement-title="@announcement.Title">
+                                        <i class="fas fa-trash me-1"></i>
+                                        Изтрий
+                                    </button>
+                                }
                             </div>
                         </div>
                     </div>
@@ -69,7 +81,6 @@
     }
 </div>
 
-<!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

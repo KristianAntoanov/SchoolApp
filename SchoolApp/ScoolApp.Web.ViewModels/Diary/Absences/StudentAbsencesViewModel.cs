@@ -1,12 +1,11 @@
-﻿namespace SchoolApp.Web.ViewModels
+﻿namespace SchoolApp.Web.ViewModels;
+
+public class StudentAbsencesViewModel
 {
-	public class StudentAbsencesViewModel
-	{
-        public string FirstName { get; set; } = null!;
+    public string FirstName { get; set; } = null!;
 
-        public string LastName { get; set; } = null!;
+    public string LastName { get; set; } = null!;
 
-        public IEnumerable<AbsencesViewModel> Absences { get; set; }
-            = new HashSet<AbsencesViewModel>();
-    }
+    public IEnumerable<AbsencesViewModel> Absences { get; set; }
+        = new HashSet<AbsencesViewModel>();
 }
