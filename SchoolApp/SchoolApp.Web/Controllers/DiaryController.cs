@@ -23,7 +23,7 @@ namespace SchoolApp.Web.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<DiaryIndexViewModel> model = await _service
-                .IndexGetAllClasses();
+                .IndexGetAllClassesAsync();
 
             return View(model);
         }
@@ -32,7 +32,7 @@ namespace SchoolApp.Web.Controllers
         public async Task<IActionResult> LoadClassAndContent(int classId)
         {
             IEnumerable<SubjectViewModel> model = await _service
-                .GetClassContent(classId);
+                .GetClassContentAsync(classId);
 
             return PartialView("Content", model);
         }
@@ -41,7 +41,7 @@ namespace SchoolApp.Web.Controllers
         public async Task<IActionResult> LoadGradeContent(int classId, int subjectId)
         {
             IEnumerable<StudentGradesViewModel> model = await _service
-                .GetGradeContent(classId, subjectId);
+                .GetGradeContentAsync(classId, subjectId);
 
             return PartialView("Grades", model);
         }
@@ -50,7 +50,7 @@ namespace SchoolApp.Web.Controllers
         public async Task<IActionResult> LoadRemarksContent(int classId)
         {
             IEnumerable<StudentRemarksViewModel> model = await _service
-                .GetRemarksContent(classId);
+                .GetRemarksContentAsync(classId);
 
             return PartialView("Remarks", model);
         }
@@ -59,7 +59,7 @@ namespace SchoolApp.Web.Controllers
         public async Task<IActionResult> LoadAbsencesContent(int classId)
         {
             IEnumerable<StudentAbsencesViewModel> model = await _service
-                .GetAbsencesContent(classId);
+                .GetAbsencesContentAsync(classId);
 
             return PartialView("Absences", model);
         }
@@ -68,7 +68,7 @@ namespace SchoolApp.Web.Controllers
         public async Task<IActionResult> AddGrades(int classId, int subjectId)
         {
             GradeFormModel model = await _service
-                .GetClassStudentForGrades<GradeFormModel>(classId, subjectId);
+                .GetClassStudentForAddAsync<GradeFormModel>(classId, subjectId);
 
             return View(model);
         }
@@ -78,7 +78,7 @@ namespace SchoolApp.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.Subjects = _service.GetSubjects();
+                model.Subjects = await _service.GetSubjectsAsync();
                 return View(model);
             }
 
@@ -88,7 +88,7 @@ namespace SchoolApp.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            bool result = await _service.AddGrades(userId, model);
+            bool result = await _service.AddGradesAsync(userId, model);
 
             if (!result)
             {
@@ -105,7 +105,7 @@ namespace SchoolApp.Web.Controllers
         public async Task<IActionResult> AddAbsence(int classId, int subjectId)
         {
             AbsenceFormModel model = await _service
-                .GetClassStudentForGrades<AbsenceFormModel>(classId, subjectId);
+                .GetClassStudentForAddAsync<AbsenceFormModel>(classId, subjectId);
 
             return View(model);
         }
@@ -115,11 +115,11 @@ namespace SchoolApp.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.Subjects = _service.GetSubjects();
+                model.Subjects = await _service.GetSubjectsAsync();
                 return View(model);
             }
 
-            bool result = await _service.AddAbsence(model);
+            bool result = await _service.AddAbsenceAsync(model);
 
             if (!result)
             {
@@ -133,7 +133,7 @@ namespace SchoolApp.Web.Controllers
         public async Task<IActionResult> AddRemark(int classId, int subjectId)
         {
             RemarkFormModel model = await _service
-                .GetClassStudentForGrades<RemarkFormModel>(classId, subjectId);
+                .GetClassStudentForAddAsync<RemarkFormModel>(classId, subjectId);
 
             return View(model);
         }
@@ -143,8 +143,8 @@ namespace SchoolApp.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.Subjects = _service.GetSubjects();
-                model.Students = _service.GetStudents(model);
+                model.Subjects = await _service.GetSubjectsAsync();
+                model.Students = await _service.GetStudentsAsync(model);
                 return View(model);
             }
 
@@ -154,7 +154,7 @@ namespace SchoolApp.Web.Controllers
                 return Redirect("/Identity/Account/Login");
             }
 
-            bool result = await _service.AddRemark(userId, model);
+            bool result = await _service.AddRemarkAsync(userId, model);
 
             if (!result)
             {
@@ -167,7 +167,7 @@ namespace SchoolApp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ExcuseAbsence(int id)
         {
-            bool result = await _service.ExcuseAbsence(id);
+            bool result = await _service.ExcuseAbsenceAsync(id);
 
             if (!result)
             {
@@ -180,7 +180,7 @@ namespace SchoolApp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAbsence(int id)
         {
-            bool result = await _service.DeleteAbsence(id);
+            bool result = await _service.DeleteAbsenceAsync(id);
 
             if (!result)
             {
@@ -193,7 +193,7 @@ namespace SchoolApp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteRemark(int id)
         {
-            bool result = await _service.DeleteRemark(id);
+            bool result = await _service.DeleteRemarkAsync(id);
 
             if (!result)
             {
@@ -206,7 +206,7 @@ namespace SchoolApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EditRemark(int id)
         {
-            EditRemarkViewModel? model = await _service.GetRemarkById(id);
+            EditRemarkViewModel? model = await _service.GetRemarkByIdAsync(id);
 
             if (model == null)
             {
@@ -224,7 +224,7 @@ namespace SchoolApp.Web.Controllers
                 return View(model);
             }
 
-            bool result = await _service.EditRemark(model);
+            bool result = await _service.EditRemarkAsync(model);
 
             if (!result)
             {

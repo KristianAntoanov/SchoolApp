@@ -33,23 +33,19 @@ public class HomeController : BaseController
             {
                 return View("Error400");
             }
-
-            if (statusCode == 401)
+            else if (statusCode == 401)
             {
                 return RedirectToAction(nameof(AccessDenied));
             }
-
-            if (statusCode == 403)
+            else if (statusCode == 403)
             {
                 return View("Error403");
             }
-
-            if (statusCode == 404)
+            else if (statusCode == 404)
             {
                 return View("Error404");
             }
-
-            if (statusCode == 500)
+            else if (statusCode == 500)
             {
                 return View("Error500");
             }

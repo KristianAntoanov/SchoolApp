@@ -7,36 +7,36 @@ namespace SchoolApp.Services.Data.Contrancts
 {
 	public interface IDiaryService
 	{
-        Task<IEnumerable<DiaryIndexViewModel>> IndexGetAllClasses();
+        Task<IEnumerable<DiaryIndexViewModel>> IndexGetAllClassesAsync();
 
-        Task<IEnumerable<StudentGradesViewModel>> GetGradeContent(int classId, int subjectId);
+        Task<IEnumerable<StudentGradesViewModel>> GetGradeContentAsync(int classId, int subjectId);
 
-        Task<IEnumerable<SubjectViewModel>> GetClassContent(int classId);
+        Task<IEnumerable<SubjectViewModel>> GetClassContentAsync(int classId);
 
-        Task<IEnumerable<StudentRemarksViewModel>> GetRemarksContent(int classId);
+        Task<IEnumerable<StudentRemarksViewModel>> GetRemarksContentAsync(int classId);
 
-        Task<IEnumerable<StudentAbsencesViewModel>> GetAbsencesContent(int classId);
+        Task<IEnumerable<StudentAbsencesViewModel>> GetAbsencesContentAsync(int classId);
 
-        Task<T> GetClassStudentForGrades<T>(int classId, int subjectId) where T : StudentBaseViewModel, new();
+        Task<T> GetClassStudentForAddAsync<T>(int classId, int subjectId) where T : StudentBaseViewModel, new();
 
-        Task<bool> AddGrades(string userId, GradeFormModel model);
+        Task<bool> AddGradesAsync(string userId, GradeFormModel model);
 
-        Task<bool> AddAbsence(AbsenceFormModel model);
+        Task<bool> AddAbsenceAsync(AbsenceFormModel model);
 
-        Task<bool> AddRemark(string userId, RemarkFormModel model);
+        Task<bool> AddRemarkAsync(string userId, RemarkFormModel model);
 
-        Task<bool> ExcuseAbsence(int id);
+        Task<bool> ExcuseAbsenceAsync(int id);
 
-        Task<bool> DeleteAbsence(int id);
+        Task<bool> DeleteAbsenceAsync(int id);
 
-        Task<bool> DeleteRemark(int id);
+        Task<bool> DeleteRemarkAsync(int id);
 
-        Task<EditRemarkViewModel?> GetRemarkById(int id);
+        Task<EditRemarkViewModel?> GetRemarkByIdAsync(int id);
 
-        Task<bool> EditRemark(EditRemarkViewModel model);
+        Task<bool> EditRemarkAsync(EditRemarkViewModel model);
 
-        IEnumerable<SubjectViewModel> GetSubjects();
+        Task<IEnumerable<SubjectViewModel>> GetSubjectsAsync();
 
-        IList<StudentRemarkFormModel> GetStudents(RemarkFormModel model);
+        Task<IList<StudentRemarkFormModel>> GetStudentsAsync(RemarkFormModel model);
     }
 }

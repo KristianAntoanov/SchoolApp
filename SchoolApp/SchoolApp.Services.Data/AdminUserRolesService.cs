@@ -47,7 +47,7 @@ namespace SchoolApp.Services.Data
 
                 viewModels.Add(new UserRolesViewModel
                 {
-                    Id = user.Id,
+                    Id = user.Id,   
                     Username = user.UserName!,
                     Email = user.Email!,
                     TeacherId = teacherId,
