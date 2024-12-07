@@ -1,4 +1,5 @@
-﻿using SchoolApp.Data.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SchoolApp.Data.Models;
 using SchoolApp.Web.ViewModels;
 using SchoolApp.Web.ViewModels.Diary.AddForms;
 using SchoolApp.Web.ViewModels.Diary.Remarks;
@@ -38,5 +39,7 @@ namespace SchoolApp.Services.Data.Contrancts
         Task<IEnumerable<SubjectViewModel>> GetSubjectsAsync();
 
         Task<IList<StudentRemarkFormModel>> GetStudentsAsync(RemarkFormModel model);
+
+        IEnumerable<SelectListItem> GetGradeTypes();
     }
 }

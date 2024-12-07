@@ -13,29 +13,29 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
-                            <label asp-for="Title" class="form-label">Заглавие</label>
-                            <input asp-for="Title" class="form-control" />
-                            <span asp-validation-for="Title" class="text-danger"></span>
+                            <label asp-for="@Model.Title" class="form-label">Заглавие</label>
+                            <input asp-for="@Model.Title" class="form-control" />
+                            <span asp-validation-for="@Model.Title" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Content" class="form-label">Съдържание</label>
-                            <textarea asp-for="Content" class="form-control" rows="10"></textarea>
-                            <span asp-validation-for="Content" class="text-danger"></span>
+                            <label asp-for="@Model.Content" class="form-label">Съдържание</label>
+                            <textarea asp-for="@Model.Content" class="form-control" rows="10"></textarea>
+                            <span asp-validation-for="@Model.Content" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Category" class="form-label">Категория</label>
-                            <select asp-for="Category" class="form-select"
+                            <label asp-for="@Model.Category" class="form-label">Категория</label>
+                            <select asp-for="@Model.Category" class="form-select"
                                     asp-items="@EnumExtensions.ToSelectList<NewsCategory>()">
                             </select>
-                            <span asp-validation-for="Category" class="text-danger"></span>
+                            <span asp-validation-for="@Model.Category" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Image" class="form-label">Изображение</label>
-                            <input asp-for="Image" class="form-control" type="file" accept=".jpg,.jpeg,.png" />
-                            <span asp-validation-for="Image" class="text-danger"></span>
+                            <label asp-for="@Model.Image" class="form-label">Изображение</label>
+                            <input asp-for="@Model.Image" class="form-control" type="file" accept=".jpg,.jpeg,.png" />
+                            <span asp-validation-for="@Model.Image" class="text-danger"></span>
                             <div class="form-text">Максимален размер: 2MB. Позволени формати: JPG, JPEG, PNG</div>
                         </div>
                     </div>

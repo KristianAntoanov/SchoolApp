@@ -3,6 +3,10 @@
     ViewData["Title"] = "Новини";
 }
 
+@section Scripts {
+    <link rel="stylesheet" href="~/css/News/CardHover.css" asp-append-version="true" />
+}
+
 <div class="container mt-4">
     <h2 class="text-center mb-3">Новини</h2>
     <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
@@ -75,7 +79,3 @@
         </div>
     }
 </div>
-
-@section Scripts {
-    <script src="~/js/News/CardHover.js" asp-append-version="true"></script>
-}

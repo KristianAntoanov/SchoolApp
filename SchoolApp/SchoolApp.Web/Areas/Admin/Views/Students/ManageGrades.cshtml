@@ -133,7 +133,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
                 <form id="deleteGradeForm" method="post" asp-controller="Students" asp-action="DeleteGrade">
-                    @Html.AntiForgeryToken()
                     <input type="hidden" id="gradeIdToDelete" name="gradeId" />
                     <input type="hidden" name="studentId" value="@Model.StudentId" />
                     <button type="submit" class="btn btn-danger">Изтрий</button>

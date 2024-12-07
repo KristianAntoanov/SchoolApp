@@ -71,7 +71,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
                 <form id="deleteImageForm" asp-controller="Gallery" asp-action="DeleteImage" method="post">
-                    @Html.AntiForgeryToken()
                     <input type="hidden" name="albumId" value="@Model.Id" />
                     <input type="hidden" name="id" id="imageIdToDelete" />
                     <button type="submit" class="btn btn-danger">Изтрий</button>

@@ -12,7 +12,7 @@ public class StudentBaseViewModel
     [IsDateValid(ErrorMessage = DateAfterMessage)]
     public DateTime AddedOn { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = GradeSubjectRequiredMessage)]
     public int SubjectId { get; set; }
 
     public IEnumerable<SubjectViewModel> Subjects { get; set; }

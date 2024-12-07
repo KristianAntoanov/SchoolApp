@@ -73,6 +73,8 @@ public class DiaryController : BaseController
         GradeFormModel model = await _service
             .GetClassStudentForAddAsync<GradeFormModel>(classId, subjectId);
 
+        model.GradeTypes = _service.GetGradeTypes();
+
         return View(model);
     }
 
@@ -83,6 +85,7 @@ public class DiaryController : BaseController
         if (!ModelState.IsValid)
         {
             model.Subjects = await _service.GetSubjectsAsync();
+            model.GradeTypes = _service.GetGradeTypes();
             return View(model);
         }
 

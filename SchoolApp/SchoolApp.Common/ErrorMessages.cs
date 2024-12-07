@@ -28,6 +28,9 @@ public class ErrorMessages
     public const string ContactSubjectRequiredMessage = "Името е задължително";
     public const string ContactMessageRequiredMessage = "Името е задължително";
 
+    public const string GradeSubjectRequiredMessage = "Моля, изберете предмет";
+    public const string GradeTypeRequiredMessage = "Моля, изберете тип на оценката";
+
     //AccountRequiredMessages
     public const string EmailRequiredMessage = "Имейла е задължителен.";
     public const string PasswordRequiredMessage = "Паролата е задължителна.";

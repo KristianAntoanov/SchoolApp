@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 using SchoolApp.Data.Models;
 using SchoolApp.Data.Repository.Contracts;
@@ -370,4 +371,19 @@ public class DiaryService : IDiaryService
 
         return students;
     }
+
+    public IEnumerable<SelectListItem> GetGradeTypes()
+        => Enum.GetValues<GradeType>()
+            .Select(t => new SelectListItem
+            {
+                Value = t.ToString(),
+                Text = t switch
+                {
+                    GradeType.Current => "Текуща оценка",
+                    GradeType.FirstTerm => "Първи срок",
+                    GradeType.SecondTerm => "Втори срок",
+                    GradeType.Yearly => "Годишна оценка",
+                    _ => t.ToString()
+                }
+            });
 }
