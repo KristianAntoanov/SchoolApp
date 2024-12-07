@@ -1,10 +1,7 @@
-﻿using System.Diagnostics;
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using SchoolApp.Services.Data.Contrancts;
-using SchoolApp.Web.Models;
 using SchoolApp.Web.ViewModels.Home;
 
 namespace SchoolApp.Web.Controllers;
@@ -49,13 +46,17 @@ public class HomeController : BaseController
             {
                 return View("Error404");
             }
+            else if (statusCode == 405)
+            {
+                return View("Error405");
+            }
             else if (statusCode == 500)
             {
                 return View("Error500");
             }
         }
 
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View();
     }
 
     [HttpGet]

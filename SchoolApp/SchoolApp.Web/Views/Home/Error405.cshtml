@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Неразрешен метод";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-2 d-flex align-items-center">
+            <i class="fa fa-angle-double-left fa-4x me-3 text-secondary"></i>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="mb-4">
+                <svg viewBox="0 0 24 24" width="200" height="200">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="#dc3545" stroke-width="2" />
+                    <g transform-origin="12 7">
+                        <animateTransform attributeName="transform" type="rotate" values="-20;20;-15;15;-10;10;-5;5;0" dur="2s" repeatCount="3" />
+                        <line x1="12" y1="7" x2="12" y2="13" stroke="#dc3545" stroke-width="2" stroke-linecap="round" />
+                        <circle cx="12" cy="16" r="1" fill="#dc3545" />
+                    </g>
+                </svg>
+                <h1 class="display-1 fw-bold">405</h1>
+                <h2 class="h3 mb-4">Методът на заявката не е разрешен</h2>
+                <p class="text-muted mb-4">
+                    Съжаляваме, но достъп до тази страница не е разрешен. Моля, опитайте да достъпите страницата по правилния начин или се свържете с администратор.
+                </p>
+            </div>
+            <div>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-home me-2"></i>Към начална страница
+                </a>
+                <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Назад
+                </a>
+            </div>
+        </div>
+        <div class="col-2 d-flex align-items-center justify-content-end">
+            <i class="fa fa-angle-double-right fa-4x ms-3 text-secondary"></i>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolApp.Services.Data;
 using SchoolApp.Services.Data.Contrancts;
@@ -22,7 +23,11 @@ builder.Services.RegisterUserDefinedServices(typeof(IDiaryService).Assembly);
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddApplicationAuthentication();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(cfg =>
+{
+    cfg.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
+
 builder.Services.AddRazorPages();
 
 

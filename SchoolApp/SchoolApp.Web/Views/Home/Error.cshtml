@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Грешка";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-2 d-flex align-items-center">
+            <i class="fa fa-angle-double-left fa-4x me-3 text-secondary"></i>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="mb-4">
+                <div class="mb-4">
+                    <svg width="230" height="230" viewBox="0 0 375 375" preserveAspectRatio="xMidYMid meet" version="1.0">
+                        <path fill="#303030"
+                              d="M 265.48 296.74 L 109.17 296.74 C 94.33 296.74 81.04 289.05 73.62 276.15 C 66.20 263.26 66.20 247.87 73.62 234.98 L 151.77 99.19 L 160.04 103.98 L 151.77 99.19 C 159.19 86.30 172.48 78.60 187.32 78.60 C 202.16 78.60 215.45 86.29 222.88 99.19 L 301.03 234.98 C 308.45 247.87 308.45 263.26 301.03 276.15 C 293.61 289.05 280.32 296.74 265.48 296.74 Z M 187.32 97.76 C 179.39 97.76 172.29 101.88 168.32 108.77 L 90.16 244.56 C 86.20 251.45 86.20 259.68 90.16 266.57 C 94.13 273.46 101.23 277.58 109.17 277.58 L 265.48 277.58 C 273.41 277.58 280.52 273.46 284.49 266.57 C 288.45 259.68 288.45 251.45 284.49 244.56 L 206.33 108.77 C 202.36 101.88 195.26 97.76 187.32 97.76 Z"
+                              fill-opacity="1"
+                              fill-rule="nonzero" />
+                        <g transform-origin="193 165">
+                            <animateTransform attributeName="transform"
+                                              type="rotate"
+                                              values="-10;10;-8;8;-5;5;-3;3;0"
+                                              dur="2s"
+                                              repeatCount="3" />
+                            <path fill="#303030"
+                                  d="M 187.32 256.80 C 180.01 256.80 174.06 250.83 174.06 243.49 C 174.06 236.16 180.01 230.18 187.32 230.18 C 194.64 230.18 200.59 236.16 200.59 243.49 C 200.59 250.83 194.64 256.80 187.32 256.80 Z"
+                                  fill-opacity="1"
+                                  fill-rule="nonzero" />
+
+                            <path fill="#303030"
+                                  d="M 187.09 217.08 C 181.38 217.08 176.59 212.79 175.94 207.09 L 170.65 160.46 C 170.12 155.77 171.61 151.06 174.75 147.54 C 177.88 144.02 182.38 142.00 187.09 142.00 C 191.80 142.00 196.29 144.02 199.43 147.54 C 202.56 151.06 204.05 155.77 203.52 160.46 L 198.24 207.09 C 197.59 212.79 192.80 217.08 187.09 217.08 Z"
+                                  fill-opacity="1"
+                                  fill-rule="nonzero" />
+                        </g>
+                    </svg>
+
+                </div>
+                <h1 class="display-1 fw-bold">Грешка</h1>
+                <h2 class="h3 mb-4">Възникна неочаквана грешка</h2>
+                <p class="text-muted mb-4">
+                    Съжаляваме, но възникна неочаквана грешка при обработката на вашата заявка.
+                    Моля, опитайте отново или се свържете с администратор ако проблемът продължава.
+                </p>
+            </div>
+            <div>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-home me-2"></i>Към начална страница
+                </a>
+                <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Назад
+                </a>
+            </div>
+        </div>
+        <div class="col-2 d-flex align-items-center justify-content-end">
+            <i class="fa fa-angle-double-right fa-4x ms-3 text-secondary"></i>
+        </div>
+    </div>
+</div>
