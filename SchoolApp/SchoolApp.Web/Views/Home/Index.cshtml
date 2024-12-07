@@ -2,9 +2,14 @@
     ViewData["Title"] = "Начало";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/Home/StatsStyles.css" asp-append-version="true" />
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
+}
+
 <div class="container-fluid p-0 mainDiv">
     <div class="container mt-4 mb-4">
-        <div class="text-center">
+        <div class="text-center" data-aos="fade-up">
             <h1 class="text-uppercase fw-bold mb-3" style="font-size: 2rem;">
                 Софийска гимназия по строителство, архитектура и геодезия „Христо Ботев"
             </h1>
@@ -12,25 +17,25 @@
         </div>
     </div>
 
-    <div class="image-container w-100">
+    <div class="image-container w-100" data-aos="fade-up">
         <img src="~/img/school.jpg"
-             class="img-fluid w-100 slide-up"
+             class="img-fluid w-100"
              alt="СГСАГ Христо Ботев"
              style="object-fit: cover; height: calc(100vh - 200px);">
     </div>
 
-    <div class="container mt-5 slide-up">
-        <h2 class="text-center text-uppercase fw-bold mb-3">Изгради своето бъдеще с нас</h2>
-        <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+    <div class="container mt-5">
+        <h2 class="text-center text-uppercase fw-bold mb-3" data-aos="fade-up">Изгради своето бъдеще с нас</h2>
+        <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;" data-aos="fade-up"></div>
 
         <div class="row align-items-center">
-            <div class="col-md-4 text-center">
+            <div class="col-md-4 text-center" data-aos="fade-up">
                 <img src="~/img/director.jpg"
                      class="img-fluid rounded"
                      alt="Директор на СГСАГ"
                      style="max-width: 300px; box-shadow: 0 10px 20px rgba(0,0,0,0.5);">
             </div>
-            <div class="col-md-8">
+            <div class="col-md-8" data-aos="fade-up" data-aos-delay="100">
                 <h2 class="mb-4">Добре дошли в СГСАГ „Христо Ботев"</h2>
                 <p class="lead">
                     Уважаеми ученици, родители и колеги,
@@ -53,13 +58,13 @@
         </div>
     </div>
     <div class="container mt-5">
-        <div class="text-center">
+        <div class="text-center" data-aos="fade-up">
             <h2 class="text-uppercase fw-bold mb-3">За Нас</h2>
             <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
         </div>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" data-aos="fade-up">
                 <p class="text-center mb-4">
                     СГСАГ "Христо Ботев" е училище с дългогодишна история и традиции в професионалното образование.
                     Ние подготвяме висококвалифицирани специалисти в областта на строителството, архитектурата и геодезията.
@@ -67,7 +72,7 @@
                 <p></p>
             </div>
 
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="text-center">
                     <i class="fas fa-building fa-3x mb-3 text-primary"></i>
                     <h4>Строителство</h4>
@@ -75,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="text-center">
                     <i class="fas fa-drafting-compass fa-3x mb-3 text-primary"></i>
                     <h4>Архитектура</h4>
@@ -83,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
                 <div class="text-center">
                     <i class="fas fa-map-marked-alt fa-3x mb-3 text-primary"></i>
                     <h4>Геодезия</h4>
@@ -92,13 +97,57 @@
             </div>
         </div>
     </div>
+    <!--------------------------------------------->
     <div class="container mt-5">
-        <div class="text-center">
+        <div class="text-center" data-aos="fade-up">
+            <h2 class="text-uppercase fw-bold mb-3">Статистика</h2>
+            <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+        </div>
+
+        <div class="row gy-4">
+            <div class="col-lg-4 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="stats-item text-center w-100 h-100">
+                    <i class="fa-solid fa-children fa-2x mb-3 text-secondary"></i>
+                    <span data-purecounter-start="0"
+                          data-purecounter-end="851"
+                          data-purecounter-duration="3"
+                          class="purecounter">
+                    </span>
+                    <h4>Ученици</h4>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="stats-item text-center w-100 h-100">
+                    <i class="fas fa-chalkboard-teacher fa-2x mb-3 text-secondary"></i>
+                    <span data-purecounter-start="0"
+                          data-purecounter-end="45"
+                          data-purecounter-duration="3"
+                          class="purecounter">
+                    </span>
+                    <h4>Учители</h4>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="stats-item text-center w-100 h-100">
+                    <i class="fas fa-user-graduate fa-2x mb-3 text-secondary"></i>
+                    <span data-purecounter-start="0"
+                          data-purecounter-end="10073"
+                          data-purecounter-duration="3"
+                          class="purecounter">
+                    </span>
+                    <h4>Завършили ученици</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------------------------------->
+    <div class="container mt-5">
+        <div class="text-center" data-aos="fade-up">
             <h2 class="text-uppercase fw-bold mb-3">Контакти</h2>
             <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
         </div>
 
-        <div class="row position-relative">
+        <div class="row position-relative contactBackgroundImage">
             <!-- Background Image Container -->
             <div class="map-background position-absolute h-100 w-50">
                 <img src="~/img/contact-bg.png">
@@ -108,7 +157,7 @@
             <div class="col-md-4 mb-4" style="margin-top: 80px; padding-left: 70px;">
                 <div class="d-flex align-items-center mb-4">
                     <i class="fas fa-map-marker-alt fa-2x me-3 text-primary"></i>
-                    <div>
+                    <div data-aos="fade-up" data-aos-delay="100">
                         <h5 class="mb-0">Адрес</h5>
                         <p class="mb-0">ул. "Добри Войников" №16</p>
                     </div>
@@ -116,7 +165,7 @@
 
                 <div class="d-flex align-items-center mb-4">
                     <i class="fas fa-phone fa-2x me-3 text-primary"></i>
-                    <div>
+                    <div data-aos="fade-up" data-aos-delay="200">
                         <h5 class="mb-0">Телефон</h5>
                         <p class="mb-0">02/866 12 71</p>
                     </div>
@@ -124,7 +173,7 @@
 
                 <div class="d-flex align-items-center">
                     <i class="fas fa-envelope fa-2x me-3 text-primary"></i>
-                    <div>
+                    <div data-aos="fade-up" data-aos-delay="300">
                         <h5 class="mb-0">Имейл</h5>
                         <p class="mb-0">sgcag@sgcag.info</p>
                     </div>
@@ -135,3 +184,14 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/Vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/vendor/aos/aos.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function () {
+            AOS.init();
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            new PureCounter();
+        });</script>
+}

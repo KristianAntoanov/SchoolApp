@@ -14,4 +14,7 @@ public class ApplicationConstants
     public const int ContactMessageMinLenght = 10;
     public const int ContactMessageMaxLenght = 300;
 
+    public const int ReleaseYear = 2024;
+
+    public const string AppName = "SchoolApp";
 }

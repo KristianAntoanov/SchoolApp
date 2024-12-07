@@ -90,6 +90,10 @@
     <Folder Include="Views\Shared\Components\" />
     <Folder Include="Views\Shared\Components\ContactForm\" />
     <Folder Include="wwwroot\js\Diary\Confirmation\" />
+    <Folder Include="wwwroot\css\Home\" />
+    <Folder Include="wwwroot\Vendor\" />
+    <Folder Include="wwwroot\Vendor\aos\" />
+    <Folder Include="wwwroot\Vendor\purecounter\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
@@ -107,6 +111,10 @@
     <Content Remove="wwwroot\js\News\" />
     <Content Remove="wwwroot\css\Team\" />
     <Content Remove="wwwroot\js\Diary\Confirmation\" />
+    <Content Remove="wwwroot\css\Home\" />
+    <Content Remove="wwwroot\Vendor\" />
+    <Content Remove="wwwroot\Vendor\aos\" />
+    <Content Remove="wwwroot\Vendor\purecounter\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\lib\FontAwesome\.DS_Store" />
