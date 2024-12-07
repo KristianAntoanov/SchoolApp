@@ -29,7 +29,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
                 GuidId = Guid.NewGuid(),
                 FirstName = "Стефан",
                 LastName = "Николов",
-                ImageUrl = "/img/No_Image.jpg",
+                ImageUrl = "/img/No_Image.svg",
                 JobTitle = "Учител",
                 ApplicationUserId = Guid.Parse("39d7bb6d-eb8a-40fc-be00-9c5296a2717c")
             },
@@ -38,7 +38,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
                 GuidId = Guid.NewGuid(),
                 FirstName = "Маргарита",
                 LastName = "Йорданова",
-                ImageUrl = "/img/No_Image.jpg",
+                ImageUrl = "/img/No_Image.svg",
                 JobTitle = "Учител",
                 ApplicationUserId = Guid.Parse("79eb351b-ed32-4309-9234-88db8555cd3d")
             },
@@ -47,7 +47,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
                 GuidId = Guid.NewGuid(),
                 FirstName = "Мария",
                 LastName = "Чавдарова",
-                ImageUrl = "/img/No_Image.jpg",
+                ImageUrl = "/img/No_Image.svg",
                 JobTitle = "Учител",
                 ApplicationUserId = Guid.Parse("e4c5fd5f-c02a-474b-8f51-d4a543f361d3")
             },
@@ -56,7 +56,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
                 GuidId = Guid.NewGuid(),
                 FirstName = "Ани",
                 LastName = "Григорова",
-                ImageUrl = "/img/No_Image.jpg",
+                ImageUrl = "/img/No_Image.svg",
                 JobTitle = "Учител",
                 ApplicationUserId = Guid.Parse("d040cb3e-ae29-4045-943c-4030a4249476")
             },
@@ -65,7 +65,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
                 GuidId = Guid.NewGuid(),
                 FirstName = "Цветелина",
                 LastName = "Томова",
-                ImageUrl = "/img/No_Image.jpg",
+                ImageUrl = "/img/No_Image.svg",
                 JobTitle = "Заместник-директор",
                 ApplicationUserId = Guid.Parse("1874d51f-29bc-4669-8f9d-938eaa55e4dd")
             },
@@ -74,7 +74,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
                 GuidId = Guid.NewGuid(),
                 FirstName = "Емилия",
                 LastName = "Истаткова",
-                ImageUrl = "/img/No_Image.jpg",
+                ImageUrl = "/img/No_Image.svg",
                 JobTitle = "Заместник-директор",
                 ApplicationUserId = Guid.Parse("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99")
             }
