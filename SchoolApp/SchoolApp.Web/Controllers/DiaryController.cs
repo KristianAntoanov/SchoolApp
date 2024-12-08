@@ -99,9 +99,11 @@ public class DiaryController : BaseController
 
         if (!result)
         {
-            return RedirectToAction(nameof(Index));
+            TempData["ErrorMessage"] = "Невалидни данни.";
+            return BadRequest();
         }
 
+        TempData["SuccessMessage"] = "Успешно добавихте оценки.";
         return RedirectToAction(nameof(Index), new
         {
             selectedSubjectId = model.SubjectId
@@ -132,9 +134,11 @@ public class DiaryController : BaseController
 
         if (!result)
         {
+            TempData["ErrorMessage"] = "Невалидни данни.";
             return BadRequest();
         }
 
+        TempData["SuccessMessage"] = "Успешно добавихте отсъствия.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -169,9 +173,11 @@ public class DiaryController : BaseController
 
         if (!result)
         {
+            TempData["ErrorMessage"] = "Невалидни данни.";
             return BadRequest();
         }
 
+        TempData["SuccessMessage"] = "Успешно добавихте забележка.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -183,9 +189,11 @@ public class DiaryController : BaseController
 
         if (!result)
         {
+            TempData["ErrorMessage"] = "Невалидни данни.";
             return BadRequest();
         }
 
+        TempData["SuccessMessage"] = "Успешно извинихте отсъствието.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -197,9 +205,11 @@ public class DiaryController : BaseController
 
         if (!result)
         {
+            TempData["ErrorMessage"] = "Невалидни данни.";
             return BadRequest();
         }
 
+        TempData["SuccessMessage"] = "Успешно изтрихте отсъствието.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -211,9 +221,11 @@ public class DiaryController : BaseController
 
         if (!result)
         {
+            TempData["ErrorMessage"] = "Невалидни данни.";
             return BadRequest();
         }
 
+        TempData["SuccessMessage"] = "Успешно извинихте отсъствието.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -225,6 +237,7 @@ public class DiaryController : BaseController
 
         if (model == null)
         {
+            TempData["ErrorMessage"] = "Забележката не е намерена.";
             return NotFound();
         }
 
@@ -244,9 +257,11 @@ public class DiaryController : BaseController
 
         if (!result)
         {
+            TempData["ErrorMessage"] = "Невалидни данни.";
             return BadRequest();
         }
 
+        TempData["SuccessMessage"] = "Успешно редактирахте забележката.";
         return RedirectToAction(nameof(Index));
     }
 }
