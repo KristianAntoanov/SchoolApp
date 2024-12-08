@@ -94,6 +94,7 @@
     <Folder Include="wwwroot\Vendor\" />
     <Folder Include="wwwroot\Vendor\aos\" />
     <Folder Include="wwwroot\Vendor\purecounter\" />
+    <Folder Include="wwwroot\js\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\img\" />
@@ -115,6 +116,7 @@
     <Content Remove="wwwroot\Vendor\" />
     <Content Remove="wwwroot\Vendor\aos\" />
     <Content Remove="wwwroot\Vendor\purecounter\" />
+    <Content Remove="wwwroot\js\Home\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\lib\FontAwesome\.DS_Store" />

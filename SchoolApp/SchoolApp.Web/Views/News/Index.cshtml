@@ -1,15 +1,17 @@
 ﻿@model IEnumerable<NewsViewModel>
 @{
     ViewData["Title"] = "Новини";
+    int fadeupcount = 100;
 }
 
-@section Scripts {
+@section Styles {
     <link rel="stylesheet" href="~/css/News/CardHover.css" asp-append-version="true" />
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
 }
 
 <div class="container mt-4">
     <h2 class="text-center mb-3">Новини</h2>
-    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #E64833;"></div>
 
     @if (!Model.Any())
     {
@@ -47,7 +49,7 @@
             @foreach (var news in Model)
             {
                 <div class="col">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm" data-aos="fade-up" data-aos-delay="@fadeupcount">
                         @if (!string.IsNullOrEmpty(news.ImageUrl))
                         {
                             <img src="@news.ImageUrl" class="card-img-top" alt="@news.Title" style="height: 200px; object-fit: cover;">
@@ -75,7 +77,13 @@
                         </div>
                     </div>
                 </div>
+                fadeupcount += 50;
             }
         </div>
     }
 </div>
+
+@section Scripts {
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/js/News/FadeUp.js"></script>
+}

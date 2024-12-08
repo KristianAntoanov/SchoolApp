@@ -1,21 +1,23 @@
 ﻿@model IEnumerable<TeachersViewModel>
 @{
-    ViewData["Title"] = "Галерия";
+    ViewData["Title"] = "Екип";
 
     var director = Model.FirstOrDefault(t => t.JobTitle == "Директор");
     var teachers = Model.Where(t => t.JobTitle != "Директор");
+    int fadeupcount = 100;
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/Team/DirectorCardStyle.css" asp-append-version="true" />
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
 }
 
 <div class="container py-5">
     <h2 class="text-center mb-3">Нашият Екип</h2>
-    <div class="mx-auto mb-3" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+    <div class="mx-auto mb-3" style="width: 60%; height: 2px; background-color: #E64833;"></div>
     @if (director != null)
     {
-        <div class="card director-card mb-5">
+        <div class="card director-card mb-5" data-aos="fade-up" data-aos-delay="100">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="@director.Photo"
@@ -36,7 +38,7 @@
         @foreach (var teacher in teachers)
         {
             <div class="col">
-                <div class="card h-100 team-card">
+                <div class="card h-100 team-card" data-aos="fade-up" data-aos-delay="@fadeupcount">
                     <img src="@teacher.Photo"
                          class="card-img-top team-member-img"
                          alt="@teacher.FirstName @teacher.LastName">
@@ -53,6 +55,12 @@
                     </div>
                 </div>
             </div>
-        }
+             fadeupcount += 50;
+         }
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/js/Home/FadeUp.js"></script>
+}

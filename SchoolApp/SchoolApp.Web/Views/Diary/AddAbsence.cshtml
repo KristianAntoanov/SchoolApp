@@ -3,57 +3,73 @@
     ViewData["Title"] = "Добави Отсъствие";
 }
 
-<div class="container my-5">
-    <h2 class="text-center mb-3">Добави Отсъствие</h2>
-    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+@section Styles {
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
+}
 
+<div class="container my-5">
     <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <form id="gradeForm" asp-controller="Diary" asp-action="AddAbsence" method="post">
-                <div class="form-group mb-3">
-                    <label asp-for="@Model.AddedOn" for="addedOn">Дата</label>
-                    <input asp-for="@Model.AddedOn" type="date" id="addedOn" class="form-control">
-                    <span asp-validation-for="@Model.AddedOn" class="text-danger"></span>
+        <div class="col-md-10 offset-md-1" data-aos="fade-up">
+            <div class="card shadow p-3 bg-body-tertiary rounded">
+                <div class="card-header bg-white" style="border-bottom: 2px solid #E64833;">
+                    <h2 class="text-center mb-0">Добави Отсъствие</h2>
                 </div>
-                <div class="form-group mb-3">
-                    <label asp-for="@Model.SubjectId" for="subjectId" class="form-label-add-edit">Избери Предмет</label>
-                    <select asp-for="@Model.SubjectId" id="subjectId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Subjects, "Id", "Name"))">
-                        <option value="">Избери Предмет...</option>
-                    </select>
+                <div class="card-body">
+                    <form id="gradeForm" asp-controller="Diary" asp-action="AddAbsence" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="@Model.AddedOn" for="addedOn">Дата</label>
+                                    <input asp-for="@Model.AddedOn" type="date" id="addedOn" class="form-control">
+                                    <span asp-validation-for="@Model.AddedOn" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="@Model.SubjectId" for="subjectId" class="form-label-add-edit">Избери Предмет</label>
+                                    <select asp-for="@Model.SubjectId" id="subjectId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Subjects, "Id", "Name"))">
+                                        <option value="">Избери Предмет...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive mt-4">
+                            <table class="table table-bordered text-center">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Ученик</th>
+                                        <th>Добави Отсъствие</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Students.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>@Model.Students[i].FirstName @Model.Students[i].LastName</td>
+                                            <td class="text-center">
+                                                <input type="hidden" asp-for="@Model.Students[i].Id" />
+                                                <input type="hidden" name="Students[@i].FirstName" value="@Model.Students[i].FirstName" />
+                                                <input type="hidden" name="Students[@i].LastName" value="@Model.Students[i].LastName" />
+                                                <input type="checkbox" id="student@(i)" class="form-check-input" asp-for="@Model.Students[i].IsChecked" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card-footer bg-white border-0 d-flex justify-content-end gap-2 mt-4">
+                            <a asp-controller="Diary" asp-action="Index" class="btn btn-secondary">
+                                <i class="fa-solid fa-arrow-left me-2"></i>Назад
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-check me-2"></i>Запази
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="mt-4">
-                    <table class="table table-bordered text-center">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Ученик</th>
-                                <th>Добави Отсъствие</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < Model.Students.Count; i++)
-                            {
-                                <tr>
-                                    <td>@Model.Students[i].FirstName @Model.Students[i].LastName</td>
-                                    <td class="text-center">
-                                        <input type="hidden" asp-for="@Model.Students[i].Id" />
-                                        <input type="hidden" name="Students[@i].FirstName" value="@Model.Students[i].FirstName" />
-                                        <input type="hidden" name="Students[@i].LastName" value="@Model.Students[i].LastName" />
-                                        <input type="checkbox" id="student@(i)" class="form-check-input" asp-for="@Model.Students[i].IsChecked" />
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-end mb-4">
-                        <button type="submit" class="btn btn-primary btn-dark-text py-2 fw-bold rounded me-2">
-                            <i class="fa-solid fa-check me-2"></i> Запази
-                        </button>
-                        <a asp-controller="Diary" asp-action="Index" class="btn btn-secondary d-flex justify-content-center align-items-center mx-1">
-                            <i class="fa-solid fa-arrow-left me-2"></i>  Назад
-                        </a>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -79,5 +95,7 @@
 @section Scripts {
     <script src="~/js/Diary/DateValidation/DateValidation.js" asp-append-version="true"></script>
     <script src="~/js/Diary/Confirmation/ConfirmationModal.js" asp-append-version="true"></script>
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/js/Home/FadeUp.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }

@@ -1,46 +1,54 @@
 ﻿@model AddAnnouncementViewModel
 @{
-    ViewData["Title"] = "Добави съобщение";
+    ViewData["Title"] = "Редактиране на съобщение";
 }
 
-<div class="container mt-4">
-    <h2 class="text-center mb-3">Добави съобщение</h2>
-    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+@section Styles {
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
+}
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <form method="post">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label asp-for="@Model.Title" class="form-label">Заглавие</label>
-                            <input asp-for="@Model.Title" class="form-control" />
-                            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-10 offset-md-1" data-aos="fade-up">
+            <div class="card shadow p-3 bg-body-tertiary rounded">
+                <div class="card-header bg-white mb-5" style="border-bottom: 2px solid #E64833;">
+                    <h2 class="text-center">Редактиране на съобщение</h2>
+                </div>
+                <div class="card-body">
+                    <form id="AnnouncementForm" asp-controller="News" asp-action="AddAnnouncement" method="post">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <label asp-for="@Model.Title" class="form-label">Заглавие</label>
+                                    <input asp-for="@Model.Title" class="form-control" />
+                                    <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label asp-for="@Model.Content" class="form-label">Съдържание</label>
+                                    <textarea asp-for="@Model.Content" class="form-control" rows="10"></textarea>
+                                    <span asp-validation-for="@Model.Content" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label asp-for="@Model.Content" class="form-label">Съдържание</label>
-                            <textarea asp-for="@Model.Content" class="form-control" rows="10"></textarea>
-                            <span asp-validation-for="@Model.Content" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="card-footer bg-transparent border-top-0">
-                        <div class="d-flex gap-2 justify-content-end">
+                        <div class="card-footer bg-white border-0 d-flex justify-content-end gap-2 mt-4">
                             <a asp-action="ImportantMessages" class="btn btn-secondary">
-                                <i class="fas fa-times me-2"></i>Отказ
+                                <i class="fa-solid fa-arrow-left me-2"></i>Назад
                             </a>
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save me-2"></i>Запази
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/js/News/FadeUp.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }
