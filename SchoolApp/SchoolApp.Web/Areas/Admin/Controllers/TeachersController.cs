@@ -3,120 +3,178 @@
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Teachers;
 
+using static SchoolApp.Common.LoggerMessageConstants.Teachers;
+using static SchoolApp.Common.TempDataMessages.Teachers;
+using static SchoolApp.Common.TempDataMessages;
+
 namespace SchoolApp.Web.Areas.Admin.Controllers;
 
 public class TeachersController : AdminBaseController
 {
     private readonly IAdminTeachersService _service;
+    private readonly ILogger<TeachersController> _logger;
 
-    public TeachersController(IAdminTeachersService service)
+    public TeachersController(IAdminTeachersService service, ILogger<TeachersController> logger)
     {
         _service = service;
+        _logger = logger;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        //TODO Remember to implement soft deletion and get only deleted teachers, if i hava enough time!
-        IEnumerable<TeacherViewModel> model = await _service.GetAllTeachersAsync();
+        try
+        {
+            IEnumerable<TeacherViewModel> model = await _service.GetAllTeachersAsync();
 
-        return View(model);
+            return View(model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadAllError);
+            return BadRequest();
+        }
     }
 
     [HttpGet]
     public async Task<IActionResult> Add()
     {
-        var model = new AddTeacherFormModel
+        try
         {
-            AvailableSubjects = await _service.GetAvailableSubjectsAsync()
-        };
+            var model = new AddTeacherFormModel
+            {
+                AvailableSubjects = await _service.GetAvailableSubjectsAsync()
+            };
 
-        return View(model);
+            return View(model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, AddFormError);
+            return BadRequest();
+        }
     }
 
     [HttpPost]
     public async Task<IActionResult> Add(AddTeacherFormModel model)
     {
-        if (model == null)
+        try
         {
-            TempData["ErrorMessage"] = "Невалидни данни.";
-            return RedirectToAction(nameof(Add));
-        }
+            if (model == null)
+            {
+                TempData[TempDataError] = InvalidDataMessage;
+                return RedirectToAction(nameof(Add));
+            }
 
-        if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
+                return View(model);
+            }
+
+            var (isSuccessful, errorMessage) = await _service.AddTeacherAsync(model);
+
+            if (!isSuccessful)
+            {
+                TempData[TempDataError] = errorMessage;
+
+                model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
+                return View(model);
+            }
+
+            TempData[TempDataSuccess] = AddSuccessMessage;
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
         {
-            model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
-            return View(model);
+            _logger.LogError(ex, AddError);
+            return BadRequest();
         }
-
-        var (isSuccessful, errorMessage) = await _service.AddTeacherAsync(model);
-
-        if (!isSuccessful)
-        {
-            TempData["ErrorMessage"] = errorMessage;
-
-            model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
-            return View(model);
-        }
-
-        TempData["SuccessMessage"] = "Учителят беше успешно добавен.";
-        return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     public async Task<IActionResult> Edit(string id)
     {
-        var model = await _service.GetTeacherForEditAsync(id);
-
-        if (model == null)
+        try
         {
-            TempData["ErrorMessage"] = "Учителят не беше намерен.";
-            return RedirectToAction(nameof(Index));
-        }
+            var model = await _service.GetTeacherForEditAsync(id);
 
-        return View(model);
+            if (model == null)
+            {
+                TempData[TempDataError] = NotFoundMessage;
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditLoadError, id);
+            return BadRequest();
+        }
     }
 
     [HttpPost]
     public async Task<IActionResult> Edit(EditTeacherFormModel model)
     {
-        if (!ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+            {
+                model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
+                return View(model);
+            }
+
+            var (isSuccessful, errorMessage) = await _service.EditTeacherAsync(model);
+
+            if (isSuccessful)
+            {
+                TempData[TempDataSuccess] = EditSuccessMessage;
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                ModelState.AddModelError(string.Empty, errorMessage);
+            }
+
             model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
             return View(model);
         }
-
-        var (isSuccessful, errorMessage) = await _service.EditTeacherAsync(model);
-
-        if (isSuccessful)
+        catch (IOException ex)
         {
-            TempData["SuccessMessage"] = "Учителят беше успешно редактиран.";
-            return RedirectToAction(nameof(Index));
+            _logger.LogError(ex, ImageError);
+            return BadRequest();
         }
-
-        if (!string.IsNullOrEmpty(errorMessage))
+        catch (Exception ex)
         {
-            ModelState.AddModelError(string.Empty, errorMessage);
+            _logger.LogError(ex, EditError, model.Id);
+            return BadRequest();
         }
-
-        model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
-        return View(model);
     }
 
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
-        bool result = await _service.DeleteTeacherAsync(id);
-
-        if (result)
+        try
         {
-            TempData["SuccessMessage"] = "Учителя беше успешно изтрит.";
-        }
-        else
-        {
-            TempData["ErrorMessage"] = "Възникна проблем при изтриването на учителя.";
-        }
+            bool result = await _service.DeleteTeacherAsync(id);
 
-        return RedirectToAction(nameof(Index));
+            if (result)
+            {
+                TempData[TempDataSuccess] = DeleteSuccessMessage;
+            }
+            else
+            {
+                TempData[TempDataError] = DeleteErrorMessage;
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, DeleteError, id);
+            return BadRequest();
+        }
     }
 }

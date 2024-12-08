@@ -7,6 +7,9 @@ using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Roles;
 using SchoolApp.Web.ViewModels.Admin.Students;
 
+using static SchoolApp.Common.ApplicationConstants;
+using static SchoolApp.Common.TempDataMessages.UserRoles;
+
 namespace SchoolApp.Services.Data;
 
 public class AdminUserRolesService : IAdminUserRolesService
@@ -72,27 +75,27 @@ public class AdminUserRolesService : IAdminUserRolesService
 
         if (user == null)
         {
-            return (false, "Потребителят не беше намерен.");
+            return (false, UserNotFoundMessage);
         }
 
         if (!await UpdateTeacherUserAsync(userId, teacherId))
         {
-            return (false, "Възникна грешка при обновяването на връзката с учител.");
+            return (false, TeacherLinkUpdateErrorMessage);
         }
 
         if (teacherId.HasValue)
         {
-            if (!await _userManager.IsInRoleAsync(user, "Teacher"))
+            if (!await _userManager.IsInRoleAsync(user, TeacherRole))
             {
-                await _userManager.AddToRoleAsync(user, "Teacher");
+                await _userManager.AddToRoleAsync(user, TeacherRole);
             }
         }
         else
         {
-            await _userManager.RemoveFromRoleAsync(user, "Teacher");
+            await _userManager.RemoveFromRoleAsync(user, TeacherRole);
         }
 
-        return (true, "Успешно обновена връзка с учител.");
+        return (true, TeacherLinkUpdateSuccessMessage);
     }
 
     public async Task<(bool success, string message)> UpdateUserRolesAsync(Guid userId, List<string> roles)
@@ -101,7 +104,7 @@ public class AdminUserRolesService : IAdminUserRolesService
 
         if (user == null)
         {
-            return (false, "Потребителят не беше намерен.");
+            return (false, UserNotFoundMessage);
         }
 
         var currentRoles = await _userManager.GetRolesAsync(user);
@@ -112,7 +115,7 @@ public class AdminUserRolesService : IAdminUserRolesService
             await _userManager.AddToRolesAsync(user, roles);
         }
 
-        return (true, "Успешно обновени роли.");
+        return (true, RolesUpdateSuccessMessage);
     }
 
     public async Task<bool> UpdateTeacherUserAsync(Guid userId, Guid? teacherId)

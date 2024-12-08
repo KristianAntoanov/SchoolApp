@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Home;
 
+using static SchoolApp.Common.LoggerMessageConstants.Home;
+using static SchoolApp.Common.TempDataMessages.Home;
+using static SchoolApp.Common.TempDataMessages;
+
 namespace SchoolApp.Web.Controllers;
 
 [AllowAnonymous]
@@ -68,23 +72,31 @@ public class HomeController : BaseController
     [HttpPost]
     public async Task<IActionResult> SubmitContact(ContactFormModel model)
     {
-        if (!ModelState.IsValid)
+        try
         {
-            TempData["ErrorMessage"] = "Моля, попълнете всички задължителни полета.";
-            return View("Index", model);
+            if (!ModelState.IsValid)
+            {
+                TempData[TempDataError] = MissingRequiredFields;
+                return View("Index", model);
+            }
+
+            var result = await _contactService.SubmitContactFormAsync(model);
+
+            if (result)
+            {
+                TempData[TempDataSuccess] = SubmitSuccess;
+            }
+            else
+            {
+                TempData[TempDataError] = SubmitError;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
-
-        var result = await _contactService.SubmitContactFormAsync(model);
-
-        if (result)
+        catch (Exception ex)
         {
-            TempData["SuccessMessage"] = "Вашето съобщение беше изпратено успешно!";
+            _logger.LogError(ex, ContactFormError);
+            return BadRequest();
         }
-        else
-        {
-            TempData["ErrorMessage"] = "Възникна грешка при изпращане на съобщението. Моля, опитайте отново или се свъжете с администратор.";
-        }
-
-        return RedirectToAction(nameof(Index));
     }
 }

@@ -5,6 +5,8 @@ using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Teachers;
 
+using static SchoolApp.Common.TempDataMessages.Teachers;
+
 namespace SchoolApp.Services.Data;
 
 public class AdminTeachersService : IAdminTeachersService
@@ -92,14 +94,14 @@ public class AdminTeachersService : IAdminTeachersService
         // Validate image
         if (model.Image.Length > 2 * 1024 * 1024)
         {
-            return (false, "Файлът трябва да е по-малък от 2MB");
+            return (false, ImageSizeErrorMessage);
         }
 
         string[] allowedExtensions = { ".jpg", ".jpeg", ".png" };
         string extension = Path.GetExtension(model.Image.FileName).ToLowerInvariant();
         if (!allowedExtensions.Contains(extension))
         {
-            return (false, "Позволените формати са само JPG, JPEG и PNG");
+            return (false, AllowedFormatsMessage);
         }
 
         var result = await _azureBlobService.UploadTeacherImageAsync(model.Image, model.FirstName, model.LastName);
@@ -189,7 +191,7 @@ public class AdminTeachersService : IAdminTeachersService
         bool isIdValid = Guid.TryParse(model.Id, out Guid guidId);
         if (!isIdValid)
         {
-            return (false, "Невалидно ID!");
+            return (false, InvalidTeacherIdMessage);
         }
 
         var teacher = await _repository
@@ -199,21 +201,21 @@ public class AdminTeachersService : IAdminTeachersService
 
         if (teacher == null)
         {
-            return (false, "Учителят не беше намерен!");
+            return (false, TeacherNotFoundMessage);
         }
 
         if (model.Image != null)
         {
             if (model.Image.Length > 2 * 1024 * 1024)
             {
-                return (false, "Файлът трябва да е по-малък от 2MB");
+                return (false, ImageSizeErrorMessage);
             }
 
             string[] allowedExtensions = { ".jpg", ".jpeg", ".png" };
             string extension = Path.GetExtension(model.Image.FileName).ToLowerInvariant();
             if (!allowedExtensions.Contains(extension))
             {
-                return (false, "Позволените формати са само JPG, JPEG и PNG");
+                return (false, AllowedFormatsMessage);
             }
 
             if (string.IsNullOrEmpty(teacher.ImageUrl))
@@ -221,7 +223,7 @@ public class AdminTeachersService : IAdminTeachersService
                 bool isOldImageDeleted = await _azureBlobService.DeleteTeacherImageAsync(teacher.ImageUrl);
                 if (!isOldImageDeleted)
                 {
-                    return (false, "Възникна грешка при изтриването на старата снимка!");
+                    return (false, DeleteOldImageErrorMessage);
                 }
             }
 
@@ -235,7 +237,7 @@ public class AdminTeachersService : IAdminTeachersService
         }
         else if (string.IsNullOrEmpty(teacher.ImageUrl))
         {
-            return (false, "Моля добавете снимка!");
+            return (false, AddImageRequiredMessage);
         }
 
         teacher.FirstName = model.FirstName;
@@ -245,7 +247,7 @@ public class AdminTeachersService : IAdminTeachersService
         bool isTeacherUpdated = await _repository.UpdateAsync(teacher);
         if (!isTeacherUpdated)
         {
-            return (false, "Възникна грешка при обновяването на учителя!");
+            return (false, UpdateErrorMessage);
         }
 
         var currentSubjectIds = teacher.SubjectTeachers.Select(st => st.SubjectId).ToList();

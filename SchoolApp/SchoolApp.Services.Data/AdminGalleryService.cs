@@ -6,6 +6,8 @@ using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Gallery;
 using SchoolApp.Web.ViewModels.Admin.Gallery.Components;
 
+using static SchoolApp.Common.TempDataMessages.Gallery;
+
 namespace SchoolApp.Services.Data;
 
 public class AdminGalleryService : IAdminGalleryService
@@ -45,7 +47,7 @@ public class AdminGalleryService : IAdminGalleryService
 
         if (await _repository.FirstOrDefaultAsync<Album>(a => a.Title == model.Title) != null)
         {
-            return (false, "Албум с това заглавие вече съществува.");
+            return (false, AlbumExistsError);
         }
 
         Album album = new Album
@@ -59,10 +61,10 @@ public class AdminGalleryService : IAdminGalleryService
         {
             await _repository.AddAsync(album);
 
-            return (true, "Албумът беше създаден успешно.");
+            return (true, AlbumCreateSuccess);
         }
 
-        return (false, "Възникна грешка при създаването на албума.");
+        return (false, AlbumCreateError);
     }
 
     public async Task<MenageAlbumsViewModel?> GetDetailsForAlbumAsync(string id)
@@ -105,26 +107,26 @@ public class AdminGalleryService : IAdminGalleryService
 
         if (!isIdValid)
         {
-            return (false, "Невалидно ID на албум!");
+            return (false, InvalidAlbumId);
         }
 
         Album? album = await _repository.GetByGuidIdAsync<Album>(guidId);
 
         if (album == null)
         {
-            return (false, "Албумът не беше намерен!");
+            return (false, AlbumNotFound);
         }
 
         if (model.Image.Length > 2 * 1024 * 1024)
         {
-            return (false, $"Файлът {model.Image.FileName} трябва да е по-малък от 2MB");
+            return (false, ImageSizeError);
         }
 
         string[] allowedExtensions = { ".jpg", ".jpeg", ".png" };
         string extension = Path.GetExtension(model.Image.FileName).ToLowerInvariant();
         if (!allowedExtensions.Contains(extension))
         {
-            return (false, "Позволените формати са само JPG, JPEG и PNG");
+            return (false, AllowedFormatsMessage);
         }
 
         Guid imageId = Guid.NewGuid();
@@ -134,7 +136,7 @@ public class AdminGalleryService : IAdminGalleryService
 
         if (!isSuccessful || string.IsNullOrEmpty(imageUrl))
         {
-            return (false, errorMessage ?? "Възникна грешка при качването на снимките.");
+            return (false, errorMessage ?? ImageUploadError);
         }
 
         GalleryImage image = new GalleryImage
@@ -146,7 +148,7 @@ public class AdminGalleryService : IAdminGalleryService
 
         await _repository.AddAsync(image);
 
-        return (true, $"Успешно качихте снимкa.");
+        return (true, ImageUploadSuccess);
     }
 
     public async Task<(bool success, string message)> DeleteImageAsync(string imageId)
@@ -155,7 +157,7 @@ public class AdminGalleryService : IAdminGalleryService
 
         if (!isIdValid)
         {
-            return (false, "Невалидно ID на снимка!");
+            return (false, InvalidImageId);
         }
 
         GalleryImage? image = await _repository
@@ -164,19 +166,19 @@ public class AdminGalleryService : IAdminGalleryService
 
         if (image == null)
         {
-            return (false, "Снимката не беше намерена!");
+            return (false, ImageNotFound);
         }
 
         bool isDeleted = await _blobService.DeleteGalleryImageAsync(image.ImageUrl);
 
         if (!isDeleted)
         {
-            return (false, "Възникна грешка при изтриването на снимката от хранилището!");
+            return (false, ImageDeleteBlobError);
         }
 
         await _repository.DeleteByGuidIdAsync<GalleryImage>(guidId);
 
-        return (true, "Снимката беше изтрита успешно!");
+        return (true, ImageDeleteSuccess);
     }
 
     public async Task<(bool success, string message)> DeleteAlbumAsync(string albumId)
@@ -184,7 +186,7 @@ public class AdminGalleryService : IAdminGalleryService
         bool isIdValid = Guid.TryParse(albumId, out Guid guidId);
         if (!isIdValid)
         {
-            return (false, "Невалидно ID на албум!");
+            return (false, InvalidAlbumId);
         }
 
         Album? album = await _repository
@@ -194,7 +196,7 @@ public class AdminGalleryService : IAdminGalleryService
 
         if (album == null)
         {
-            return (false, "Албумът не беше намерен!");
+            return (false, AlbumNotFound);
         }
 
         if (album.Images.Count != 0)
@@ -204,12 +206,12 @@ public class AdminGalleryService : IAdminGalleryService
                 bool isImageDeleted = await _blobService.DeleteGalleryImageAsync(image.ImageUrl);
                 if (!isImageDeleted)
                 {
-                    return (false, "Възникна грешка при изтриването на снимките от хранилището!");
+                    return (false, ImagesDeleteBlobError);
                 }
             }
         }
         await _repository.DeleteByGuidIdAsync<Album>(guidId);
 
-        return (true, "Албумът беше изтрит успешно!");
+        return (true, AlbumDeleteSuccess);
     }
 }

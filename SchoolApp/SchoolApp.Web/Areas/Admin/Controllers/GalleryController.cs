@@ -4,22 +4,37 @@ using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Gallery;
 using SchoolApp.Web.ViewModels.Admin.Gallery.Components;
 
+using static SchoolApp.Common.LoggerMessageConstants.Gallery;
+using static SchoolApp.Common.TempDataMessages;
+using static SchoolApp.Common.TempDataMessages.Gallery;
+
 namespace SchoolApp.Web.Areas.Admin.Controllers;
 
 public class GalleryController : AdminBaseController
 {
     private readonly IAdminGalleryService _service;
+    private readonly ILogger<GalleryController> _logger;
 
-    public GalleryController(IAdminGalleryService service)
+    public GalleryController(IAdminGalleryService service, ILogger<GalleryController> logger)
     {
         _service = service;
+        _logger = logger;
     }
 
     public async Task<IActionResult> Index()
     {
-        var albums = await _service.GetAllAlbumsWithImagesAsync();
+        try
+        {
+            var albums = await _service.GetAllAlbumsWithImagesAsync();
 
-        return View(albums);
+            return View(albums);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadAllError);
+            return BadRequest();
+        }
+        
     }
 
     [HttpGet]
@@ -31,121 +46,164 @@ public class GalleryController : AdminBaseController
     [HttpPost]
     public async Task<IActionResult> AddAlbum(AddAlbumViewModel model)
     {
-        if (!ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var (success, message) = await _service.AddAlbumAsync(model);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                TempData[TempDataError] = message;
+            }
+
             return View(model);
         }
-
-        var (success, message) = await _service.AddAlbumAsync(model);
-
-        if (success)
+        catch (Exception ex)
         {
-            TempData["SuccessMessage"] = message;
-
-            return RedirectToAction(nameof(Index));
+            _logger.LogError(ex, CreateError, model.Title);
+            return BadRequest(model);
         }
-        else
-        {
-            TempData["ErrorMessage"] = message;
-        }
-
-        return View(model);
+        
     }
 
     [HttpGet]
     public async Task<IActionResult> Album(string id)
     {
-        if (string.IsNullOrEmpty(id))
+        try
         {
-            TempData["ErrorMessage"] = "Албумът не съществува.";
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData[TempDataError] = AlbumNotFound;
 
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+
+            MenageAlbumsViewModel? model = await _service.GetDetailsForAlbumAsync(id);
+
+            if (model == null)
+            {
+                TempData[TempDataError] = AlbumNotFound;
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
         }
-
-        MenageAlbumsViewModel? model = await _service.GetDetailsForAlbumAsync(id);
-
-        if (model == null)
+        catch (Exception ex)
         {
-            TempData["ErrorMessage"] = "Албумът не съществува.";
-
-            return RedirectToAction(nameof(Index));
+            _logger.LogError(ex, LoadAlbumError, id);
+            return BadRequest();
         }
-
-        return View(model);
     }
 
     [HttpPost]
     public async Task<IActionResult> AddImage(AddAlbumImageFormModel model)
     {
-        if (model == null)
+        try
         {
-            TempData["ErrorMessage"] = "Невалидни данни.";
-            return RedirectToAction(nameof(Index));
-        }
+            if (model == null)
+            {
+                TempData[TempDataError] = InvalidData;
+                return RedirectToAction(nameof(Index));
+            }
 
-        if (!ModelState.IsValid)
-        {
-            TempData["ErrorMessage"] = "Моля, изберете валидна снимка.";
+            if (!ModelState.IsValid)
+            {
+                TempData[TempDataError] = InvalidImage;
+                return RedirectToAction(nameof(Album), new { id = model.AlbumId });
+            }
+
+            var (success, message) = await _service.AddImagesAsync(model);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+            }
+            else
+            {
+                TempData[TempDataError] = message;
+            }
+
             return RedirectToAction(nameof(Album), new { id = model.AlbumId });
         }
-
-        var (success, message) = await _service.AddImagesAsync(model);
-
-        if (success)
+        catch (Exception ex)
         {
-            TempData["SuccessMessage"] = message;
+            _logger.LogError(ex, AddImageError, model?.AlbumId);
+            return BadRequest();
         }
-        else
-        {
-            TempData["ErrorMessage"] = message;
-        }
-
-        return RedirectToAction(nameof(Album), new { id = model.AlbumId });
+        
     }
 
     [HttpPost]
     public async Task<IActionResult> DeleteImage(string id, string albumId)
     {
-        if (string.IsNullOrEmpty(id))
+        try
         {
-            TempData["ErrorMessage"] = "Невалидна снимка.";
-            return RedirectToAction(nameof(Index));
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData[TempDataError] = InvalidImageError;
+                return RedirectToAction(nameof(Index));
+            }
+
+            var (success, message) = await _service.DeleteImageAsync(id);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+            }
+            else
+            {
+                TempData[TempDataError] = message;
+            }
+
+            return RedirectToAction(nameof(Album), new { id = albumId });
         }
-
-        var (success, message) = await _service.DeleteImageAsync(id);
-
-        if (success)
+        catch (Exception ex)
         {
-            TempData["SuccessMessage"] = message;
+            _logger.LogError(ex, DeleteImageError, id, albumId);
+            return BadRequest();
         }
-        else
-        {
-            TempData["ErrorMessage"] = message;
-        }
-
-        return RedirectToAction(nameof(Album), new { id = albumId });
+        
     }
 
     [HttpPost]
     public async Task<IActionResult> Delete(string id)
     {
-        if (string.IsNullOrEmpty(id))
+        try
         {
-            TempData["ErrorMessage"] = "Невалиден албум.";
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData[TempDataError] = InvalidAlbum;
+                return RedirectToAction(nameof(Index));
+            }
+
+            var (success, message) = await _service.DeleteAlbumAsync(id);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+            }
+            else
+            {
+                TempData[TempDataError] = message;
+            }
+
             return RedirectToAction(nameof(Index));
         }
-
-        var (success, message) = await _service.DeleteAlbumAsync(id);
-
-        if (success)
+        catch (Exception ex)
         {
-            TempData["SuccessMessage"] = message;
+            _logger.LogError(ex, DeleteAlbumError, id);
+            return BadRequest();
         }
-        else
-        {
-            TempData["ErrorMessage"] = message;
-        }
-
-        return RedirectToAction(nameof(Index));
     }
 }

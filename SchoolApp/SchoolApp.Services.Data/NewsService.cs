@@ -5,6 +5,9 @@ using SchoolApp.Data.Repository.Contracts;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.News;
 
+using static SchoolApp.Common.ApplicationConstants;
+using static SchoolApp.Common.TempDataMessages.News;
+
 namespace SchoolApp.Services.Data;
 
 public class NewsService : INewsService
@@ -30,7 +33,7 @@ public class NewsService : INewsService
                 Title = n.Title,
                 Content = n.Content,
                 PublicationDate = n.PublicationDate,
-                ImageUrl = n.ImageUrl ?? "/img/default-news-image.jpg",
+                ImageUrl = n.ImageUrl ?? DefaultNewsImageUrl,
                 Category = n.Category
             })
             .ToArrayAsync();
@@ -40,14 +43,14 @@ public class NewsService : INewsService
 
     public async Task<(bool success, string message)> AddNewsAsync(AddNewsViewModel model)
     {
-        string imageUrl = "/img/default-news-image.jpeg";
+        string imageUrl = DefaultNewsImageUrl;
 
 
         if (model.Image != null)
         {
             if (model.Image.Length > 2 * 1024 * 1024)
             {
-                return (false, "Снимката трябва да е по-малка от 2MB!");
+                return (false, ImageSizeError);
             }
 
             string[] allowedExtensions = { ".jpg", ".jpeg", ".png" };
@@ -55,7 +58,7 @@ public class NewsService : INewsService
 
             if (!allowedExtensions.Contains(extension))
             {
-                return (false, "Позволените формати са само JPG, JPEG и PNG!");
+                return (false, AllowedFormatsMessage);
             }
 
 
@@ -75,13 +78,13 @@ public class NewsService : INewsService
 
             if (!isSuccessful || string.IsNullOrEmpty(uploadedImageUrl))
             {
-                return (false, errorMessage ?? "Възникна грешка при качването на снимката.");
+                return (false, errorMessage ?? ImageUploadError);
             }
 
             news.ImageUrl = uploadedImageUrl;
             await _repository.UpdateAsync(news);
 
-            return (true, "Новината беше създадена успешно!");
+            return (true, NewsCreateSuccess);
         }
         else
         {
@@ -97,7 +100,7 @@ public class NewsService : INewsService
 
             await _repository.AddAsync(news);
 
-            return (true, "Новината беше създадена успешно!");
+            return (true, NewsCreateSuccess);
         }
     }
 
@@ -128,16 +131,16 @@ public class NewsService : INewsService
 
         if (news == null)
         {
-            return (false, "Новината не беше намерена.");
+            return (false, NotFoundMessage);
         }
 
         //TODO and this!
-        if (!string.IsNullOrEmpty(news.ImageUrl) && news.ImageUrl != "/img/default-news-image.jpeg")
+        if (!string.IsNullOrEmpty(news.ImageUrl) && news.ImageUrl != DefaultNewsImageUrl)
         {
             bool isImageDeleted = await _blobService.DeleteNewsImageAsync(news.ImageUrl);
             if (!isImageDeleted)
             {
-                return (false, "Възникна грешка при изтриването на снимката от хранилището!");
+                return (false, ImageDeleteError);
             }
         }
 
@@ -150,10 +153,10 @@ public class NewsService : INewsService
         bool result = await _repository.DeleteAsync<News>(id);
         if (result)
         {
-            return (true, "Новината беше изтрита успешно!");
+            return (true, NewsDeleteSuccess);
         }
 
-        return (false, "Възникна грешка при изтриването на новината!");
+        return (false, NewsDeleteError);
     }
 
     public async Task<IEnumerable<AnnouncementViewModel>> GetAllImportantMessagesAsync()
@@ -184,7 +187,7 @@ public class NewsService : INewsService
 
         await _repository.AddAsync(announcement);
 
-        return (true, "Съобщението беше създадено успешно!");
+        return (true, AnnouncementCreateSuccess);
     }
 
     public async Task<AddAnnouncementViewModel?> GetAnnouncementForEditAsync(int id)
@@ -208,7 +211,7 @@ public class NewsService : INewsService
 
         if (announcement == null)
         {
-            return (false, "Съобщението не беше намерено!");
+            return (false, AnnouncementNotFoundMessage);
         }
 
         announcement.Title = model.Title;
@@ -217,7 +220,7 @@ public class NewsService : INewsService
 
         await _repository.UpdateAsync(announcement);
 
-        return (true, "Съобщението беше редактирано успешно!");
+        return (true, AnnouncementEditSuccess);
     }
 
     public async Task<(bool success, string message)> DeleteAnnouncementAsync(int id)
@@ -226,10 +229,10 @@ public class NewsService : INewsService
 
         if (!deleted)
         {
-            return (false, "Съобщението не беше намерено!");
+            return (false, AnnouncementNotFoundMessage);
         }
 
-        return (true, "Съобщението беше изтрито успешно!");
+        return (true, AnnouncementDeleteSuccess);
     }
 
     public async Task<IEnumerable<NewsViewModel>> GetAllAchievementsAsync()
@@ -244,7 +247,7 @@ public class NewsService : INewsService
                 Title = n.Title,
                 Content = n.Content,
                 PublicationDate = n.PublicationDate,
-                ImageUrl = n.ImageUrl ?? "/img/default-news-image.jpg",
+                ImageUrl = n.ImageUrl ?? DefaultNewsImageUrl,
                 Category = n.Category
             })
             .ToArrayAsync();

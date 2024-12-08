@@ -2,7 +2,7 @@
 
 public class ApplicationConstants
 {
-    public const string DateFormat = "dd/MM/yyyy";
+    public const string DateFormat = "dd.MM.yyyy";
 
     public const string AzureNewsContainerName = "newsimages";
     public const string AzureGalleryContainerName = "galleryimages";
@@ -17,4 +17,11 @@ public class ApplicationConstants
     public const int ReleaseYear = 2024;
 
     public const string AppName = "SchoolApp";
+
+    public const string ParentRole = "Parent";
+    public const string TeacherRole = "Teacher";
+    public const string AdminRole = "Admin";
+
+
+    public const string DefaultNewsImageUrl = "/img/default-news-image.jpeg";
 }

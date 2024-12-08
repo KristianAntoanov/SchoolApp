@@ -4,23 +4,37 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.News;
 
+using static SchoolApp.Common.LoggerMessageConstants.News;
+using static SchoolApp.Common.TempDataMessages.News;
+using static SchoolApp.Common.TempDataMessages;
+
 namespace SchoolApp.Web.Controllers;
 
 public class NewsController : BaseController
 {
     private readonly INewsService _newsService;
+    private readonly ILogger<NewsController> _logger;
 
-    public NewsController(INewsService newsService)
+    public NewsController(INewsService newsService, ILogger<NewsController> logger)
     {
         _newsService = newsService;
+        _logger = logger;
     }
 
     [AllowAnonymous]
     public async Task<IActionResult> Index()
     {
-        IEnumerable<NewsViewModel> news = await _newsService.GetAllNewsAsync();
+        try
+        {
+            IEnumerable<NewsViewModel> news = await _newsService.GetAllNewsAsync();
 
-        return View(news);
+            return View(news);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadAllError);
+            return BadRequest();
+        }
     }
 
     [HttpGet]
@@ -34,70 +48,107 @@ public class NewsController : BaseController
     [Authorize(Roles = "Admin,Teacher")]
     public async Task<IActionResult> Add(AddNewsViewModel model)
     {
-        if (!ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var (success, message) = await _newsService.AddNewsAsync(model);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData[TempDataError] = message;
             return View(model);
         }
-
-        var (success, message) = await _newsService.AddNewsAsync(model);
-
-        if (success)
+        catch (IOException ex)
         {
-            TempData["SuccessMessage"] = message;
-            return RedirectToAction(nameof(Index));
+            _logger.LogError(ex, ImageProcessError);
+            return BadRequest();
         }
-
-        TempData["ErrorMessage"] = message;
-        return View(model);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, CreateError);
+            return BadRequest();
+        }
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin,Teacher,Parent")]
     public async Task<IActionResult> Details(int id)
     {
-        var news = await _newsService.GetNewsDetailsAsync(id);
-
-        if (news == null)
+        try
         {
-            TempData["ErrorMessage"] = "Новината не беше намерена.";
-            return RedirectToAction(nameof(Index));
-        }
+            var news = await _newsService.GetNewsDetailsAsync(id);
 
-        return View(news);
+            if (news == null)
+            {
+                TempData[TempDataError] = NotFoundMessage;
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(news);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadDetailsError, id);
+            return BadRequest();
+        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,Teacher")]
     public async Task<IActionResult> Delete(int id)
     {
-        if (id <= 0)
+        try
         {
-            TempData["ErrorMessage"] = "Невалидно ID на новина.";
+            if (id <= 0)
+            {
+                TempData[TempDataError] = InvalidIdMessage;
+                return RedirectToAction(nameof(Index));
+            }
+
+            var (success, message) = await _newsService.DeleteNewsAsync(id);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+            }
+            else
+            {
+                TempData[TempDataError] = message;
+            }
+
             return RedirectToAction(nameof(Index));
         }
-
-        var (success, message) = await _newsService.DeleteNewsAsync(id);
-
-        if (success)
+        catch (Exception ex)
         {
-            TempData["SuccessMessage"] = message;
+            _logger.LogError(ex, DeleteError, id);
+            return BadRequest();
         }
-        else
-        {
-            TempData["ErrorMessage"] = message;
-        }
-
-        return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin,Teacher,Parent")]
     public async Task<IActionResult> ImportantMessages()
     {
-        IEnumerable<AnnouncementViewModel> announcements =
+        try
+        {
+            IEnumerable<AnnouncementViewModel> announcements =
             await _newsService.GetAllImportantMessagesAsync();
 
-        return View(announcements);
+            return View(announcements);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadMessagesError);
+            return BadRequest();
+        }
     }
 
     [HttpGet]
@@ -111,84 +162,124 @@ public class NewsController : BaseController
     [Authorize(Roles = "Admin,Teacher")]
     public async Task<IActionResult> AddAnnouncement(AddAnnouncementViewModel model)
     {
-        if (!ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var (success, message) = await _newsService.AddAnnouncementAsync(model);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+                return RedirectToAction(nameof(ImportantMessages));
+            }
+
+            TempData[TempDataError] = message;
             return View(model);
         }
-
-        var (success, message) = await _newsService.AddAnnouncementAsync(model);
-
-        if (success)
+        catch (Exception ex)
         {
-            TempData["SuccessMessage"] = message;
-            return RedirectToAction(nameof(ImportantMessages));
+            _logger.LogError(ex, AddMessageError);
+            return BadRequest();
         }
-
-        TempData["ErrorMessage"] = message;
-        return View(model);
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin,Teacher")]
     public async Task<IActionResult> EditAnnouncement(int id)
     {
-        var announcement = await _newsService.GetAnnouncementForEditAsync(id);
-
-        if (announcement == null)
+        try
         {
-            TempData["ErrorMessage"] = "Съобщението не беше намерено.";
-            return RedirectToAction(nameof(ImportantMessages));
-        }
+            var announcement = await _newsService.GetAnnouncementForEditAsync(id);
 
-        return View(announcement);
+            if (announcement == null)
+            {
+                TempData[TempDataError] = AnnouncementNotFoundMessage;
+                return RedirectToAction(nameof(ImportantMessages));
+            }
+
+            return View(announcement);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditMessageError, id);
+            return BadRequest();
+        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,Teacher")]
     public async Task<IActionResult> EditAnnouncement(int id, AddAnnouncementViewModel model)
     {
-        if (!ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var (success, message) = await _newsService.EditAnnouncementAsync(id, model);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+                return RedirectToAction(nameof(ImportantMessages));
+            }
+
+            TempData[TempDataError] = message;
             return View(model);
         }
-
-        var (success, message) = await _newsService.EditAnnouncementAsync(id, model);
-
-        if (success)
+        catch (Exception ex)
         {
-            TempData["SuccessMessage"] = message;
-            return RedirectToAction(nameof(ImportantMessages));
+            _logger.LogError(ex, EditMessageError, id);
+            return BadRequest();
         }
-
-        TempData["ErrorMessage"] = message;
-        return View(model);
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,Teacher")]
     public async Task<IActionResult> DeleteAnnouncement(int id)
     {
-        var (success, message) = await _newsService.DeleteAnnouncementAsync(id);
-
-        if (success)
+        try
         {
-            TempData["SuccessMessage"] = message;
-        }
-        else
-        {
-            TempData["ErrorMessage"] = message;
-        }
+            var (success, message) = await _newsService.DeleteAnnouncementAsync(id);
 
-        return RedirectToAction(nameof(ImportantMessages));
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+            }
+            else
+            {
+                TempData[TempDataError] = message;
+            }
+
+            return RedirectToAction(nameof(ImportantMessages));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, DeleteMessageError, id);
+            return BadRequest();
+        }
     }
 
     [HttpGet]
     [AllowAnonymous]
     public async Task<IActionResult> Achievements()
     {
-        IEnumerable<NewsViewModel> achievements =
+        try
+        {
+            IEnumerable<NewsViewModel> achievements =
             await _newsService.GetAllAchievementsAsync();
 
-        return View(achievements);
+            return View(achievements);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadAchievementsError);
+            return BadRequest();
+        }
     }
 }
