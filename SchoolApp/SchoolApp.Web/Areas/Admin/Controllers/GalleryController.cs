@@ -108,7 +108,7 @@ public class GalleryController : AdminBaseController
     {
         if (string.IsNullOrEmpty(id))
         {
-            TempData["ErrorMessage"] = "Невалидно ID на снимка.";
+            TempData["ErrorMessage"] = "Невалидна снимка.";
             return RedirectToAction(nameof(Index));
         }
 
@@ -131,7 +131,7 @@ public class GalleryController : AdminBaseController
     {
         if (string.IsNullOrEmpty(id))
         {
-            TempData["ErrorMessage"] = "Невалидно ID на албум.";
+            TempData["ErrorMessage"] = "Невалиден албум.";
             return RedirectToAction(nameof(Index));
         }
 
