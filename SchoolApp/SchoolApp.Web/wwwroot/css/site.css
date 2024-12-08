@@ -13,7 +13,13 @@
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #F8F1E5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
 }
 
 html, body {
@@ -160,26 +166,15 @@ html, body {
 
 /* Home Image Style */
 
-@keyframes slideFromBottom {
-    0% {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.slide-up {
-    animation: slideFromBottom 1s ease-out forwards;
-}
-
 .image-container {
     overflow: hidden;
     position: relative;
+    -webkit-mask-image: linear-gradient( to right, transparent 0%, black 1%, black 99%, transparent 100% ), linear-gradient( to bottom, transparent 0%, black 1%, black 99%, transparent 100% );
+    mask-image: linear-gradient( to right, transparent 0%, black 1%, black 99%, transparent 100% ), linear-gradient( to bottom, transparent 0%, black 1%, black 99%, transparent 100% );
+    -webkit-mask-composite: intersect;
+    mask-composite: intersect;
 }
+
 
 /* Contact Info Style */
 
@@ -222,23 +217,24 @@ html, body {
 /* Navbar Styles */
 .custom-navbar {
     padding: 1rem 0;
-    background-color: #6A1E55 !important;
+    background-color: #244855 !important;
 }
 
     .custom-navbar .navbar-brand,
     .custom-navbar .nav-link {
-        color: white !important;
+        color: #CCF1FF !important;
     }
 
     .custom-navbar .navbar-brand {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
 
     .custom-navbar .nav-link {
-        font-size: 1.1rem;
-        margin: 0 10px;
+        font-size: 1.2rem;
+        margin: 0 12px;
         position: relative;
         overflow: hidden;
+        font-weight: 500;
     }
 
 .nav-link::before {
@@ -248,7 +244,7 @@ html, body {
     height: 2px;
     bottom: 0;
     left: 50%;
-    background-color: #e76f51;
+    background-color: #E64833;
     transform: translateX(-50%) scaleX(0);
     transform-origin: center;
     transition: transform 0.3s ease-out;
@@ -269,17 +265,9 @@ html, body {
 
 /* Navbar */
 .navbar-collapse {
-    background-color: #6A1E55;
+    background-color: #244855;
     padding: 10px;
     border-radius: 0 0 5px 5px;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    overflow-x: hidden;
 }
 
 .container-fluid {
@@ -296,8 +284,8 @@ body {
 
 
 .custom-footer {
-    background-color: #6A1E55 !important;
-    color: white !important;
+    background-color: #244855 !important;
+    color: #CCF1FF !important;
     padding: 2rem 0;
     width: 100%;
     flex-shrink: 0; /* Предотвратява свиването на footer-а */
@@ -332,12 +320,12 @@ body {
 
 /* Start Dropdown Custom Styles */
 .dropdown-menu {
-    background-color: #6A1E55 !important;
+    background-color: #90AEAD !important; /* цвят на background - а */
     border: none;
 }
 
 .dropdown-item {
-    color: white !important;
+    color: #244855 !important; /* цвят на текста */
     position: relative;
     overflow: hidden;
 }
@@ -349,14 +337,14 @@ body {
         height: 2px;
         bottom: 0;
         left: 50%;
-        background-color: #e76f51;
+        background-color: #E64833; /* подцветката */
         transform: translateX(-50%) scaleX(0);
         transform-origin: center;
         transition: transform 0.3s ease-out;
     }
 
     .dropdown-item:hover {
-        background-color: #6A1E55 !important;
+        background-color: #90AEAD !important;
     }
 
         .dropdown-item:hover::before {
