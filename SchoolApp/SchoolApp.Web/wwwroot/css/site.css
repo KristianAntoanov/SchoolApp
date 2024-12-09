@@ -320,8 +320,9 @@ html, body {
 
 /* Start Dropdown Custom Styles */
 .dropdown-menu {
-    background-color: #90AEAD !important; /* цвят на background - а */
+    background-color: #CCF1FF !important; /* цвят на background - а */
     border: none;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
 .dropdown-item {
@@ -344,7 +345,7 @@ html, body {
     }
 
     .dropdown-item:hover {
-        background-color: #90AEAD !important;
+        background-color: #CCF1FF !important;
     }
 
         .dropdown-item:hover::before {

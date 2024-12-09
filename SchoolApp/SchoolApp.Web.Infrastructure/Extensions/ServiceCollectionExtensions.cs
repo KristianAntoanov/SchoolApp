@@ -54,6 +54,12 @@ public static class ServiceCollectionExtensions
             options.User.RequireUniqueEmail =
                 configuration.GetValue<bool>("Identity:User:RequireUniqueEmail");
 
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(
+                configuration.GetValue<int>("Lockout:DefaultLockoutTimeSpan"));
+
+            options.Lockout.MaxFailedAccessAttempts =
+                configuration.GetValue<int>("Lockout:MaxFailedAccessAttempts");
+
         })
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders()
