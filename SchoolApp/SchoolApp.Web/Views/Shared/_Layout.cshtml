@@ -45,12 +45,6 @@
                         <li class="nav-item">
                             <a id="teamLink" class="nav-link" asp-area="" asp-controller="Gallery" asp-action="Index">Галерия</a>
                         </li>
-                        @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin")))
-                        {
-                            <li class="nav-item">
-                                <a id="adminLink" class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Админ Панел</a>
-                            </li>
-                        }
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" asp-area="" asp-controller="News" asp-action="Index" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Новини
@@ -64,6 +58,23 @@
                                 <li><a class="dropdown-item py-2 px-4" asp-area="" asp-controller="News" asp-action="Achievements">Успехи на ученици</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" asp-area="" asp-controller="About" asp-action="History" id="aboutDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                За нас
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="aboutDropdown">
+                                <li><a class="dropdown-item py-2 px-4" asp-area="" asp-controller="About" asp-action="History">История</a></li>
+                                <li><a class="dropdown-item py-2 px-4" asp-area="" asp-controller="About" asp-action="Mission">Мисия и визия</a></li>
+                                <li><a class="dropdown-item py-2 px-4" asp-area="" asp-controller="About" asp-action="Specialties">Специалности</a></li>
+                                <li><a class="dropdown-item py-2 px-4" asp-area="" asp-controller="About" asp-action="Schedule">График на учебния процес</a></li>
+                            </ul>
+                        </li>
+                        @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item">
+                                <a id="adminLink" class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">Админ Панел</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -75,10 +86,72 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="custom-footer">
-        <div class="container-fluid">
-            &copy; @ReleaseYear - @currentYear @AppName
+    <footer class="custom-footer pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="/logo.png" alt="School Logo" height="40" class="me-2">
+                        <h5 class="mb-0">СГСАГ "Христо Ботев"</h5>
+                    </div>
+                    <p class="text-muted">Професионална гимназия с традиции в строителството, архитектурата и геодезията</p>
+                    <div class="social-links mt-3">
+                        <a href="https://www.facebook.com/SGCAGHristoBotev" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/sgcag_hristobotev" class="me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="@("https://www.youtube.com/@sgcaghristobotev2373")" class="me-2"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Бързи връзки</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a asp-area="" asp-controller="News" asp-action="Index" class="text-decoration-none">Новини</a></li>
+                        <li class="mb-2"><a asp-area="" asp-controller="Team" asp-action="Index" class="text-decoration-none">Екип</a></li>
+                        <li class="mb-2"><a asp-area="" asp-controller="Gallery" asp-action="Index" class="text-decoration-none">Галерия</a></li>
+                        <li class="mb-2"><a asp-area="" asp-controller="About" asp-action="Schedule" class="text-decoration-none">График на часовете</a></li>
+                        <li class="mb-2"><a asp-area="" asp-controller="About" asp-action="Mission" class="text-decoration-none">Мисия и визия</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Контакти</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            бул. Евлоги Георгиев №34
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-phone me-2"></i>
+                            02/866 12 71
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            contact.school.name@gmail.com
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="mb-3">Работно време</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <span class="fw-bold">Пон-Пет:</span> 7:30 - 19:30
+                        </li>
+                        <li class="mb-2">
+                            <span class="fw-bold">Събота:</span> Затворено
+                        </li>
+                        <li class="mb-2">
+                            <span class="fw-bold">Неделя:</span> Затворено
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="border-top pt-3">
+                        <p class="text-center mb-0">
+                            &copy; @ReleaseYear - @currentYear @AppName. Всички права запазени.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

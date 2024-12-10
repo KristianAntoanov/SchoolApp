@@ -16,6 +16,9 @@
                     </a>
                     @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
                     {
+                        <a asp-controller="News" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                            Редактирай
+                        </a>
                         <button type="button"
                                 class="btn btn-danger"
                                 data-bs-toggle="modal"

@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "График на учебния процес";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/About/ScheduleTimeline.css" asp-append-version="true" />
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5" data-aos="fade-up">
+        <h1 class="text-uppercase fw-bold mb-3">График на учебния процес</h1>
+        <div class="mx-auto" style="width: 60%; height: 2px; background-color: #E64833;"></div>
+    </div>
+    <div class="row mb-5" data-aos="fade-up">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">Учебна 2024/2025 година</h3>
+                    <div class="timeline">
+                        <div class="timeline-item" data-aos="fade-right" data-aos-delay="100">
+                            <div class="date">15 Септември 2024</div>
+                            <div class="line"></div>
+                            <div class="content">
+                                <h5>Начало на учебната година</h5>
+                                <p>Тържествено откриване на новата учебна година</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-aos="fade-left" data-aos-delay="200">
+                            <div class="date">29 Октомври - 1 Ноември 2024</div>
+                            <div class="line"></div>
+                            <div class="content">
+                                <h5>Есенна ваканция</h5>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-aos="fade-right" data-aos-delay="300">
+                            <div class="date">23 Декември 2024 - 2 Януари 2025</div>
+                            <div class="line"></div>
+                            <div class="content">
+                                <h5>Коледна ваканция</h5>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-aos="fade-left" data-aos-delay="400">
+                            <div class="date">1 Февруари 2025</div>
+                            <div class="line"></div>
+                            <div class="content">
+                                <h5>Край на първи срок</h5>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-aos="fade-right" data-aos-delay="500">
+                            <div class="date">1 - 9 Февруари 2025</div>
+                            <div class="line"></div>
+                            <div class="content">
+                                <h5>Междусрочна ваканция</h5>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-aos="fade-left" data-aos-delay="550">
+                            <div class="date">3 - 9 Април 2025</div>
+                            <div class="line"></div>
+                            <div class="content">
+                                <h5>Пролетна ваканция</h5>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-aos="fade-right" data-aos-delay="600">
+                            <div class="date">15 Май 2025</div>
+                            <div class="line"></div>
+                            <div class="content">
+                                <h5>Край на учебната година за XII клас</h5>
+                            </div>
+                        </div>
+                        <div class="timeline-item" data-aos="fade-right" data-aos-delay="650">
+                            <div class="date">30 Юни 2025</div>
+                            <div class="line"></div>
+                            <div class="content">
+                                <h5>Край на учебната година VIII-XI клас</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5" data-aos="fade-up">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">График на изпитите</h3>
+                    <div class="row">
+                        <div class="col-md-8 mx-auto">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Изпит</th>
+                                            <th>Дата</th>
+                                            <th>Час</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>ДЗИ БЕЛ</td>
+                                            <td>21 Май 2025</td>
+                                            <td>8:00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Втори ДЗИ</td>
+                                            <td>23 Май 2025</td>
+                                            <td>8:00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Държавен изпит по специалност теория</td>
+                                            <td>27 Май 2025</td>
+                                            <td>8:00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Държавен изпит по специалност практика</td>
+                                            <td>29-30 Май 2025</td>
+                                            <td>8:00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" data-aos="fade-up">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4">Консултации</h3>
+                    <p class="text-center mb-4">
+                        Графикът за консултации се изготвя в началото на всеки учебен срок. За повече информация относно графика за консултации, моля свържете се с нас чрез контактната форма.
+                    </p>
+                    <div class="text-center">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                            <i class="fas fa-envelope me-2"></i>Направете запитване
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/js/Home/FadeUp.js"></script>
+}
