@@ -3,10 +3,12 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 using SchoolApp.Data.Models;
 using static SchoolApp.Common.ErrorMessages;
 

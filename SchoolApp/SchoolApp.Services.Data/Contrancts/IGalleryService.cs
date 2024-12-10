@@ -1,9 +1,8 @@
 ﻿using SchoolApp.Web.ViewModels.Gallery;
 
-namespace SchoolApp.Services.Data.Contrancts
+namespace SchoolApp.Services.Data.Contrancts;
+
+public interface IGalleryService
 {
-	public interface IGalleryService
-    {
-        Task<IEnumerable<AlbumViewModel>> GetAllAlbumsWithImagesAsync();
-    }
+    Task<IEnumerable<AlbumViewModel>> GetAllAlbumsWithImagesAsync();
 }

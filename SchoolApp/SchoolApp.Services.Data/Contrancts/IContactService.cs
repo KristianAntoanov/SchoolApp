@@ -1,9 +1,8 @@
 ﻿using SchoolApp.Web.ViewModels.Home;
 
-namespace SchoolApp.Services.Data.Contrancts
+namespace SchoolApp.Services.Data.Contrancts;
+
+public interface IContactService
 {
-	public interface IContactService
-	{
-        Task<bool> SubmitContactFormAsync(ContactFormModel model);
-    }
+    Task<bool> SubmitContactFormAsync(ContactFormModel model);
 }

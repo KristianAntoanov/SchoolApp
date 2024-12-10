@@ -20,5 +20,4 @@ function initializeConfirmationModal() {
     });
 }
 
-// Инициализираме когато DOM-ът е зареден
 document.addEventListener('DOMContentLoaded', initializeConfirmationModal);

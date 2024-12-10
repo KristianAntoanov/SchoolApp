@@ -7,7 +7,7 @@ using SchoolApp.Web.ViewModels.Gallery;
 
 namespace SchoolApp.Services.Data;
 
-	public class GalleryService : IGalleryService
+public class GalleryService : IGalleryService
 {
     private readonly IRepository _repository;
 

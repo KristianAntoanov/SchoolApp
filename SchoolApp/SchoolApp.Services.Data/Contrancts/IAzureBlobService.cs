@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace SchoolApp.Services.Data.Contrancts
+namespace SchoolApp.Services.Data.Contrancts;
+
+public interface IAzureBlobService
 {
-	public interface IAzureBlobService
-    {
-        Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadTeacherImageAsync(IFormFile file, string firstName, string lastName);
+    Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadTeacherImageAsync(IFormFile file, string firstName, string lastName);
 
-        Task<bool> DeleteTeacherImageAsync(string imageUrl);
+    Task<bool> DeleteTeacherImageAsync(string imageUrl);
 
-        Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadGalleryImageAsync(IFormFile file, Guid imageId);
+    Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadGalleryImageAsync(IFormFile file, Guid imageId);
 
-        Task<bool> DeleteGalleryImageAsync(string imageUrl);
+    Task<bool> DeleteGalleryImageAsync(string imageUrl);
 
-        Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadNewsImageAsync(IFormFile file, string title);
+    Task<(bool isSuccessful, string? errorMessage, string? imageUrl)> UploadNewsImageAsync(IFormFile file, string title);
 
-        Task<bool> DeleteNewsImageAsync(string imageUrl);
-    }
+    Task<bool> DeleteNewsImageAsync(string imageUrl);
 }

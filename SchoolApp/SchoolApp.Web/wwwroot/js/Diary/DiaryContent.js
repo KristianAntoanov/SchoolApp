@@ -130,12 +130,10 @@
 
     async function initialize() {
         if (selectedClassId) {
-            console.log("Initializing with class:", selectedClassId);
             $(`label[data-class-id="${selectedClassId}"]`).prev('.btn-check').prop('checked', true);
             await loadContent();
 
             if (selectedSubjectId) {
-                console.log("Selecting subject:", selectedSubjectId);
                 $(`#${selectedSubjectId}`).addClass('active');
                 loadGradeContent();
             }

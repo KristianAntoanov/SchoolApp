@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolApp.Data.Models;
 
 using static SchoolApp.Common.ErrorMessages;
-using static SchoolApp.Common.EntityValidationConstants.Grade;
 
 namespace SchoolApp.Web.ViewModels.Diary.AddForms;
 

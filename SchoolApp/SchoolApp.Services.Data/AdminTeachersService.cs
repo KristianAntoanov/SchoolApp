@@ -91,7 +91,6 @@ public class AdminTeachersService : IAdminTeachersService
 
     public async Task<(bool isSuccessful, string? errorMessage)> AddTeacherAsync(AddTeacherFormModel model)
     {
-        // Validate image
         if (model.Image.Length > 2 * 1024 * 1024)
         {
             return (false, ImageSizeErrorMessage);
