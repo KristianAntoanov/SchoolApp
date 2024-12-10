@@ -23,5 +23,9 @@ namespace SchoolApp.Services.Data.Contrancts
         Task<(bool success, string message)> DeleteAnnouncementAsync(int id);
 
         Task<IEnumerable<NewsViewModel>> GetAllAchievementsAsync();
+
+        Task<AddNewsViewModel?> GetNewsForEditAsync(int id);
+
+        Task<(bool success, string message)> EditNewsAsync(int id, AddNewsViewModel model);
     }
 }

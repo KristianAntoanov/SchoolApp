@@ -254,4 +254,76 @@ public class NewsService : INewsService
 
         return achievements;
     }
+
+    public async Task<AddNewsViewModel?> GetNewsForEditAsync(int id)
+    {
+        AddNewsViewModel? news = await _repository
+            .GetAllAttached<News>()
+            .Where(n => n.Id == id && !n.IsArchived)
+            .Select(n => new AddNewsViewModel()
+            {
+                Title = n.Title,
+                Content = n.Content,
+                Category = n.Category
+            })
+            .FirstOrDefaultAsync();
+
+        return news;
+    }
+
+    public async Task<(bool success, string message)> EditNewsAsync(int id, AddNewsViewModel model)
+    {
+        News? news = await _repository.GetByIdAsync<News>(id);
+
+        if (news == null)
+        {
+            return (false, NotFoundMessage);
+        }
+        if (news.Title == model.Title && news.Content == model.Content &&
+            news.Category == model.Category && model.Image == null)
+        {
+            return (true, NewsEditSuccess);
+        }
+
+
+        if (model.Image != null)
+        {
+            if (model.Image.Length > 2 * 1024 * 1024)
+            {
+                return (false, ImageSizeError);
+            }
+
+            string[] allowedExtensions = { ".jpg", ".jpeg", ".png" };
+            string extension = Path.GetExtension(model.Image.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(extension))
+            {
+                return (false, AllowedFormatsMessage);
+            }
+
+            if (!string.IsNullOrEmpty(news.ImageUrl) && news.ImageUrl != DefaultNewsImageUrl)
+            {
+                await _blobService.DeleteNewsImageAsync(news.ImageUrl);
+            }
+
+            var (isSuccessful, errorMessage, uploadedImageUrl) =
+                await _blobService.UploadNewsImageAsync(model.Image, $"{model.Title}-{id}");
+
+            if (!isSuccessful || string.IsNullOrEmpty(uploadedImageUrl))
+            {
+                return (false, errorMessage ?? ImageUploadError);
+            }
+
+            news.ImageUrl = uploadedImageUrl;
+        }
+
+        news.Title = model.Title;
+        news.Content = model.Content;
+        news.Category = model.Category;
+        news.PublicationDate = DateTime.Now;
+
+        await _repository.UpdateAsync(news);
+
+        return (true, NewsEditSuccess);
+    }
 }

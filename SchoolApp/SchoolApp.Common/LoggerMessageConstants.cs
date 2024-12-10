@@ -24,6 +24,7 @@
             public const string EditMessageError = "Грешка при редактиране на съобщение: {id}";
             public const string DeleteMessageError = "Грешка при изтриване на съобщение с ID: {id}";
             public const string LoadAchievementsError = "Грешка при зареждане на постиженията";
+            public const string EditNewsError = "Error occurred while editing news with ID: {id}";
         }
 
         public static class Team

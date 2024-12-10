@@ -282,4 +282,56 @@ public class NewsController : BaseController
             return BadRequest();
         }
     }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> Edit(int id)
+    {
+        try
+        {
+            var news = await _newsService.GetNewsForEditAsync(id);
+
+            if (news == null)
+            {
+                TempData[TempDataError] = NotFoundMessage;
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(news);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditError, id);
+            return BadRequest();
+        }
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> Edit(int id, AddNewsViewModel model)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var (success, message) = await _newsService.EditNewsAsync(id, model);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData[TempDataError] = message;
+            return View(model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditError, id);
+            return BadRequest();
+        }
+    }
 }

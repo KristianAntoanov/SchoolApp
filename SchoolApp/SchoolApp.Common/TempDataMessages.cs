@@ -109,6 +109,9 @@
             public const string AnnouncementCreateSuccess = "Съобщението беше създадено успешно!";
             public const string AnnouncementEditSuccess = "Съобщението беше редактирано успешно!";
             public const string AnnouncementDeleteSuccess = "Съобщението беше изтрито успешно!";
+
+            public const string NewsEditSuccess = "Новината беше редактирана успешно!";
+            public const string EditError = "Грешка при редактиране на новина с ID: {newsId}";
         }
 
     }
