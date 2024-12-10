@@ -101,6 +101,24 @@ public static class ServiceCollectionExtensions
                 Description = "Паролата трябва да съдържа поне една цифра (0-9)."
             };
         }
+
+        public override IdentityError DuplicateUserName(string userName)
+        {
+            return new IdentityError
+            {
+                Code = nameof(DuplicateUserName),
+                Description = $"Имейл адресът '{userName}' вече е регистриран."
+            };
+        }
+
+        public override IdentityError DefaultError()
+        {
+            return new IdentityError
+            {
+                Code = nameof(DefaultError),
+                Description = "Възникна грешка в системата. Моля, опитайте отново."
+            };
+        }
     }
 
     public static void RegisterRepositories(this IServiceCollection services)
