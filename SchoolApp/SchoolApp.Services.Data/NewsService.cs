@@ -134,23 +134,10 @@ public class NewsService : INewsService
             return (false, NotFoundMessage);
         }
 
-        //TODO and this!
-        if (!string.IsNullOrEmpty(news.ImageUrl) && news.ImageUrl != DefaultNewsImageUrl)
-        {
-            bool isImageDeleted = await _blobService.DeleteNewsImageAsync(news.ImageUrl);
-            if (!isImageDeleted)
-            {
-                return (false, ImageDeleteError);
-            }
-        }
+        news.IsArchived = true;
 
-        //news.IsArchived = true;
+        bool result = await _repository.UpdateAsync(news);
 
-        //bool result = await _repository.UpdateAsync(news);
-
-        //TODO Need to change this!
-
-        bool result = await _repository.DeleteAsync<News>(id);
         if (result)
         {
             return (true, NewsDeleteSuccess);
@@ -178,6 +165,11 @@ public class NewsService : INewsService
 
     public async Task<(bool success, string message)> AddAnnouncementAsync(AddAnnouncementViewModel model)
     {
+        if (model == null)
+        {
+            return (false, AnnouncementErrorMessage);
+        }
+
         Announcement announcement = new Announcement()
         {
             Title = model.Title,
@@ -207,6 +199,11 @@ public class NewsService : INewsService
 
     public async Task<(bool success, string message)> EditAnnouncementAsync(int id, AddAnnouncementViewModel model)
     {
+        if (model == null)
+        {
+            return (false, AnnouncementNotFoundMessage);
+        }
+
         Announcement? announcement = await _repository.GetByIdAsync<Announcement>(id);
 
         if (announcement == null)
@@ -218,9 +215,13 @@ public class NewsService : INewsService
         announcement.Content = model.Content;
         announcement.PublicationDate = DateTime.Now;
 
-        await _repository.UpdateAsync(announcement);
+        bool result = await _repository.UpdateAsync(announcement);
 
-        return (true, AnnouncementEditSuccess);
+        if (result)
+        {
+            return (result, AnnouncementEditSuccess);
+        }
+        return (result, AnnouncementNotFoundMessage);
     }
 
     public async Task<(bool success, string message)> DeleteAnnouncementAsync(int id)
