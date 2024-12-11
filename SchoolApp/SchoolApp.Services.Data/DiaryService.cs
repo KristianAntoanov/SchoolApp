@@ -188,7 +188,17 @@ public class DiaryService : IDiaryService
 
     public async Task<bool> AddGradesAsync(string userId, GradeFormModel model)
     {
+        if (model == null)
+        {
+            return false;
+        }
+
         Teacher? teacher = await _repository.FirstOrDefaultAsync<Teacher>(t => t.ApplicationUserId == Guid.Parse(userId));
+
+        if (teacher == null)
+        {
+            return false;
+        }
 
         List<Grade> grades = new List<Grade>();
         foreach (var student in model.Students.Where(s => s.Grade != 0))
@@ -217,6 +227,11 @@ public class DiaryService : IDiaryService
 
     public async Task<bool> AddAbsenceAsync(AbsenceFormModel model)
     {
+        if (model == null)
+        {
+            return false;
+        }
+
         List<Absence> absences = new List<Absence>();
 
         foreach (var student in model.Students.Where(s => s.IsChecked))
@@ -242,6 +257,11 @@ public class DiaryService : IDiaryService
 
     public async Task<bool> AddRemarkAsync(string userId, RemarkFormModel model)
     {
+        if (model == null)
+        {
+            return false;
+        }
+
         Teacher? teacher = await _repository.FirstOrDefaultAsync<Teacher>(t => t.ApplicationUserId == Guid.Parse(userId));
 
         if (teacher == null)
@@ -330,6 +350,11 @@ public class DiaryService : IDiaryService
 
     public async Task<bool> EditRemarkAsync(EditRemarkViewModel model)
     {
+        if (model == null)
+        {
+            return false;
+        }
+
         Remark? remarkToEdit = await _repository
             .GetByIdAsync<Remark>(model.Id);
 
@@ -357,7 +382,20 @@ public class DiaryService : IDiaryService
 
     public async Task<IList<StudentRemarkFormModel>> GetStudentsAsync(RemarkFormModel model)
     {
-        int classId = _repository.FirstOrDefault<Student>(s => s.Id == model.StudentId)!.ClassId;
+        IList<StudentRemarkFormModel> studentEmpty = new List<StudentRemarkFormModel>();
+        if (model == null)
+        {
+            return studentEmpty;
+        }
+
+        Student? CurrStudent = await _repository.GetByIdAsync<Student>(model.StudentId);
+
+        if (CurrStudent == null)
+        {
+            return studentEmpty;
+        }
+
+        int classId = CurrStudent.ClassId;
 
         IList<StudentRemarkFormModel> students = await _repository.GetAllAttached<Student>()
            .Where(s => s.ClassId == classId)
