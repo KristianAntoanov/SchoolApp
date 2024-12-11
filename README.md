@@ -81,4 +81,4 @@ This project is licensed under the MIT License.
 
 ### Live Demo
 
-A live demo of BMW will be available in the future.
+A live demo of SchoolApp will be available in the future.
