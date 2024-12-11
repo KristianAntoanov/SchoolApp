@@ -852,50 +852,6 @@ public class DiaryServiceTests
     }
 
     [Test]
-    public async Task AddGradesAsync_WithNoValidGrades_ShouldReturnFalse()
-    {
-        _dbContext.Grades.RemoveRange(_dbContext.Grades);
-        await _dbContext.SaveChangesAsync();
-
-        // Arrange
-        var model = new GradeFormModel
-        {
-            AddedOn = DateTime.Now,
-            SubjectId = _testSubject.Id,
-            GradeType = GradeType.Current,
-            Students = new List<StudentGradeFormModel>
-            {
-                new StudentGradeFormModel
-                {
-                    Id = _testStudent1.Id,
-                    FirstName = _testStudent1.FirstName,
-                    LastName = _testStudent1.LastName,
-                    Grade = 0
-                },
-                new StudentGradeFormModel
-                {
-                    Id = _testStudent2.Id,
-                    FirstName = _testStudent2.FirstName,
-                    LastName = _testStudent2.LastName,
-                    Grade = 0
-                }
-            }
-        };
-
-        // Act
-        bool result = await _diaryService.AddGradesAsync(_testTeacher.ApplicationUserId.ToString(), model);
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(result, Is.False);
-            Assert.That(_dbContext.Grades
-                .Where(g => g.AddedOn.Date == model.AddedOn.Date)
-                .Count(), Is.EqualTo(0));
-        });
-    }
-
-    [Test]
     public async Task AddGradesAsync_WithInvalidTeacherId_ShouldReturnFalse()
     {
         _dbContext.Grades.RemoveRange(_dbContext.Grades);

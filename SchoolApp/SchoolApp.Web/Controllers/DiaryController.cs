@@ -158,8 +158,8 @@ public class DiaryController : BaseController
             if (!result)
             {
                 TempData[TempDataError] = InvalidData;
-                return BadRequest();
             }
+            throw new ArgumentException(InvalidData);
 
             TempData[TempDataSuccess] = GradesAddSuccess;
             return RedirectToAction(nameof(Index), new

@@ -215,12 +215,10 @@ public class DiaryService : IDiaryService
             grades.Add(grade);
         }
 
-        if (grades.Count == 0)
+        if (grades.Count != 0)
         {
-            return false;
+            await _repository.AddRangeAsync(grades);
         }
-
-        await _repository.AddRangeAsync(grades);
 
         return true;
     }
