@@ -13,7 +13,7 @@ SchoolApp is a comprehensive web application for school management, featuring an
 - **Backend:** .NET 8, ASP.NET Core, Entity Framework Core
 - **Languages:** C#, HTML, CSS, JavaScript (Bootstrap, Ajax, jQuery, Vanilla JavaScript)
 - **Architecture:** MVC and Repository Pattern, Service Layer, Data Layer
-- **Other Concepts:** Model Binding, ViewModels, Object-Oriented Programming (OOP) principles, Filters, Middlewares
+- **Other Concepts:** ViewModels, Object-Oriented Programming (OOP) principles, Filters, Middlewares
 - **Error Handling:** Robust error handling mechanisms for a smooth user experience, server-side and client-side validation
 - **Security Measures:** SQL Injection prevention, XSS protection, CSRF prevention, parameter tampering prevention, AutoForgeryToken implementation
 - **Dependency Injection:** Utilizes Dependency Injection and IoC Container for modular and scalable design
