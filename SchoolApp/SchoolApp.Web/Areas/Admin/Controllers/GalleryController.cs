@@ -32,7 +32,7 @@ public class GalleryController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadAllError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
         
     }
@@ -71,7 +71,7 @@ public class GalleryController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, CreateError, model.Title);
-            return BadRequest(model);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
         
     }
@@ -99,10 +99,15 @@ public class GalleryController : AdminBaseController
 
             return View(model);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, LoadAlbumError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadAlbumError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -139,7 +144,7 @@ public class GalleryController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddImageError, model?.AlbumId);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
         
     }
@@ -168,12 +173,16 @@ public class GalleryController : AdminBaseController
 
             return RedirectToAction(nameof(Album), new { id = albumId });
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteImageError, id, albumId);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, DeleteImageError, id, albumId);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
-        
     }
 
     [HttpPost]
@@ -200,10 +209,15 @@ public class GalleryController : AdminBaseController
 
             return RedirectToAction(nameof(Index));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteAlbumError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, DeleteAlbumError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status404NotFound);
         }
     }
 }

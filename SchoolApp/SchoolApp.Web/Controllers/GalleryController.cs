@@ -30,7 +30,7 @@ public class GalleryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, InvalidLoadGallery);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace SchoolApp.Web.ViewModels.Diary.AddForms;
 
 public class RemarkFormModel : StudentBaseViewModel
 {
-    [Required]
+    [Required(ErrorMessage = StudentNameRequiredMessage)]
     public int StudentId { get; set; }
 
     [Required(ErrorMessage = RemarkRequiredMessage)]

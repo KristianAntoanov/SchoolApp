@@ -96,7 +96,7 @@ public class HomeController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, ContactFormError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

@@ -32,7 +32,7 @@ public class TeachersController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadAllError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -51,7 +51,7 @@ public class TeachersController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddFormError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -88,7 +88,7 @@ public class TeachersController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -107,10 +107,15 @@ public class TeachersController : AdminBaseController
 
             return View(model);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditLoadError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, EditLoadError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -146,12 +151,12 @@ public class TeachersController : AdminBaseController
         catch (IOException ex)
         {
             _logger.LogError(ex, ImageError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, EditError, model.Id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -173,10 +178,15 @@ public class TeachersController : AdminBaseController
 
             return RedirectToAction(nameof(Index));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, DeleteError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

@@ -41,7 +41,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadClassesError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -59,7 +59,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadContentError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -76,7 +76,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadContentError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -93,7 +93,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadContentError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -110,7 +110,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadContentError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -130,7 +130,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddGradesError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -158,8 +158,8 @@ public class DiaryController : BaseController
             if (!result)
             {
                 TempData[TempDataError] = InvalidData;
+                throw new ArgumentException(InvalidData);
             }
-            throw new ArgumentException(InvalidData);
 
             TempData[TempDataSuccess] = GradesAddSuccess;
             return RedirectToAction(nameof(Index), new
@@ -170,7 +170,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddGradesError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -185,10 +185,15 @@ public class DiaryController : BaseController
 
             return View(model);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, AddAbsenceError);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, AddAbsenceError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -209,7 +214,7 @@ public class DiaryController : BaseController
             if (!result)
             {
                 TempData[TempDataError] = InvalidData;
-                return BadRequest();
+                throw new InvalidOperationException();
             }
 
             TempData[TempDataSuccess] = AbsencesAddSuccess;
@@ -218,7 +223,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddAbsenceError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status404NotFound);
         }
     }
 
@@ -233,10 +238,15 @@ public class DiaryController : BaseController
 
             return View(model);
         }
+        catch (NullReferenceException ex)
+        {
+            _logger.LogError(ex, AddRemarkError);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, AddRemarkError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -254,7 +264,7 @@ public class DiaryController : BaseController
             }
 
             string userId = _userManager.GetUserId(User)!;
-            if (String.IsNullOrWhiteSpace(userId))
+            if (string.IsNullOrWhiteSpace(userId))
             {
                 return Redirect("/Identity/Account/Login");
             }
@@ -264,7 +274,7 @@ public class DiaryController : BaseController
             if (!result)
             {
                 TempData[TempDataError] = InvalidData;
-                return BadRequest();
+                throw new InvalidOperationException();
             }
 
             TempData[TempDataSuccess] = RemarkAddSuccess;
@@ -273,7 +283,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddRemarkError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -288,16 +298,21 @@ public class DiaryController : BaseController
             if (!result)
             {
                 TempData[TempDataError] = InvalidData;
-                return BadRequest();
+                throw new NullReferenceException();
             }
 
             TempData[TempDataSuccess] = AbsenceExcuseSuccess;
             return RedirectToAction(nameof(Index));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, ExcuseAbsenceError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, ExcuseAbsenceError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -312,16 +327,21 @@ public class DiaryController : BaseController
             if (!result)
             {
                 TempData[TempDataError] = InvalidData;
-                return BadRequest();
+                throw new NullReferenceException();
             }
 
             TempData[TempDataSuccess] = AbsenceDeleteSuccess;
             return RedirectToAction(nameof(Index));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteAbsenceError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, DeleteAbsenceError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -336,16 +356,21 @@ public class DiaryController : BaseController
             if (!result)
             {
                 TempData[TempDataError] = InvalidData;
-                return BadRequest();
+                throw new NullReferenceException();
             }
 
             TempData[TempDataSuccess] = RemarkDeleteSuccess;
             return RedirectToAction(nameof(Index));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteRemarkError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, DeleteRemarkError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -360,15 +385,20 @@ public class DiaryController : BaseController
             if (model == null)
             {
                 TempData[TempDataError] = RemarkNotFound;
-                return NotFound();
+                throw new NullReferenceException();
             }
 
             return View(model);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditRemarkError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, EditRemarkError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -388,7 +418,7 @@ public class DiaryController : BaseController
             if (!result)
             {
                 TempData[TempDataError] = InvalidData;
-                return BadRequest();
+                throw new InvalidOperationException();
             }
 
             TempData[TempDataSuccess] = RemarkEditSuccess;
@@ -397,7 +427,7 @@ public class DiaryController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, EditRemarkError, model.Id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

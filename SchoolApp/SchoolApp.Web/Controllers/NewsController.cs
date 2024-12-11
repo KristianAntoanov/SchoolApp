@@ -33,7 +33,7 @@ public class NewsController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadAllError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -69,12 +69,12 @@ public class NewsController : BaseController
         catch (IOException ex)
         {
             _logger.LogError(ex, ImageProcessError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, CreateError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -97,7 +97,7 @@ public class NewsController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadDetailsError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -129,7 +129,7 @@ public class NewsController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, DeleteError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -147,7 +147,7 @@ public class NewsController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadMessagesError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -183,7 +183,7 @@ public class NewsController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddMessageError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -203,10 +203,15 @@ public class NewsController : BaseController
 
             return View(announcement);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditMessageError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, EditMessageError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -232,10 +237,15 @@ public class NewsController : BaseController
             TempData[TempDataError] = message;
             return View(model);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditMessageError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, EditMessageError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -258,10 +268,15 @@ public class NewsController : BaseController
 
             return RedirectToAction(nameof(ImportantMessages));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteMessageError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, DeleteMessageError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -279,7 +294,7 @@ public class NewsController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadAchievementsError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -299,10 +314,15 @@ public class NewsController : BaseController
 
             return View(news);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, EditError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -328,10 +348,15 @@ public class NewsController : BaseController
             TempData[TempDataError] = message;
             return View(model);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, EditError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

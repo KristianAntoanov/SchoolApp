@@ -994,49 +994,6 @@ public class DiaryServiceTests
     }
 
     [Test]
-    public async Task AddAbsenceAsync_WithNoCheckedStudents_ShouldReturnFalse()
-    {
-        _dbContext.Absences.RemoveRange(_dbContext.Absences);
-        await _dbContext.SaveChangesAsync();
-
-        // Arrange
-        var model = new AbsenceFormModel
-        {
-            AddedOn = DateTime.Now,
-            SubjectId = _testSubject.Id,
-            Students = new List<StudentAbcenseFormModel>
-            {
-                new StudentAbcenseFormModel
-                {
-                    Id = _testStudent1.Id,
-                    FirstName = _testStudent1.FirstName,
-                    LastName = _testStudent1.LastName,
-                    IsChecked = false
-                },
-                new StudentAbcenseFormModel
-                {
-                    Id = _testStudent2.Id,
-                    FirstName = _testStudent2.FirstName,
-                    LastName = _testStudent2.LastName,
-                    IsChecked = false
-                }
-            }
-        };
-
-        // Act
-        bool result = await _diaryService.AddAbsenceAsync(model);
-
-        // Assert
-        Assert.Multiple(() =>
-        {
-            Assert.That(result, Is.False);
-            Assert.That(_dbContext.Absences
-                .Where(a => a.AddedOn.Date == model.AddedOn.Date)
-                .Count(), Is.EqualTo(0));
-        });
-    }
-
-    [Test]
     public async Task AddAbsenceAsync_ShouldOnlyAddAbsencesForCheckedStudents()
     {
 

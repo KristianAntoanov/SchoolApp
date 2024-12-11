@@ -32,7 +32,7 @@ public class TeamController : BaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadAllError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

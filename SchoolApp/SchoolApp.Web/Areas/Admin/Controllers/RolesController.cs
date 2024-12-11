@@ -31,7 +31,7 @@ public class RolesController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadAllError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -53,10 +53,15 @@ public class RolesController : AdminBaseController
 
             return RedirectToAction(nameof(Index));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, UpdateTeacherError, userId, teacherId);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, UpdateTeacherError, userId, teacherId);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
         
     }
@@ -79,10 +84,15 @@ public class RolesController : AdminBaseController
 
             return RedirectToAction(nameof(Index));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, UpdateRolesError, userId);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, UpdateRolesError, userId);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

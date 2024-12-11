@@ -30,6 +30,7 @@
                                     <select asp-for="@Model.SubjectId" id="subjectId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Subjects, "Id", "Name"))">
                                         <option value="">Избери Предмет...</option>
                                     </select>
+                                    <span asp-validation-for="@Model.SubjectId" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>

@@ -243,12 +243,10 @@ public class DiaryService : IDiaryService
             absences.Add(absence);
         }
 
-        if (absences.Count == 0)
+        if (absences.Count != 0)
         {
-            return false;
+            await _repository.AddRangeAsync(absences);
         }
-
-        await _repository.AddRangeAsync(absences);
 
         return true;
     }

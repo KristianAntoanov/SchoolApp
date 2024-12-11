@@ -38,7 +38,7 @@ public class StudentsController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, LoadAllError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -62,12 +62,12 @@ public class StudentsController : AdminBaseController
         catch (NullReferenceException ex)
         {
             _logger.LogError(ex, DeleteError, id);
-            return NotFound();
+            return StatusCode(StatusCodes.Status404NotFound);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, DeleteError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
         
     }
@@ -85,10 +85,15 @@ public class StudentsController : AdminBaseController
 
             return View(student);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditLoadError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, EditLoadError, id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -120,7 +125,7 @@ public class StudentsController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, EditError, model.Id);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -140,10 +145,9 @@ public class StudentsController : AdminBaseController
         }
         catch (Exception ex)
         {
-             _logger.LogError(ex, LoadGradesError, id);
-            return BadRequest();
+            _logger.LogError(ex, LoadGradesError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
-        
     }
 
     [HttpPost]
@@ -162,10 +166,15 @@ public class StudentsController : AdminBaseController
             TempData[TempDataError] = GradeDeleteErrorMessage;
             return RedirectToAction(nameof(ManageGrades));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteGradeError, gradeId, studentId);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, DeleteGradeError, gradeId, studentId);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -184,7 +193,7 @@ public class StudentsController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 
@@ -220,7 +229,7 @@ public class StudentsController : AdminBaseController
         catch (Exception ex)
         {
             _logger.LogError(ex, AddError);
-            return BadRequest();
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }
