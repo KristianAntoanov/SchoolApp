@@ -132,14 +132,16 @@ public class TeachersController : AdminBaseController
                 TempData[TempDataSuccess] = EditSuccessMessage;
                 return RedirectToAction(nameof(Index));
             }
-
-            if (!string.IsNullOrEmpty(errorMessage))
+            else
             {
-                ModelState.AddModelError(string.Empty, errorMessage);
+                model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
+                foreach (var subject in model.AvailableSubjects)
+                {
+                    subject.IsSelected = model.SelectedSubjects.Contains(subject.Id);
+                }
+                TempData[TempDataError] = errorMessage;
+                return View(model);
             }
-
-            model.AvailableSubjects = await _service.GetAvailableSubjectsAsync();
-            return View(model);
         }
         catch (IOException ex)
         {
