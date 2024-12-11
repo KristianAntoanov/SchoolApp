@@ -64,22 +64,32 @@ public class AdminStudentsService : IAdminStudentsService
 
     public async Task<bool> DeleteStudent(int id)
     {
-        Student? student = await _repository
-            .FirstOrDefaultAsync<Student>(s => s.Id == id);
+        Student? student = await _repository.GetAllAttached<Student>()
+            .Include(ss => ss.SubjectStudents)
+            .FirstOrDefaultAsync(s => s.Id == id);
 
         if (student == null)
         {
             return false;
         }
 
-        bool result = await _repository.DeleteAsync<Student>(id);
+        if (student.SubjectStudents.Count != 0)
+        {
+            await _repository.DeleteRangeAsync(student.SubjectStudents);
+        }
 
-        return result;
+        if (student.SubjectStudents.Count != 0)
+        {
+            return false;
+        }
+
+        return await _repository.DeleteAsync<Student>(id);
     }
 
     public async Task<EditStudentFormModel?> GetStudentForEditAsync(int id)
     {
         Student? student = await _repository.GetAllAttached<Student>()
+            .AsNoTracking()
             .FirstOrDefaultAsync(s => s.Id == id);
 
         if (student == null)
@@ -113,10 +123,23 @@ public class AdminStudentsService : IAdminStudentsService
 
     public async Task<bool> UpdateStudentAsync(EditStudentFormModel model)
     {
+        if (model == null)
+        {
+            return false;
+        }
+
         Student? student = await _repository
             .FirstOrDefaultAsync<Student>(s => s.Id == model.Id);
 
         if (student == null)
+        {
+            return false;
+        }
+
+        Class? classExists = await _repository
+            .FirstOrDefaultAsync<Class>(c => c.Id == model.ClassId);
+
+        if (classExists == null)
         {
             return false;
         }
@@ -132,6 +155,7 @@ public class AdminStudentsService : IAdminStudentsService
     public async Task<StudentGradesManagementViewModel?> GetStudentGradesAsync(int studentId)
     {
         Student? student = await _repository.GetAllAttached<Student>()
+            .AsNoTracking()
             .Include(s => s.SubjectStudents)
             .ThenInclude(ss => ss.Subject)
             .Include(s => s.Grades)
@@ -199,6 +223,18 @@ public class AdminStudentsService : IAdminStudentsService
         };
 
         await _repository.AddAsync(student);
+
+        List<Subject> allSubjects = await _repository.GetAllAttached<Subject>().ToListAsync();
+
+        List<SubjectStudent> subjectStudents = allSubjects
+        .Select(subject => new SubjectStudent
+        {
+            StudentId = student.Id,
+            SubjectId = subject.Id
+        }).ToList();
+
+        await _repository.AddRangeAsync(subjectStudents);
+
         return true;
     }
 }
