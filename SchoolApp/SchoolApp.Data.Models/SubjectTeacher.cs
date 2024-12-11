@@ -3,21 +3,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace SchoolApp.Data.Models
+namespace SchoolApp.Data.Models;
+
+[PrimaryKey(nameof(TeacherId), nameof(SubjectId))]
+[Comment("Subject teachers mapping table")]
+public class SubjectTeacher
 {
-    [PrimaryKey(nameof(TeacherId), nameof(SubjectId))]
-    public class SubjectTeacher
-	{
-        [Required]
-        public Guid TeacherId { get; set; }
+    [Required]
+    [Comment("Teacher identifier")]
+    public Guid TeacherId { get; set; }
 
-        [ForeignKey(nameof(TeacherId))]
-        public Teacher Teacher { get; set; } = null!;
+    [ForeignKey(nameof(TeacherId))]
+    public Teacher Teacher { get; set; } = null!;
 
-        [Required]
-        public int SubjectId { get; set; }
+    [Required]
+    [Comment("Subject identifier")]
+    public int SubjectId { get; set; }
 
-        [ForeignKey(nameof(SubjectId))]
-        public Subject Subject { get; set; } = null!;
-    }
+    [ForeignKey(nameof(SubjectId))]
+    public Subject Subject { get; set; } = null!;
 }

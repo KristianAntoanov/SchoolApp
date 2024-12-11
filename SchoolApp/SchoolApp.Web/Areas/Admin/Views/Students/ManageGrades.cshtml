@@ -16,6 +16,19 @@
             _ => ""
         };
     }
+
+    string GetColumnForGradeType(GradeType? gradeType)
+    {
+        if (gradeType == null) return "";
+
+        return gradeType switch
+        {
+            GradeType.FirstTerm => "Term1",
+            GradeType.SecondTerm => "Term2",
+            GradeType.Yearly => "Year",
+            _ => ""
+        };
+    }
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/Admin/ManageGrades.css" asp-append-version="true" />
@@ -23,7 +36,7 @@
 
 <div class="container-fluid mt-4">
     <div class="card">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header text-white" style="background-color: #244855;">
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">
                     <i class="fas fa-graduation-cap me-2"></i>
@@ -64,30 +77,36 @@
                             <tr>
                                 <td class="text-start fw-bold">@subject.SubjectName</td>
                                 @{
-                                    var months = new[] { "IX", "X", "XI", "XII", "I_II", "Term1",
-                                                       "III", "IV", "V", "VI_VII", "Term2", "Year" };
+                                    var columns = new[] { "IX", "X", "XI", "XII", "I_II", "Term1",
+                                    "III", "IV", "V", "VI_VII", "Term2", "Year" };
 
-                                    foreach (var month in months)
+                                    foreach (var column in columns)
                                     {
-                                        var grades = subject.Grades
-                                            .Where(g => GetColumnKey(g.GradeDate) == month)
-                                            .ToList();
+                                        <td class="grade-cell @(column is "Term1" or "Term2" ? "table-light" : "")">
+                                            @{
+                                                var gradesInColumn = subject.Grades
+                                                    .Where(g => g.GradeType == GradeType.Current
+                                                        ? GetColumnKey(g.GradeDate) == column
+                                                        : GetColumnForGradeType(g.GradeType) == column)
+                                                    .ToList();
 
-                                        <td class="grade-cell position-relative">
-                                            @foreach (var grade in grades)
-                                            {
-                                                <div class="grade-container">
-                                                    <span class="grade">@grade.GradeValue</span>
-                                                    <button type="button"
-                                                            class="btn btn-link delete-grade p-0 border-0"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#deleteGradeModal"
-                                                            data-grade-id="@grade.Id"
-                                                            data-subject-name="@subject.SubjectName"
-                                                            data-grade-value="@grade.GradeValue">
-                                                        <i class="fas fa-trash-alt text-danger"></i>
-                                                    </button>
-                                                </div>
+                                                foreach (var grade in gradesInColumn)
+                                                {
+                                                    <div class="grade-container">
+                                                        <span class="grade @($"grade-value grade-{grade.GradeValue} {(grade.GradeType != GradeType.Current ? "term-grade" : "")}")">
+                                                            @grade.GradeValue
+                                                        </span>
+                                                        <button type="button"
+                                                                class="btn btn-link delete-grade p-0 border-0"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#deleteGradeModal"
+                                                                data-grade-id="@grade.Id"
+                                                                data-subject-name="@subject.SubjectName"
+                                                                data-grade-value="@grade.GradeValue">
+                                                            <i class="fas fa-trash-alt text-danger"></i>
+                                                        </button>
+                                                    </div>
+                                                }
                                             }
                                         </td>
                                     }
@@ -101,7 +120,6 @@
     </div>
 </div>
 
-<!-- Delete Grade Modal -->
 <div class="modal fade" id="deleteGradeModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -115,7 +133,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
                 <form id="deleteGradeForm" method="post" asp-controller="Students" asp-action="DeleteGrade">
-                    @Html.AntiForgeryToken()
                     <input type="hidden" id="gradeIdToDelete" name="gradeId" />
                     <input type="hidden" name="studentId" value="@Model.StudentId" />
                     <button type="submit" class="btn btn-danger">Изтрий</button>

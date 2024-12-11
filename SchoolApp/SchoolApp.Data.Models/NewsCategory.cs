@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SchoolApp.Data.Models
-{
-	public enum NewsCategory
-	{
-        [Display(Name = "Новина")]
-        News,
+namespace SchoolApp.Data.Models;
 
-        [Display(Name = "Постижение")]
-        Achievement
-    }
+public enum NewsCategory
+{
+    [Display(Name = "Новина")]
+    News,
+
+    [Display(Name = "Постижение")]
+    Achievement
 }

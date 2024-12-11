@@ -12,7 +12,7 @@ using SchoolApp.Data;
 namespace SchoolApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241128132304_InitialMigration")]
+    [Migration("20241206182946_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -139,23 +139,28 @@ namespace SchoolApp.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Absence identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("AddedOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasComment("Date of creation");
 
                     b.Property<bool>("IsExcused")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasDefaultValue(false)
+                        .HasComment("Absence status");
 
                     b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Student identifier");
 
                     b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Subject identifier");
 
                     b.HasKey("Id");
 
@@ -163,53 +168,69 @@ namespace SchoolApp.Data.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Absences");
+                    b.ToTable("Absences", t =>
+                        {
+                            t.HasComment("Absences table");
+                        });
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Album", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Album identifier");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasComment("Album description");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("Album title");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Albums");
+                    b.ToTable("Albums", t =>
+                        {
+                            t.HasComment("Albums table");
+                        });
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Announcement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Announcement identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasComment("Announcement content");
 
                     b.Property<DateTime>("PublicationDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasComment("Announcement publication date");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("Announcement title");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Announcements");
+                    b.ToTable("Announcements", t =>
+                        {
+                            t.HasComment("Announcements table");
+                        });
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.ApplicationRole", b =>
@@ -330,15 +351,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8a093ebf-f3b9-403e-bcbf-5533f224854c",
+                            ConcurrencyStamp = "30699498-56e0-4d62-ae26-4f4c5d2fd1cc",
                             Email = "Stefan@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "STEFAN@GMAIL.COM",
                             NormalizedUserName = "STEFAN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGfSSKzMXZf01041tvOFOM+ytNr7GN8drggzzDSvMpG4Hy70+UJJ7QDEsobAVBrP/w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL07dWmxTsbCzAmBwlhIP1hQRwp37xkWYOUxsp8ZGgXqCzjTxu7d6UUCX/y8nUweQQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "46A8A765-124C-4BB6-9885-E9DED7A7949E",
+                            SecurityStamp = "4C7A51C6-35DF-4840-AA09-7764F6F84377",
                             TwoFactorEnabled = false,
                             UserName = "Stefan@gmail.com"
                         },
@@ -346,15 +367,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "117956f5-15db-400c-903d-63a9c0157193",
+                            ConcurrencyStamp = "a8a45cec-cf96-4e8e-94db-f42f6623b8b0",
                             Email = "Margarita@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MARGARITA@GMAIL.COM",
                             NormalizedUserName = "MARGARITA@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKCEORRGWK/14Ywm9ko3iTMGUzFGsKZvGQOY0Xz+rpf0LRur8cmXtIZG6ALnE9WeKg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEoNYKqfDn1wZC6rqHNda/7ghcmIqhVjEdLL7acqohp+y5AKSnroNEM1Pqfy5OZRUg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "270A966E-DFC5-49F7-A4E7-426394B559E0",
+                            SecurityStamp = "266849B9-DC84-431D-B8D0-4286D5C2A52B",
                             TwoFactorEnabled = false,
                             UserName = "Margarita@gmail.com"
                         },
@@ -362,15 +383,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "17f62ab4-da94-41ec-b94e-442df079043b",
+                            ConcurrencyStamp = "8744f9ed-272a-43b6-8ae4-4279a58bc1f7",
                             Email = "Maria@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MARIA@GMAIL.COM",
                             NormalizedUserName = "MARIA@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEW0N8aOEr9gfpZK52QGJA4tCSl/7oMKGrgwQSLrLwcsN6CKqW1j9BCRy1TSej6YBQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG+UQcUcv4tNmfAznZrU29qG7P1NMinIMdOQwkjtt2gbxjc6irW2kvf39CUZwUdiqQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1ED56D26-BAB0-4436-BE12-5D475C6A199E",
+                            SecurityStamp = "09779772-07A4-40B9-9F92-1796E8D09544",
                             TwoFactorEnabled = false,
                             UserName = "Maria@gmail.com"
                         },
@@ -378,15 +399,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("d040cb3e-ae29-4045-943c-4030a4249476"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3759b6ff-3b61-4cd4-af8c-d2c1d827eb7a",
+                            ConcurrencyStamp = "5f397ccc-8af7-430d-9cdd-e5b985d747ea",
                             Email = "Ani@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "ANI@GMAIL.COM",
                             NormalizedUserName = "ANI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMpOMYszk6RfMSD2XcmdoReFCt3xixgK+7ffQj58LpTccVz4E6U5JXCOqMmheoXQkg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF0uA3J/BVaYRBmQQSUd2biB8HHGqdD4xltdMlsLQ4goY4G1fZvOdVTpzm8sc+qP2w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "98F44674-7EC8-48FE-BB0B-1444B0C2A8B2",
+                            SecurityStamp = "93DDDC56-76F7-4591-A973-73BC8A9E6D0D",
                             TwoFactorEnabled = false,
                             UserName = "Ani@gmail.com"
                         },
@@ -394,15 +415,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a02cb12a-702a-4223-b6bc-2aed3c0ecbb6",
+                            ConcurrencyStamp = "21f80dc9-9c2e-4593-a3f1-02327e5989fd",
                             Email = "Tsveti@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "TSVETI@GMAIL.COM",
                             NormalizedUserName = "TSVETI@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEr5ssKigIYrp+yQweiI2oyLfZ+TJ3adFWa29WnJKzFshHXCaiJpg+wzrl8arZr7hA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBltTZfeYXbEPnxkfqtz9f0SOzIo3EBIVlKb1M9fx8j9Ma4eaofuuc3C0KhK5w0dsQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "C5306DA7-98D7-4C13-B981-36CACB3C76D1",
+                            SecurityStamp = "CA8633AD-9E8A-48F8-BB0C-F23E4E95E792",
                             TwoFactorEnabled = false,
                             UserName = "Tsveti@gmail.com"
                         },
@@ -410,15 +431,15 @@ namespace SchoolApp.Data.Migrations
                         {
                             Id = new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e55ea35e-4612-42d0-bbce-fab5e4b07b14",
+                            ConcurrencyStamp = "7a10df65-743d-4e47-a907-8f03b4961da5",
                             Email = "Emilia@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "EMILIA@GMAIL.COM",
                             NormalizedUserName = "EMILIA@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGwjAEzX2ERXY/TrH/f+VDO0WERhnud9mMJsBc0zMXLX/c0CWXatiU3HAlY6TaSEEA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELIe4YWQX0+M9NjywA2gCLCdcNlDQ4MFHKRNYhFMlteR6TGMGuiOBOeG16CNSnxkiQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0EF0F0C3-3B6A-43E7-8C1C-F782FA7F7504",
+                            SecurityStamp = "14B6E0BA-1E80-4117-9C46-94BD111C190F",
                             TwoFactorEnabled = false,
                             UserName = "Emilia@gmail.com"
                         });
@@ -428,21 +449,27 @@ namespace SchoolApp.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Class identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("GradeLevel")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Grade level");
 
                     b.Property<int>("SectionId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Section identifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SectionId");
 
-                    b.ToTable("Classes");
+                    b.ToTable("Classes", t =>
+                        {
+                            t.HasComment("Classes table");
+                        });
 
                     b.HasData(
                         new
@@ -487,45 +514,63 @@ namespace SchoolApp.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Image identifier");
 
                     b.Property<Guid>("AlbumId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Album identifier");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasMaxLength(2083)
-                        .HasColumnType("nvarchar(2083)");
+                        .HasColumnType("nvarchar(2083)")
+                        .HasComment("Image URL");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
 
-                    b.ToTable("GalleryImages");
+                    b.ToTable("GalleryImages", t =>
+                        {
+                            t.HasComment("Gallery images table");
+                        });
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Grade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Grade identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("AddedOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasComment("Date of creation");
+
+                    b.Property<int>("GradeType")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1)
+                        .HasComment("Grade type");
 
                     b.Property<int>("GradeValue")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Grade value");
 
                     b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Student identifier");
 
                     b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Subject identifier");
 
                     b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Teacher identifier");
 
                     b.HasKey("Id");
 
@@ -535,71 +580,90 @@ namespace SchoolApp.Data.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grades", t =>
+                        {
+                            t.HasComment("Grades table");
+                        });
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.News", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("News identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Category")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("News category");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasComment("News content");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(2083)
-                        .HasColumnType("nvarchar(2083)");
+                        .HasColumnType("nvarchar(2083)")
+                        .HasComment("Image URL");
 
                     b.Property<bool>("IsArchived")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasDefaultValue(false)
+                        .HasComment("Archive status");
 
                     b.Property<DateTime>("PublicationDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasComment("Publication date");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(100)")
+                        .HasComment("News title");
 
                     b.HasKey("Id");
 
-                    b.ToTable("News");
+                    b.ToTable("News", t =>
+                        {
+                            t.HasComment("News table");
+                        });
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Remark", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Remark identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("AddedOn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasComment("Date of creation");
 
                     b.Property<string>("RemarkText")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasColumnType("nvarchar(300)")
+                        .HasComment("Remark text");
 
                     b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Student identifier");
 
                     b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Subject identifier");
 
                     b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Teacher identifier");
 
                     b.HasKey("Id");
 
@@ -609,25 +673,33 @@ namespace SchoolApp.Data.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Remarks");
+                    b.ToTable("Remarks", t =>
+                        {
+                            t.HasComment("Remarks table");
+                        });
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Section", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Section identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("nvarchar(1)")
+                        .HasComment("Section name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sections");
+                    b.ToTable("Sections", t =>
+                        {
+                            t.HasComment("Sections table");
+                        });
 
                     b.HasData(
                         new
@@ -656,30 +728,36 @@ namespace SchoolApp.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Student identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<Guid>("ApplicationUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Application user identifier");
 
                     b.Property<int>("ClassId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Class identifier");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("Student first name");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("Student last name");
 
                     b.Property<string>("MiddleName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("Student middle name");
 
                     b.HasKey("Id");
 
@@ -687,7 +765,10 @@ namespace SchoolApp.Data.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", t =>
+                        {
+                            t.HasComment("Students table");
+                        });
 
                     b.HasData(
                         new
@@ -858,18 +939,23 @@ namespace SchoolApp.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Subject identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("Subject name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", t =>
+                        {
+                            t.HasComment("Subjects table");
+                        });
 
                     b.HasData(
                         new
@@ -907,16 +993,21 @@ namespace SchoolApp.Data.Migrations
             modelBuilder.Entity("SchoolApp.Data.Models.SubjectStudent", b =>
                 {
                     b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Student identifier");
 
                     b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Subject identifier");
 
                     b.HasKey("StudentId", "SubjectId");
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("SubjectsStudents");
+                    b.ToTable("SubjectsStudents", t =>
+                        {
+                            t.HasComment("Subject students mapping table");
+                        });
 
                     b.HasData(
                         new
@@ -1464,46 +1555,57 @@ namespace SchoolApp.Data.Migrations
             modelBuilder.Entity("SchoolApp.Data.Models.SubjectTeacher", b =>
                 {
                     b.Property<Guid>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Teacher identifier");
 
                     b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasComment("Subject identifier");
 
                     b.HasKey("TeacherId", "SubjectId");
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("SubjectsTeachers");
+                    b.ToTable("SubjectsTeachers", t =>
+                        {
+                            t.HasComment("Subject teachers mapping table");
+                        });
                 });
 
             modelBuilder.Entity("SchoolApp.Data.Models.Teacher", b =>
                 {
                     b.Property<Guid>("GuidId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Teacher identifier");
 
                     b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasComment("Application user identifier");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("Teacher first name");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasMaxLength(2083)
-                        .HasColumnType("nvarchar(2083)");
+                        .HasColumnType("nvarchar(2083)")
+                        .HasComment("Image URL");
 
                     b.Property<string>("JobTitle")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(150)")
+                        .HasComment("Job title");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasComment("Teacher last name");
 
                     b.HasKey("GuidId");
 
@@ -1511,12 +1613,15 @@ namespace SchoolApp.Data.Migrations
                         .IsUnique()
                         .HasFilter("[ApplicationUserId] IS NOT NULL");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", t =>
+                        {
+                            t.HasComment("Teachers table");
+                        });
 
                     b.HasData(
                         new
                         {
-                            GuidId = new Guid("8dba352b-6027-4bcb-b5d9-4585381b3930"),
+                            GuidId = new Guid("3f865489-0188-41e0-ae45-39626a3d9fef"),
                             ApplicationUserId = new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"),
                             FirstName = "Стефан",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1525,7 +1630,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("24eebace-ba21-4a57-b421-c74b131aca68"),
+                            GuidId = new Guid("b37d2ff2-15db-4cd8-9a77-f0052d0b1ab3"),
                             ApplicationUserId = new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"),
                             FirstName = "Маргарита",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1534,7 +1639,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("790ed914-ac05-441a-a2cd-60cf81051e92"),
+                            GuidId = new Guid("01548a2b-68bf-4858-8b9f-61f538fc376a"),
                             ApplicationUserId = new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"),
                             FirstName = "Мария",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1543,7 +1648,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("f189e8ec-6c34-4053-a84f-42e8a7ec7f9e"),
+                            GuidId = new Guid("cf100638-717c-4285-9c8f-25b0b6a8be8d"),
                             ApplicationUserId = new Guid("d040cb3e-ae29-4045-943c-4030a4249476"),
                             FirstName = "Ани",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1552,7 +1657,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("9b3d7d44-d831-42c7-abae-ff5af6e72e03"),
+                            GuidId = new Guid("8259e67f-6f7a-4166-b262-20d754b5e2fd"),
                             ApplicationUserId = new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"),
                             FirstName = "Цветелина",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1561,7 +1666,7 @@ namespace SchoolApp.Data.Migrations
                         },
                         new
                         {
-                            GuidId = new Guid("5d14d4c1-3245-46cb-a361-08c6ab596dab"),
+                            GuidId = new Guid("47ca7932-75e2-41f7-bc76-c33fdd9033a5"),
                             ApplicationUserId = new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"),
                             FirstName = "Емилия",
                             ImageUrl = "/img/No_Image.jpg",
@@ -1630,7 +1735,7 @@ namespace SchoolApp.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("SchoolApp.Data.Models.Subject", "Subject")
-                        .WithMany("Absences")
+                        .WithMany()
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1671,7 +1776,7 @@ namespace SchoolApp.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("SchoolApp.Data.Models.Subject", "Subject")
-                        .WithMany("Grades")
+                        .WithMany()
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1697,7 +1802,7 @@ namespace SchoolApp.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("SchoolApp.Data.Models.Subject", "Subject")
-                        .WithMany("Remarks")
+                        .WithMany()
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1804,12 +1909,6 @@ namespace SchoolApp.Data.Migrations
 
             modelBuilder.Entity("SchoolApp.Data.Models.Subject", b =>
                 {
-                    b.Navigation("Absences");
-
-                    b.Navigation("Grades");
-
-                    b.Navigation("Remarks");
-
                     b.Navigation("SubjectStudents");
 
                     b.Navigation("SubjectTeachers");

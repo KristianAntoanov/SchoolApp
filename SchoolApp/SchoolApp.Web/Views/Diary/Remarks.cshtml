@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<StudentRemarksViewModel>
 @{
-    ViewData["Title"] = "Отсъстивя";
-    var today = DateTime.Now.ToString("dd/MM/yyyy");
+    ViewData["Title"] = "Забележки";
 }
 
 <div class="accordion" id="studentsAccordion">
@@ -34,6 +33,7 @@
                              id="@collapseId"
                              data-bs-parent="#studentsAccordion">
                             <div class="p-3 bg-light">
+                                <h6 class="mb-3">Забележки:</h6>
                                 @foreach (var remark in student.Remarks)
                                 {
                                     <div class="mb-3">
@@ -43,15 +43,18 @@
                                                 <i class="fa-solid fa-bookmark"></i> @($"{remark.SubjectName} на {remark.AddedOn}г.")
                                             </div>
                                             <div>
-                                                <a class="btn btn-info btn-sm me-2" asp-controller="Diary" asp-action="EditRemark" asp-route-id="@remark.Id">
-                                                    <input type="hidden" asp-for="@remark.Id" />
-                                                    <i class="fa-solid fa-pen-to-square"></i> Редактирай
-                                                </a>
-                                                <form asp-controller="Diary" asp-action="DeleteRemark" asp-route-id="@remark.Id" method="post" class="d-inline">
-                                                    <button type="submit" class="btn btn-danger btn-sm">
-                                                        <i class="fa-solid fa-trash"></i> Изтрий
-                                                    </button>
-                                                </form>
+                                                @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+                                                {
+                                                    <a class="btn btn-info btn-sm me-2" asp-controller="Diary" asp-action="EditRemark" asp-route-id="@remark.Id">
+                                                        <input type="hidden" asp-for="@remark.Id" />
+                                                        <i class="fa-solid fa-pen-to-square"></i> Редактирай
+                                                    </a>
+                                                    <form asp-controller="Diary" asp-action="DeleteRemark" asp-route-id="@remark.Id" method="post" class="d-inline">
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fa-solid fa-trash"></i> Изтрий
+                                                        </button>
+                                                    </form>
+                                                }
                                             </div>
                                         </div>
                                         <div class="small">
@@ -62,6 +65,7 @@
                                             Създадено от @remark.TeacherName
                                         </div>
                                     </div>
+                                    <hr class="my-3" />
                                 }
                             </div>
                         </div>

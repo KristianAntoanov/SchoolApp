@@ -1,34 +1,54 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SchoolApp.Data.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.News;
 
-namespace SchoolApp.Web.Controllers
+using static SchoolApp.Common.LoggerMessageConstants.News;
+using static SchoolApp.Common.TempDataMessages.News;
+using static SchoolApp.Common.TempDataMessages;
+
+namespace SchoolApp.Web.Controllers;
+
+public class NewsController : BaseController
 {
-    public class NewsController : Controller
+    private readonly INewsService _newsService;
+    private readonly ILogger<NewsController> _logger;
+
+    public NewsController(INewsService newsService, ILogger<NewsController> logger)
     {
-        private readonly INewsService _newsService;
+        _newsService = newsService;
+        _logger = logger;
+    }
 
-        public NewsController(INewsService newsService)
-        {
-            _newsService = newsService;
-        }
-
-        public async Task<IActionResult> Index()
+    [AllowAnonymous]
+    public async Task<IActionResult> Index()
+    {
+        try
         {
             IEnumerable<NewsViewModel> news = await _newsService.GetAllNewsAsync();
 
             return View(news);
         }
-
-        [HttpGet]
-        public IActionResult Add()
+        catch (Exception ex)
         {
-            return View();
+            _logger.LogError(ex, LoadAllError);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(AddNewsViewModel model)
+    [HttpGet]
+    [Authorize(Roles = "Admin,Teacher")]
+    public IActionResult Add()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> Add(AddNewsViewModel model)
+    {
+        try
         {
             if (!ModelState.IsValid)
             {
@@ -39,34 +59,57 @@ namespace SchoolApp.Web.Controllers
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
                 return RedirectToAction(nameof(Index));
             }
 
-            TempData["ErrorMessage"] = message;
+            TempData[TempDataError] = message;
             return View(model);
         }
+        catch (IOException ex)
+        {
+            _logger.LogError(ex, ImageProcessError);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, CreateError);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> Details(int id)
+    [HttpGet]
+    [Authorize(Roles = "Admin,Teacher,Parent")]
+    public async Task<IActionResult> Details(int id)
+    {
+        try
         {
             var news = await _newsService.GetNewsDetailsAsync(id);
 
             if (news == null)
             {
-                TempData["ErrorMessage"] = "Новината не беше намерена.";
+                TempData[TempDataError] = NotFoundMessage;
                 return RedirectToAction(nameof(Index));
             }
 
             return View(news);
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadDetailsError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+    [HttpPost]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
         {
             if (id <= 0)
             {
-                TempData["ErrorMessage"] = "Невалидно ID на новина.";
+                TempData[TempDataError] = InvalidIdMessage;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -74,33 +117,52 @@ namespace SchoolApp.Web.Controllers
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
             }
             else
             {
-                TempData["ErrorMessage"] = message;
+                TempData[TempDataError] = message;
             }
 
             return RedirectToAction(nameof(Index));
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, DeleteError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> ImportantMessages()
+    [HttpGet]
+    [Authorize(Roles = "Admin,Teacher,Parent")]
+    public async Task<IActionResult> ImportantMessages()
+    {
+        try
         {
             IEnumerable<AnnouncementViewModel> announcements =
-                await _newsService.GetAllImportantMessagesAsync();
+            await _newsService.GetAllImportantMessagesAsync();
 
             return View(announcements);
         }
-
-        [HttpGet]
-        public IActionResult AddAnnouncement()
+        catch (Exception ex)
         {
-            return View();
+            _logger.LogError(ex, LoadMessagesError);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> AddAnnouncement(AddAnnouncementViewModel model)
+    [HttpGet]
+    [Authorize(Roles = "Admin,Teacher")]
+    public IActionResult AddAnnouncement()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> AddAnnouncement(AddAnnouncementViewModel model)
+    {
+        try
         {
             if (!ModelState.IsValid)
             {
@@ -111,30 +173,53 @@ namespace SchoolApp.Web.Controllers
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
                 return RedirectToAction(nameof(ImportantMessages));
             }
 
-            TempData["ErrorMessage"] = message;
+            TempData[TempDataError] = message;
             return View(model);
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, AddMessageError);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> EditAnnouncement(int id)
+    [HttpGet]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> EditAnnouncement(int id)
+    {
+        try
         {
             var announcement = await _newsService.GetAnnouncementForEditAsync(id);
 
             if (announcement == null)
             {
-                TempData["ErrorMessage"] = "Съобщението не беше намерено.";
+                TempData[TempDataError] = AnnouncementNotFoundMessage;
                 return RedirectToAction(nameof(ImportantMessages));
             }
 
             return View(announcement);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditMessageError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditMessageError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> EditAnnouncement(int id, AddAnnouncementViewModel model)
+    [HttpPost]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> EditAnnouncement(int id, AddAnnouncementViewModel model)
+    {
+        try
         {
             if (!ModelState.IsValid)
             {
@@ -145,37 +230,133 @@ namespace SchoolApp.Web.Controllers
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
                 return RedirectToAction(nameof(ImportantMessages));
             }
 
-            TempData["ErrorMessage"] = message;
+            TempData[TempDataError] = message;
             return View(model);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditMessageError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditMessageError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteAnnouncement(int id)
+    [HttpPost]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> DeleteAnnouncement(int id)
+    {
+        try
         {
             var (success, message) = await _newsService.DeleteAnnouncementAsync(id);
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
             }
             else
             {
-                TempData["ErrorMessage"] = message;
+                TempData[TempDataError] = message;
             }
 
             return RedirectToAction(nameof(ImportantMessages));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteMessageError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, DeleteMessageError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        public async Task<IActionResult> Achievements()
+    [HttpGet]
+    [AllowAnonymous]
+    public async Task<IActionResult> Achievements()
+    {
+        try
         {
             IEnumerable<NewsViewModel> achievements =
-                await _newsService.GetAllAchievementsAsync();
+            await _newsService.GetAllAchievementsAsync();
 
             return View(achievements);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadAchievementsError);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> Edit(int id)
+    {
+        try
+        {
+            var news = await _newsService.GetNewsForEditAsync(id);
+
+            if (news == null)
+            {
+                TempData[TempDataError] = NotFoundMessage;
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(news);
+        }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin,Teacher")]
+    public async Task<IActionResult> Edit(int id, AddNewsViewModel model)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var (success, message) = await _newsService.EditNewsAsync(id, model);
+
+            if (success)
+            {
+                TempData[TempDataSuccess] = message;
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData[TempDataError] = message;
+            return View(model);
+        }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

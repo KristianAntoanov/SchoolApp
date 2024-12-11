@@ -1,17 +1,23 @@
 ﻿@model IEnumerable<TeachersViewModel>
+@{
+    ViewData["Title"] = "Екип";
+
+    var director = Model.FirstOrDefault(t => t.JobTitle == "Директор");
+    var teachers = Model.Where(t => t.JobTitle != "Директор");
+    int fadeupcount = 100;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Team/DirectorCardStyle.css" asp-append-version="true" />
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
+}
 
 <div class="container py-5">
     <h2 class="text-center mb-3">Нашият Екип</h2>
-    <div class="mx-auto mb-3" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
-
-    @{
-        var director = Model.FirstOrDefault(t => t.JobTitle == "Директор");
-        var teachers = Model.Where(t => t.JobTitle != "Директор");
-    }
-
+    <div class="mx-auto mb-3" style="width: 60%; height: 2px; background-color: #E64833;"></div>
     @if (director != null)
-     {
-        <div class="card director-card mb-5">
+    {
+        <div class="card director-card mb-5" data-aos="fade-up" data-aos-delay="100">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="@director.Photo"
@@ -22,17 +28,25 @@
                     <div class="card-body p-4">
                         <h3 class="card-title">@director.FirstName @director.LastName</h3>
                         <h5 class="text-muted mb-3">@director.JobTitle</h5>
+                        <h6 class="mb-3">Професионални постижения:</h6>
+                        <ul>
+                            <li>Награда "Директор на годината" (2023)</li>
+                            <li>Внедряване на иновативни образователни програми</li>
+                            <li>Успешно реализирани над 10 международни проекта</li>
+                            <li>Въвеждане на STEM програми и модерни технологични кабинети</li>
+                            <li>Модернизация на училищната база и спортни съоръжения</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-     }
+    }
 
     <div class="row row-cols-1 row-cols-md-4 g-4">
         @foreach (var teacher in teachers)
-         {
+        {
             <div class="col">
-                <div class="card h-100 team-card">
+                <div class="card h-100 team-card" data-aos="fade-up" data-aos-delay="@fadeupcount">
                     <img src="@teacher.Photo"
                          class="card-img-top team-member-img"
                          alt="@teacher.FirstName @teacher.LastName">
@@ -41,34 +55,20 @@
                         <p class="text-muted mb-1">@teacher.JobTitle</p>
                         @if (teacher.Subjects.Any())
                         {
-                            <p class="text-muted mb-3">Преподава по: 
+                            <p class="text-muted mb-3">
+                                Преподава по:
                                 @string.Join(", ", teacher.Subjects.Select(s => s.Name))
                             </p>
-                         }
-                        </div>
+                        }
+                    </div>
                 </div>
             </div>
+             fadeupcount += 50;
          }
     </div>
 </div>
 
-<style>
-    .director-card, .team-card {
-        background-color: #f8f9fa;
-        transition: transform 0.2s;
-    }
-
-        .director-card:hover, .team-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-    .team-member-img, .director-img {
-        object-fit: cover;
-        height: 300px;
-    }
-
-    .director-img {
-        height: 300px;
-    }
-</style>
+@section Scripts {
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/js/Home/FadeUp.js"></script>
+}

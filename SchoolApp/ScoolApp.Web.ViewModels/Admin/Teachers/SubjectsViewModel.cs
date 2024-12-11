@@ -1,11 +1,10 @@
-﻿namespace SchoolApp.Web.ViewModels.Admin.Teachers
+﻿namespace SchoolApp.Web.ViewModels.Admin.Teachers;
+
+public class SubjectsViewModel
 {
-	public class SubjectsViewModel
-	{
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
-        public bool IsSelected { get; set; }
-    }
+    public bool IsSelected { get; set; }
 }

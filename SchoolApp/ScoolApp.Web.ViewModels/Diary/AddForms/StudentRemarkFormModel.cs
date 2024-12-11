@@ -1,16 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SchoolApp.Web.ViewModels.Diary.AddForms
+namespace SchoolApp.Web.ViewModels.Diary.AddForms;
+
+public class StudentRemarkFormModel
 {
-	public class StudentRemarkFormModel
-	{
-        [Required]
-        public int Id { get; set; }
+    [Required]
+    public int Id { get; set; }
 
-        public string? FirstName { get; set; }
+    public string? FirstName { get; set; }
 
-        public string? LastName { get; set; }
+    public string? LastName { get; set; }
 
-        public string? FullName => $"{FirstName} {LastName}";
-    }
+    public string? FullName => $"{FirstName} {LastName}";
 }

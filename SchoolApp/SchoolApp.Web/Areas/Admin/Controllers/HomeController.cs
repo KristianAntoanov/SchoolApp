@@ -1,19 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace SchoolApp.Web.Areas.Admin.Controllers
+namespace SchoolApp.Web.Areas.Admin.Controllers;
+
+public class HomeController : AdminBaseController
 {
-    public class HomeController : AdminBaseController
+    public HomeController()
     {
-        public HomeController()
-        {
 
-        }
+    }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
+    [HttpGet]
+    public IActionResult Index()
+    {
+        return View();
     }
 }
-

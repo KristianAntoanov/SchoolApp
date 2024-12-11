@@ -4,18 +4,17 @@ using SchoolApp.Web.Infrastructure.ValidationAttributes;
 
 using static SchoolApp.Common.ErrorMessages;
 
-namespace SchoolApp.Web.ViewModels.Diary.AddForms
+namespace SchoolApp.Web.ViewModels.Diary.AddForms;
+
+public class StudentBaseViewModel
 {
-	public class StudentBaseViewModel
-	{
-		[Required(ErrorMessage = DateRequiredMessage)]
-		[IsDateValid(ErrorMessage = DateAfterMessage)]
-        public DateTime AddedOn { get; set; }
+    [Required(ErrorMessage = DateRequiredMessage)]
+    [IsDateValid(ErrorMessage = DateAfterMessage)]
+    public DateTime AddedOn { get; set; }
 
-		[Required]
-		public int SubjectId { get; set; }
+    [Required(ErrorMessage = GradeSubjectRequiredMessage)]
+    public int SubjectId { get; set; }
 
-		public IEnumerable<SubjectViewModel> Subjects { get; set; }
-			= new HashSet<SubjectViewModel>();
-	}
+    public IEnumerable<SubjectViewModel> Subjects { get; set; }
+        = new HashSet<SubjectViewModel>();
 }

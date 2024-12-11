@@ -1,13 +1,12 @@
-﻿namespace SchoolApp.Web.ViewModels
+﻿namespace SchoolApp.Web.ViewModels;
+
+public class AbsencesViewModel
 {
-	public class AbsencesViewModel
-	{
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        public string SubjectName { get; set; } = null!;
+    public string SubjectName { get; set; } = null!;
 
-        public bool IsExcused { get; set; }
+    public bool IsExcused { get; set; }
 
-        public string AddedOn { get; set; } = null!;
-    }
+    public string AddedOn { get; set; } = null!;
 }

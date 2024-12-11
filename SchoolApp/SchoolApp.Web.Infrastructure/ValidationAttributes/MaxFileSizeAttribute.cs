@@ -1,29 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SchoolApp.Web.Infrastructure.ValidationAttributes
+using Microsoft.AspNetCore.Http;
+
+namespace SchoolApp.Web.Infrastructure.ValidationAttributes;
+
+public class MaxFileSizeAttribute : ValidationAttribute
 {
-	public class MaxFileSizeAttribute : ValidationAttribute
+    private readonly int _maxFileSize;
+
+    public MaxFileSizeAttribute(int maxFileSize)
     {
-        private readonly int _maxFileSize;
+        _maxFileSize = maxFileSize;
+    }
 
-        public MaxFileSizeAttribute(int maxFileSize)
+    protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+    {
+        IFormFile? file = value as IFormFile;
+        if (file != null)
         {
-            _maxFileSize = maxFileSize;
-        }
-
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
-        {
-            var file = value as IFormFile;
-            if (file != null)
+            if (file.Length > _maxFileSize)
             {
-                if (file.Length > _maxFileSize)
-                {
-                    return new ValidationResult($"File size cannot exceed {_maxFileSize} bytes");
-                }
+                return new ValidationResult($"Максималният размер на файла трябва да бъде {_maxFileSize / 1024 / 1024}MB");
             }
-
-            return ValidationResult.Success;
         }
+
+        return ValidationResult.Success;
     }
 }

@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<AlbumViewModel>
-
+@{
+    ViewData["Title"] = "Галерия";
+}
 <div class="container mt-5">
     <h2 class="text-center">Галерия</h2>
-    <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+    <div class="mx-auto mb-5" style="width: 60%; height: 2px; background-color: #E64833;"></div>
     @if (!Model.Any())
     {
         <div class="text-center my-5">

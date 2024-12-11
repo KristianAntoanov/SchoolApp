@@ -1,57 +1,98 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+
 using SchoolApp.Services.Data.Contrancts;
 
-namespace SchoolApp.Web.Areas.Admin.Controllers
+using static SchoolApp.Common.LoggerMessageConstants.Roles;
+using static SchoolApp.Common.TempDataMessages;
+
+namespace SchoolApp.Web.Areas.Admin.Controllers;
+
+public class RolesController : AdminBaseController
 {
-    public class RolesController : AdminBaseController
+    private readonly IAdminUserRolesService _userRolesService;
+    private readonly ILogger<RolesController> _logger;
+    private const int PageSize = 5;
+
+    public RolesController(IAdminUserRolesService userRolesService, ILogger<RolesController> logger)
     {
-        private readonly IAdminUserRolesService _userRolesService;
+        _userRolesService = userRolesService;
+        _logger = logger;
+    }
 
-        public RolesController(IAdminUserRolesService userRolesService)
+    [HttpGet]
+    public async Task<IActionResult> Index(int pageNumber = 1)
+    {
+        try
         {
-            _userRolesService = userRolesService;
-        }
+            var pagedUsers = await _userRolesService.GetPagedUsersWithRolesAsync(pageNumber, PageSize);
 
-        [HttpGet]
-        public async Task<IActionResult> Index()
+            return View(pagedUsers);
+        }
+        catch (Exception ex)
         {
-            var users = await _userRolesService.GetAllUsersWithRolesAsync();
-
-            return View(users);
+            _logger.LogError(ex, LoadAllError);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateTeacher(Guid userId, Guid? teacherId)
+    [HttpPost]
+    public async Task<IActionResult> UpdateTeacher(Guid userId, Guid? teacherId)
+    {
+        try
         {
             var (success, message) = await _userRolesService.UpdateUserTeacherAsync(userId, teacherId);
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
             }
             else
             {
-                TempData["ErrorMessage"] = message;
+                TempData[TempDataError] = message;
             }
 
             return RedirectToAction(nameof(Index));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, UpdateTeacherError, userId, teacherId);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, UpdateTeacherError, userId, teacherId);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+        
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateRoles(Guid userId, List<string> roles)
+    [HttpPost]
+    public async Task<IActionResult> UpdateRoles(Guid userId, List<string> roles)
+    {
+        try
         {
             var (success, message) = await _userRolesService.UpdateUserRolesAsync(userId, roles);
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
             }
             else
             {
-                TempData["ErrorMessage"] = message;
+                TempData[TempDataError] = message;
             }
 
             return RedirectToAction(nameof(Index));
+        }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, UpdateRolesError, userId);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, UpdateRolesError, userId);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

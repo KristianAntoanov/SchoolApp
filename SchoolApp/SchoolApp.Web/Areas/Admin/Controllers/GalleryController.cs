@@ -1,33 +1,52 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Gallery;
+using SchoolApp.Web.ViewModels.Admin.Gallery.Components;
 
-namespace SchoolApp.Web.Areas.Admin.Controllers
+using static SchoolApp.Common.LoggerMessageConstants.Gallery;
+using static SchoolApp.Common.TempDataMessages;
+using static SchoolApp.Common.TempDataMessages.Gallery;
+
+namespace SchoolApp.Web.Areas.Admin.Controllers;
+
+public class GalleryController : AdminBaseController
 {
-    public class GalleryController : AdminBaseController
+    private readonly IAdminGalleryService _service;
+    private readonly ILogger<GalleryController> _logger;
+
+    public GalleryController(IAdminGalleryService service, ILogger<GalleryController> logger)
     {
-        private readonly IAdminGalleryService _service;
+        _service = service;
+        _logger = logger;
+    }
 
-        public GalleryController(IAdminGalleryService service)
-        {
-            _service = service;
-        }
-
-        public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index()
+    {
+        try
         {
             var albums = await _service.GetAllAlbumsWithImagesAsync();
 
             return View(albums);
         }
-
-        [HttpGet]
-        public IActionResult AddAlbum()
+        catch (Exception ex)
         {
-            return View();
+            _logger.LogError(ex, LoadAllError);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
+        
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> AddAlbum(AddAlbumViewModel model)
+    [HttpGet]
+    public IActionResult AddAlbum()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddAlbum(AddAlbumViewModel model)
+    {
+        try
         {
             if (!ModelState.IsValid)
             {
@@ -38,24 +57,33 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
 
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                TempData["ErrorMessage"] = message;
+                TempData[TempDataError] = message;
             }
 
             return View(model);
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, CreateError, model.Title);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+        
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> Album(string id)
+    [HttpGet]
+    public async Task<IActionResult> Album(string id)
+    {
+        try
         {
             if (string.IsNullOrEmpty(id))
             {
-                TempData["ErrorMessage"] = "Албумът не съществува.";
+                TempData[TempDataError] = AlbumNotFound;
 
                 return RedirectToAction(nameof(Index));
             }
@@ -64,43 +92,71 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             if (model == null)
             {
-                TempData["ErrorMessage"] = "Албумът не съществува.";
+                TempData[TempDataError] = AlbumNotFound;
 
                 return RedirectToAction(nameof(Index));
             }
 
             return View(model);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> AddImage(string albumId, IFormFile file)
+        catch (NullReferenceException e)
         {
-            if (file == null)
+            _logger.LogError(e, LoadAlbumError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadAlbumError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddImage(AddAlbumImageFormModel model)
+    {
+        try
+        {
+            if (model == null)
             {
-                TempData["ErrorMessage"] = "Моля, изберете поне една снимка.";
-                return RedirectToAction(nameof(Album), new { id = albumId });
+                TempData[TempDataError] = InvalidData;
+                return RedirectToAction(nameof(Index));
             }
 
-            var (success, message) = await _service.AddImagesAsync(albumId, file);
+            if (!ModelState.IsValid)
+            {
+                TempData[TempDataError] = InvalidImage;
+                return RedirectToAction(nameof(Album), new { id = model.AlbumId });
+            }
+
+            var (success, message) = await _service.AddImagesAsync(model);
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
             }
             else
             {
-                TempData["ErrorMessage"] = message;
+                TempData[TempDataError] = message;
             }
 
-            return RedirectToAction(nameof(Album), new { id = albumId });
+            return RedirectToAction(nameof(Album), new { id = model.AlbumId });
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, AddImageError, model?.AlbumId);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+        
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteImage(string id, string albumId)
+    [HttpPost]
+    public async Task<IActionResult> DeleteImage(string id, string albumId)
+    {
+        try
         {
             if (string.IsNullOrEmpty(id))
             {
-                TempData["ErrorMessage"] = "Невалидно ID на снимка.";
+                TempData[TempDataError] = InvalidImageError;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -108,22 +164,35 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
             }
             else
             {
-                TempData["ErrorMessage"] = message;
+                TempData[TempDataError] = message;
             }
 
             return RedirectToAction(nameof(Album), new { id = albumId });
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteImageError, id, albumId);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, DeleteImageError, id, albumId);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        try
         {
             if (string.IsNullOrEmpty(id))
             {
-                TempData["ErrorMessage"] = "Невалидно ID на албум.";
+                TempData[TempDataError] = InvalidAlbum;
                 return RedirectToAction(nameof(Index));
             }
 
@@ -131,14 +200,24 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             if (success)
             {
-                TempData["SuccessMessage"] = message;
+                TempData[TempDataSuccess] = message;
             }
             else
             {
-                TempData["ErrorMessage"] = message;
+                TempData[TempDataError] = message;
             }
 
             return RedirectToAction(nameof(Index));
+        }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteAlbumError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, DeleteAlbumError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
         }
     }
 }

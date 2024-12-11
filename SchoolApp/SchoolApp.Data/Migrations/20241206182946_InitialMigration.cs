@@ -17,29 +17,31 @@ namespace SchoolApp.Data.Migrations
                 name: "Albums",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Album identifier"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Album title"),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true, comment: "Album description")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Albums", x => x.Id);
-                });
+                },
+                comment: "Albums table");
 
             migrationBuilder.CreateTable(
                 name: "Announcements",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Announcement identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Announcement title"),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "Announcement content"),
+                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Announcement publication date")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Announcements", x => x.Id);
-                });
+                },
+                comment: "Announcements table");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
@@ -84,53 +86,56 @@ namespace SchoolApp.Data.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "News identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
-                    IsArchived = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    Category = table.Column<int>(type: "int", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "News title"),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "News content"),
+                    PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Publication date"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true, comment: "Image URL"),
+                    IsArchived = table.Column<bool>(type: "bit", nullable: false, defaultValue: false, comment: "Archive status"),
+                    Category = table.Column<int>(type: "int", nullable: false, comment: "News category")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_News", x => x.Id);
-                });
+                },
+                comment: "News table");
 
             migrationBuilder.CreateTable(
                 name: "Sections",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Section identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false, comment: "Section name")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sections", x => x.Id);
-                });
+                },
+                comment: "Sections table");
 
             migrationBuilder.CreateTable(
                 name: "Subjects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Subject identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Subject name")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subjects", x => x.Id);
-                });
+                },
+                comment: "Subjects table");
 
             migrationBuilder.CreateTable(
                 name: "GalleryImages",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false),
-                    AlbumId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Image identifier"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false, comment: "Image URL"),
+                    AlbumId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Album identifier")
                 },
                 constraints: table =>
                 {
@@ -141,7 +146,8 @@ namespace SchoolApp.Data.Migrations
                         principalTable: "Albums",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                },
+                comment: "Gallery images table");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -253,12 +259,12 @@ namespace SchoolApp.Data.Migrations
                 name: "Teachers",
                 columns: table => new
                 {
-                    GuidId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false),
-                    JobTitle = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    GuidId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Teacher identifier"),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Teacher first name"),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Teacher last name"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false, comment: "Image URL"),
+                    JobTitle = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false, comment: "Job title"),
+                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true, comment: "Application user identifier")
                 },
                 constraints: table =>
                 {
@@ -268,16 +274,17 @@ namespace SchoolApp.Data.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
-                });
+                },
+                comment: "Teachers table");
 
             migrationBuilder.CreateTable(
                 name: "Classes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Class identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GradeLevel = table.Column<int>(type: "int", nullable: false),
-                    SectionId = table.Column<int>(type: "int", nullable: false)
+                    GradeLevel = table.Column<int>(type: "int", nullable: false, comment: "Grade level"),
+                    SectionId = table.Column<int>(type: "int", nullable: false, comment: "Section identifier")
                 },
                 constraints: table =>
                 {
@@ -288,14 +295,15 @@ namespace SchoolApp.Data.Migrations
                         principalTable: "Sections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                },
+                comment: "Classes table");
 
             migrationBuilder.CreateTable(
                 name: "SubjectsTeachers",
                 columns: table => new
                 {
-                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Teacher identifier"),
+                    SubjectId = table.Column<int>(type: "int", nullable: false, comment: "Subject identifier")
                 },
                 constraints: table =>
                 {
@@ -312,19 +320,20 @@ namespace SchoolApp.Data.Migrations
                         principalTable: "Teachers",
                         principalColumn: "GuidId",
                         onDelete: ReferentialAction.Restrict);
-                });
+                },
+                comment: "Subject teachers mapping table");
 
             migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Student identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MiddleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ClassId = table.Column<int>(type: "int", nullable: false),
-                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Student first name"),
+                    MiddleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Student middle name"),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Student last name"),
+                    ClassId = table.Column<int>(type: "int", nullable: false, comment: "Class identifier"),
+                    ApplicationUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false, comment: "Application user identifier")
                 },
                 constraints: table =>
                 {
@@ -341,18 +350,19 @@ namespace SchoolApp.Data.Migrations
                         principalTable: "Classes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                },
+                comment: "Students table");
 
             migrationBuilder.CreateTable(
                 name: "Absences",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Absence identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false),
-                    IsExcused = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    AddedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false, comment: "Student identifier"),
+                    SubjectId = table.Column<int>(type: "int", nullable: false, comment: "Subject identifier"),
+                    IsExcused = table.Column<bool>(type: "bit", nullable: false, defaultValue: false, comment: "Absence status"),
+                    AddedOn = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Date of creation")
                 },
                 constraints: table =>
                 {
@@ -369,19 +379,21 @@ namespace SchoolApp.Data.Migrations
                         principalTable: "Subjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                },
+                comment: "Absences table");
 
             migrationBuilder.CreateTable(
                 name: "Grades",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Grade identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false),
-                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    GradeValue = table.Column<int>(type: "int", nullable: false),
-                    AddedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false, comment: "Student identifier"),
+                    SubjectId = table.Column<int>(type: "int", nullable: false, comment: "Subject identifier"),
+                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true, comment: "Teacher identifier"),
+                    GradeValue = table.Column<int>(type: "int", nullable: false, comment: "Grade value"),
+                    GradeType = table.Column<int>(type: "int", nullable: false, defaultValue: 1, comment: "Grade type"),
+                    AddedOn = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Date of creation")
                 },
                 constraints: table =>
                 {
@@ -404,19 +416,20 @@ namespace SchoolApp.Data.Migrations
                         principalTable: "Teachers",
                         principalColumn: "GuidId",
                         onDelete: ReferentialAction.Restrict);
-                });
+                },
+                comment: "Grades table");
 
             migrationBuilder.CreateTable(
                 name: "Remarks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Remark identifier")
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false),
-                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RemarkText = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    AddedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false, comment: "Student identifier"),
+                    SubjectId = table.Column<int>(type: "int", nullable: false, comment: "Subject identifier"),
+                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true, comment: "Teacher identifier"),
+                    RemarkText = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false, comment: "Remark text"),
+                    AddedOn = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Date of creation")
                 },
                 constraints: table =>
                 {
@@ -439,14 +452,15 @@ namespace SchoolApp.Data.Migrations
                         principalTable: "Teachers",
                         principalColumn: "GuidId",
                         onDelete: ReferentialAction.Restrict);
-                });
+                },
+                comment: "Remarks table");
 
             migrationBuilder.CreateTable(
                 name: "SubjectsStudents",
                 columns: table => new
                 {
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false, comment: "Student identifier"),
+                    SubjectId = table.Column<int>(type: "int", nullable: false, comment: "Subject identifier")
                 },
                 constraints: table =>
                 {
@@ -463,7 +477,8 @@ namespace SchoolApp.Data.Migrations
                         principalTable: "Subjects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
+                },
+                comment: "Subject students mapping table");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
@@ -480,12 +495,12 @@ namespace SchoolApp.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), 0, "a02cb12a-702a-4223-b6bc-2aed3c0ecbb6", "Tsveti@gmail.com", true, true, null, "TSVETI@GMAIL.COM", "TSVETI@GMAIL.COM", "AQAAAAIAAYagAAAAEEr5ssKigIYrp+yQweiI2oyLfZ+TJ3adFWa29WnJKzFshHXCaiJpg+wzrl8arZr7hA==", null, false, "C5306DA7-98D7-4C13-B981-36CACB3C76D1", false, "Tsveti@gmail.com" },
-                    { new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), 0, "8a093ebf-f3b9-403e-bcbf-5533f224854c", "Stefan@gmail.com", true, true, null, "STEFAN@GMAIL.COM", "STEFAN@GMAIL.COM", "AQAAAAIAAYagAAAAEGfSSKzMXZf01041tvOFOM+ytNr7GN8drggzzDSvMpG4Hy70+UJJ7QDEsobAVBrP/w==", null, false, "46A8A765-124C-4BB6-9885-E9DED7A7949E", false, "Stefan@gmail.com" },
-                    { new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), 0, "117956f5-15db-400c-903d-63a9c0157193", "Margarita@gmail.com", true, true, null, "MARGARITA@GMAIL.COM", "MARGARITA@GMAIL.COM", "AQAAAAIAAYagAAAAEKCEORRGWK/14Ywm9ko3iTMGUzFGsKZvGQOY0Xz+rpf0LRur8cmXtIZG6ALnE9WeKg==", null, false, "270A966E-DFC5-49F7-A4E7-426394B559E0", false, "Margarita@gmail.com" },
-                    { new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), 0, "3759b6ff-3b61-4cd4-af8c-d2c1d827eb7a", "Ani@gmail.com", true, true, null, "ANI@GMAIL.COM", "ANI@GMAIL.COM", "AQAAAAIAAYagAAAAEMpOMYszk6RfMSD2XcmdoReFCt3xixgK+7ffQj58LpTccVz4E6U5JXCOqMmheoXQkg==", null, false, "98F44674-7EC8-48FE-BB0B-1444B0C2A8B2", false, "Ani@gmail.com" },
-                    { new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), 0, "17f62ab4-da94-41ec-b94e-442df079043b", "Maria@gmail.com", true, true, null, "MARIA@GMAIL.COM", "MARIA@GMAIL.COM", "AQAAAAIAAYagAAAAEEW0N8aOEr9gfpZK52QGJA4tCSl/7oMKGrgwQSLrLwcsN6CKqW1j9BCRy1TSej6YBQ==", null, false, "1ED56D26-BAB0-4436-BE12-5D475C6A199E", false, "Maria@gmail.com" },
-                    { new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), 0, "e55ea35e-4612-42d0-bbce-fab5e4b07b14", "Emilia@gmail.com", true, true, null, "EMILIA@GMAIL.COM", "EMILIA@GMAIL.COM", "AQAAAAIAAYagAAAAEGwjAEzX2ERXY/TrH/f+VDO0WERhnud9mMJsBc0zMXLX/c0CWXatiU3HAlY6TaSEEA==", null, false, "0EF0F0C3-3B6A-43E7-8C1C-F782FA7F7504", false, "Emilia@gmail.com" }
+                    { new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), 0, "21f80dc9-9c2e-4593-a3f1-02327e5989fd", "Tsveti@gmail.com", true, true, null, "TSVETI@GMAIL.COM", "TSVETI@GMAIL.COM", "AQAAAAIAAYagAAAAEBltTZfeYXbEPnxkfqtz9f0SOzIo3EBIVlKb1M9fx8j9Ma4eaofuuc3C0KhK5w0dsQ==", null, false, "CA8633AD-9E8A-48F8-BB0C-F23E4E95E792", false, "Tsveti@gmail.com" },
+                    { new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), 0, "30699498-56e0-4d62-ae26-4f4c5d2fd1cc", "Stefan@gmail.com", true, true, null, "STEFAN@GMAIL.COM", "STEFAN@GMAIL.COM", "AQAAAAIAAYagAAAAEL07dWmxTsbCzAmBwlhIP1hQRwp37xkWYOUxsp8ZGgXqCzjTxu7d6UUCX/y8nUweQQ==", null, false, "4C7A51C6-35DF-4840-AA09-7764F6F84377", false, "Stefan@gmail.com" },
+                    { new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), 0, "a8a45cec-cf96-4e8e-94db-f42f6623b8b0", "Margarita@gmail.com", true, true, null, "MARGARITA@GMAIL.COM", "MARGARITA@GMAIL.COM", "AQAAAAIAAYagAAAAEEoNYKqfDn1wZC6rqHNda/7ghcmIqhVjEdLL7acqohp+y5AKSnroNEM1Pqfy5OZRUg==", null, false, "266849B9-DC84-431D-B8D0-4286D5C2A52B", false, "Margarita@gmail.com" },
+                    { new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), 0, "5f397ccc-8af7-430d-9cdd-e5b985d747ea", "Ani@gmail.com", true, true, null, "ANI@GMAIL.COM", "ANI@GMAIL.COM", "AQAAAAIAAYagAAAAEF0uA3J/BVaYRBmQQSUd2biB8HHGqdD4xltdMlsLQ4goY4G1fZvOdVTpzm8sc+qP2w==", null, false, "93DDDC56-76F7-4591-A973-73BC8A9E6D0D", false, "Ani@gmail.com" },
+                    { new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), 0, "8744f9ed-272a-43b6-8ae4-4279a58bc1f7", "Maria@gmail.com", true, true, null, "MARIA@GMAIL.COM", "MARIA@GMAIL.COM", "AQAAAAIAAYagAAAAEG+UQcUcv4tNmfAznZrU29qG7P1NMinIMdOQwkjtt2gbxjc6irW2kvf39CUZwUdiqQ==", null, false, "09779772-07A4-40B9-9F92-1796E8D09544", false, "Maria@gmail.com" },
+                    { new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), 0, "7a10df65-743d-4e47-a907-8f03b4961da5", "Emilia@gmail.com", true, true, null, "EMILIA@GMAIL.COM", "EMILIA@GMAIL.COM", "AQAAAAIAAYagAAAAELIe4YWQX0+M9NjywA2gCLCdcNlDQ4MFHKRNYhFMlteR6TGMGuiOBOeG16CNSnxkiQ==", null, false, "14B6E0BA-1E80-4117-9C46-94BD111C190F", false, "Emilia@gmail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -535,12 +550,12 @@ namespace SchoolApp.Data.Migrations
                 columns: new[] { "GuidId", "ApplicationUserId", "FirstName", "ImageUrl", "JobTitle", "LastName" },
                 values: new object[,]
                 {
-                    { new Guid("24eebace-ba21-4a57-b421-c74b131aca68"), new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), "Маргарита", "/img/No_Image.jpg", "Учител", "Йорданова" },
-                    { new Guid("5d14d4c1-3245-46cb-a361-08c6ab596dab"), new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), "Емилия", "/img/No_Image.jpg", "Заместник-директор", "Истаткова" },
-                    { new Guid("790ed914-ac05-441a-a2cd-60cf81051e92"), new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), "Мария", "/img/No_Image.jpg", "Учител", "Чавдарова" },
-                    { new Guid("8dba352b-6027-4bcb-b5d9-4585381b3930"), new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), "Стефан", "/img/No_Image.jpg", "Учител", "Николов" },
-                    { new Guid("9b3d7d44-d831-42c7-abae-ff5af6e72e03"), new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), "Цветелина", "/img/No_Image.jpg", "Заместник-директор", "Томова" },
-                    { new Guid("f189e8ec-6c34-4053-a84f-42e8a7ec7f9e"), new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), "Ани", "/img/No_Image.jpg", "Учител", "Григорова" }
+                    { new Guid("01548a2b-68bf-4858-8b9f-61f538fc376a"), new Guid("e4c5fd5f-c02a-474b-8f51-d4a543f361d3"), "Мария", "/img/No_Image.jpg", "Учител", "Чавдарова" },
+                    { new Guid("3f865489-0188-41e0-ae45-39626a3d9fef"), new Guid("39d7bb6d-eb8a-40fc-be00-9c5296a2717c"), "Стефан", "/img/No_Image.jpg", "Учител", "Николов" },
+                    { new Guid("47ca7932-75e2-41f7-bc76-c33fdd9033a5"), new Guid("eaad8ef4-d0c4-4cee-bbf0-e1f8e43a6d99"), "Емилия", "/img/No_Image.jpg", "Заместник-директор", "Истаткова" },
+                    { new Guid("8259e67f-6f7a-4166-b262-20d754b5e2fd"), new Guid("1874d51f-29bc-4669-8f9d-938eaa55e4dd"), "Цветелина", "/img/No_Image.jpg", "Заместник-директор", "Томова" },
+                    { new Guid("b37d2ff2-15db-4cd8-9a77-f0052d0b1ab3"), new Guid("79eb351b-ed32-4309-9234-88db8555cd3d"), "Маргарита", "/img/No_Image.jpg", "Учител", "Йорданова" },
+                    { new Guid("cf100638-717c-4285-9c8f-25b0b6a8be8d"), new Guid("d040cb3e-ae29-4045-943c-4030a4249476"), "Ани", "/img/No_Image.jpg", "Учител", "Григорова" }
                 });
 
             migrationBuilder.InsertData(

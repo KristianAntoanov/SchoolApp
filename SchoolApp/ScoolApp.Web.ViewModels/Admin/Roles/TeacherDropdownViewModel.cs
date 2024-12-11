@@ -1,9 +1,8 @@
-﻿namespace SchoolApp.Web.ViewModels.Admin.Roles
-{
-	public class TeacherDropdownViewModel
-	{
-        public Guid Id { get; set; }
+﻿namespace SchoolApp.Web.ViewModels.Admin.Roles;
 
-        public string DisplayName { get; set; } = null!;
-    }
+public class TeacherDropdownViewModel
+{
+    public Guid Id { get; set; }
+
+    public string DisplayName { get; set; } = null!;
 }

@@ -7,41 +7,40 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header text-white" style="background-color: #244855;">
                     <h4 class="mb-0">Добавяне на учител</h4>
                 </div>
                 <div class="card-body">
                     <form asp-action="Add" method="post" enctype="multipart/form-data">
                         <div class="form-group mb-3">
-                            <label asp-for="FirstName" class="form-label">Име</label>
-                            <input asp-for="FirstName" class="form-control" />
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                            <label asp-for="@Model.FirstName" class="form-label">Име</label>
+                            <input asp-for="@Model.FirstName" class="form-control" />
+                            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label asp-for="LastName" class="form-label">Фамилия</label>
-                            <input asp-for="LastName" class="form-control" />
-                            <span asp-validation-for="LastName" class="text-danger"></span>
+                            <label asp-for="@Model.LastName" class="form-label">Фамилия</label>
+                            <input asp-for="@Model.LastName" class="form-control" />
+                            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label asp-for="JobTitle" class="form-label">Длъжност</label>
-                            <input asp-for="JobTitle" class="form-control" />
-                            <span asp-validation-for="JobTitle" class="text-danger"></span>
+                            <label asp-for="@Model.JobTitle" class="form-label">Длъжност</label>
+                            <input asp-for="@Model.JobTitle" class="form-control" />
+                            <span asp-validation-for="@Model.JobTitle" class="text-danger"></span>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label asp-for="Image" class="form-label">Снимка</label>
-                            <input asp-for="Image" type="file" class="form-control"
-                                   accept=".jpg,.jpeg,.png" />
+                            <label asp-for="@Model.Image" class="form-label">Снимка</label>
+                            <input asp-for="@Model.Image" type="file" class="form-control" accept=".jpg,.jpeg,.png" />
                             <div class="form-text">
                                 Позволени формати: JPG, JPEG, PNG. Максимален размер: 2MB.
                             </div>
-                            <span asp-validation-for="Image" class="text-danger"></span>
+                            <span asp-validation-for="@Model.Image" class="text-danger"></span>
                         </div>
 
                         <div class="form-group mb-4">
-                            <label asp-for="AvailableSubjects" class="form-label d-block">Предмети</label>
+                            <label asp-for="@Model.AvailableSubjects" class="form-label d-block">Предмети</label>
                             <div class="row g-3">
                                 @foreach (var subject in Model.AvailableSubjects)
                                 {
@@ -59,7 +58,7 @@
                                     </div>
                                 }
                             </div>
-                            <span asp-validation-for="SelectedSubjects" class="text-danger"></span>
+                            <span asp-validation-for="@Model.SelectedSubjects" class="text-danger"></span>
                         </div>
 
                         <div class="d-flex justify-content-between">

@@ -1,5 +1,5 @@
 ﻿html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -12,13 +12,19 @@
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+body {
+    margin-bottom: 60px;
+    background-color: #F8F1E5;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
 }
 
-body {
-  margin-bottom: 60px;
+html, body {
+    height: 100%;
+    margin: 0;
 }
 
 /* Grade Table Style */
@@ -27,6 +33,14 @@ body {
     width: 50px;
     padding: 0.6em 0.6em;
     justify-content: center;
+}
+
+.term-grade {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
 }
 
 .th-ix {
@@ -136,13 +150,14 @@ body {
 
 .popover {
     max-width: 400px;
+    position: fixed;
 }
 
 .popover-body {
     padding: 20px;
 }
 
-/* Това ще направи курсора да показва, че елементът е кликабилен */
+/* For click on grade */
 .grade-value {
     cursor: pointer;
     max-width: 30px;
@@ -151,26 +166,15 @@ body {
 
 /* Home Image Style */
 
-@keyframes slideFromBottom {
-    0% {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.slide-up {
-    animation: slideFromBottom 1s ease-out forwards;
-}
-
 .image-container {
     overflow: hidden;
     position: relative;
+    -webkit-mask-image: linear-gradient( to right, transparent 0%, black 1%, black 99%, transparent 100% ), linear-gradient( to bottom, transparent 0%, black 1%, black 99%, transparent 100% );
+    mask-image: linear-gradient( to right, transparent 0%, black 1%, black 99%, transparent 100% ), linear-gradient( to bottom, transparent 0%, black 1%, black 99%, transparent 100% );
+    -webkit-mask-composite: intersect;
+    mask-composite: intersect;
 }
+
 
 /* Contact Info Style */
 
@@ -192,7 +196,7 @@ body {
     border-radius: 10px;
 }
 
-/* Опционално: Ако искате hover ефект */
+/* Optional */
 .contact-input:hover {
     border-color: #0d6efd;
 }
@@ -210,25 +214,27 @@ body {
     opacity: 0.6;
 }
 
+/* Navbar Styles */
 .custom-navbar {
     padding: 1rem 0;
-    background-color: #6A1E55 !important;
+    background-color: #244855 !important;
 }
 
     .custom-navbar .navbar-brand,
     .custom-navbar .nav-link {
-        color: white !important;
+        color: #CCF1FF !important;
     }
 
     .custom-navbar .navbar-brand {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
 
     .custom-navbar .nav-link {
-        font-size: 1.1rem;
-        margin: 0 10px;
+        font-size: 1.2rem;
+        margin: 0 12px;
         position: relative;
         overflow: hidden;
+        font-weight: 500;
     }
 
 .nav-link::before {
@@ -238,7 +244,7 @@ body {
     height: 2px;
     bottom: 0;
     left: 50%;
-    background-color: #e76f51;
+    background-color: #E64833;
     transform: translateX(-50%) scaleX(0);
     transform-origin: center;
     transition: transform 0.3s ease-out;
@@ -248,7 +254,7 @@ body {
     transform: translateX(-50%) scaleX(1);
 }
 
-/* Добавете тези стилове във вашия CSS файл */
+/* Navbar toggler */
 .navbar-toggler {
     border-color: rgba(255,255,255,.7) !important;
 }
@@ -257,25 +263,17 @@ body {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
 }
 
-/* За да сме сигурни, че менюто ще е видимо при collapse състояние */
+/* Navbar */
 .navbar-collapse {
-    background-color: #6A1E55;
+    background-color: #244855;
     padding: 10px;
     border-radius: 0 0 5px 5px;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-    overflow-x: hidden; /* Добавете това */
 }
 
 .container-fluid {
     flex: 1 0 auto;
     width: 100%;
-    max-width: 100vw; /* Добавете това */
+    max-width: 100vw;
 }
 
 @media (max-width: 768px) {
@@ -284,19 +282,25 @@ body {
     }
 }
 
-html, body {
-    height: 100%;
-    margin: 0;
-}
 
 .custom-footer {
-    background-color: #6A1E55 !important;
-    color: white !important;
+    background-color: #244855 !important;
+    color: #CCF1FF !important;
     padding: 2rem 0;
     width: 100%;
-    flex-shrink: 0; /* Това предотвратява свиването на footer-а */
+    flex-shrink: 0;
 }
-/* Ако имате някакъв margin отдолу на main секцията, премахнете го */
+
+    .custom-footer a {
+        color: var(--contrast-color);
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+        .custom-footer a:hover {
+            color: #e76f51;
+            text-decoration: none;
+        }
 .main {
     width: 100%;
     max-width: 100vw;
@@ -315,12 +319,13 @@ html, body {
 
 /* Start Dropdown Custom Styles */
 .dropdown-menu {
-    background-color: #6A1E55 !important;
+    background-color: #CCF1FF !important;
     border: none;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
 
 .dropdown-item {
-    color: white !important;
+    color: #244855 !important;
     position: relative;
     overflow: hidden;
 }
@@ -332,14 +337,14 @@ html, body {
         height: 2px;
         bottom: 0;
         left: 50%;
-        background-color: #e76f51;
+        background-color: #E64833;
         transform: translateX(-50%) scaleX(0);
         transform-origin: center;
         transition: transform 0.3s ease-out;
     }
 
     .dropdown-item:hover {
-        background-color: #6A1E55 !important;
+        background-color: #CCF1FF !important;
     }
 
         .dropdown-item:hover::before {

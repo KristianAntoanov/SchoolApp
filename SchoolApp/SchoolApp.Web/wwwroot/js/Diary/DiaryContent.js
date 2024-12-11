@@ -1,10 +1,8 @@
 ﻿$(document).ready(function () {
-    // Инициализация на основните променливи
     let selectedClassId = 1;
     let selectedSubjectId = 1;
     let currentTab = 'grades';
 
-    // Event Handlers
     $(".btn-check").click(function () {
         selectedClassId = $(this).next("label").data("class-id");
         sessionStorage.setItem("selectedClassId", selectedClassId);
@@ -30,7 +28,6 @@
         }
     });
 
-    // Handlers за бутоните за добавяне
     $(document).on("click", "#addGradeButton button", function (e) {
         if (selectedClassId && selectedSubjectId) {
             $("#hiddenClassIdForGrade").val(selectedClassId);
@@ -57,7 +54,6 @@
         }
     });
 
-    // Помощна функция за Ajax заявки
     function makeAjaxRequest(url, data, successCallback) {
         return $.ajax({
             url: url,
@@ -70,19 +66,16 @@
         });
     }
 
-    // Управление на видимостта на сайдбара и бутоните
     function updateUIVisibility() {
         const showGradesUI = currentTab === 'grades';
         $('#subjectsSidebar').toggle(showGradesUI);
         $('#mainContentContainer').toggleClass('col-lg-10', showGradesUI).toggleClass('col-lg-12', !showGradesUI);
 
-        // Управление на бутоните
         $('#addGradeButton').toggle(currentTab === 'grades');
         $('#addRemarkButton').toggle(currentTab === 'remarks');
         $('#addAbsenceButton').toggle(currentTab === 'absences');
     }
 
-    // Функции за зареждане на съдържание
     function loadContent() {
         return makeAjaxRequest(
             '/Diary/LoadClassAndContent',
@@ -127,7 +120,6 @@
         );
     }
 
-    // Функция за зареждане на съдържание според таба
     function loadTabContent() {
         switch (currentTab) {
             case 'absences': loadAbsencesContent(); break;
@@ -136,21 +128,17 @@
         }
     }
 
-    // Инициализация при зареждане
     async function initialize() {
         if (selectedClassId) {
-            console.log("Initializing with class:", selectedClassId);
             $(`label[data-class-id="${selectedClassId}"]`).prev('.btn-check').prop('checked', true);
             await loadContent();
 
             if (selectedSubjectId) {
-                console.log("Selecting subject:", selectedSubjectId);
                 $(`#${selectedSubjectId}`).addClass('active');
                 loadGradeContent();
             }
         }
     }
 
-    // Стартиране на инициализацията
     initialize();
 });

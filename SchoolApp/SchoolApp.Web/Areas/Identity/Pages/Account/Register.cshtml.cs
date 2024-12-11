@@ -2,23 +2,21 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+
 using SchoolApp.Data.Models;
+
+using static SchoolApp.Common.ErrorMessages;
+using static SchoolApp.Common.ApplicationConstants;
 
 namespace SchoolApp.Web.Areas.Identity.Pages.Account
 {
@@ -75,19 +73,17 @@ namespace SchoolApp.Web.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
+            [Required(ErrorMessage = EmailRequiredMessage)]
+            [EmailAddress(ErrorMessage = ValidEmailMessage)]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = PasswordRequiredMessage)]
+            [StringLength(PasswordMaxLenght, ErrorMessage = PasswordStringLengthMessage, MinimumLength = PasswordMinLenght)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
             public string Password { get; set; }
 
             /// <summary>
@@ -95,16 +91,22 @@ namespace SchoolApp.Web.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = PasswordNotMatchMessage)]
             public string ConfirmPassword { get; set; }
         }
 
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
+            if (User?.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -132,8 +134,24 @@ namespace SchoolApp.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Потвърждение на регистрация",
+                                $@"<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;'>
+                                    <h2>Добре дошли!</h2>
+                                    <p>Благодарим Ви за регистрацията в нашата система.</p>
+                                    <p>За да активирате своя акаунт, моля натиснете бутона по-долу:</p>
+                                    <div style='text-align: center; margin: 30px 0;'>
+                                        <a href='{HtmlEncoder.Default.Encode(callbackUrl)}' 
+                                           style='background-color: #007bff; color: white; padding: 12px 30px; 
+                                                  text-decoration: none; border-radius: 5px; display: inline-block;'>
+                                            Потвърди регистрацията
+                                        </a>
+                                    </div>
+                                    <p>Ако бутонът не работи, можете да копирате и поставите следния линк в браузъра си:</p>
+                                    <p style='word-break: break-all;'>{HtmlEncoder.Default.Encode(callbackUrl)}</p>
+                                    <p>Ако не сте заявили тази регистрация, можете да игнорирате това съобщение.</p>
+                                    <hr style='margin: 20px 0;'>
+                                    <p style='color: #666; font-size: 12px;'>Това е автоматично генериран имейл, моля не отговаряйте на него.</p>
+                                </div>");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

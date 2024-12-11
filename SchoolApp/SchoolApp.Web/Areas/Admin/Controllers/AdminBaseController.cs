@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using System.Data;
 using Microsoft.AspNetCore.Mvc;
 
+using static SchoolApp.Common.ApplicationConstants;
 
-namespace SchoolApp.Web.Areas.Admin.Controllers
+namespace SchoolApp.Web.Areas.Admin.Controllers;
+
+[Area(AdminRole)]
+[Authorize(Roles = AdminRole)]
+public class AdminBaseController : Controller
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin")]
-    public class AdminBaseController : Controller
-    {
-        
-    }
+    
 }
-

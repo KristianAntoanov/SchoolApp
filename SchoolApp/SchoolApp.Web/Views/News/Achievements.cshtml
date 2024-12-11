@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<NewsViewModel>
-
+@{
+    ViewData["Title"] = "Постижения";
+}
 
 @section Styles {
     <link rel="stylesheet" href="~/css/News/CardHover.css" asp-append-version="true" />
@@ -7,7 +9,7 @@
 
 <div class="container mt-4">
     <h2 class="text-center mb-3">Успехи на ученици</h2>
-    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #E64833;"></div>
 
     @if (!Model.Any())
     {
@@ -15,22 +17,29 @@
             <div class="mb-4">
                 <i class="fas fa-trophy fa-4x text-muted"></i>
             </div>
-            <h3 class="text-muted mb-4">Няма добавени постижения</h3>
-            <a asp-controller="News"
-               asp-action="Add"
-               class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Добави постижение
-            </a>
+            <h3 class="text-muted mb-4">Няма добавени постижения в момента</h3>
+            <h6 class="text-muted mb-4">Моля проверете отново по-късно</h6>
+            @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+            {
+                <a asp-controller="News"
+                   asp-action="Add"
+                   class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Добави постижение
+                </a>
+            }
         </div>
     }
     else
     {
         <div class="d-flex justify-content-end mb-4">
-            <a asp-controller="News"
-               asp-action="Add"
-               class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Добави постижение
-            </a>
+            @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+            {
+                <a asp-controller="News"
+                   asp-action="Add"
+                   class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Добави постижение
+                </a>
+            }
         </div>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -55,12 +64,15 @@
                                 <small class="text-muted">
                                     @achievement.PublicationDate.ToString("dd.MM.yyyy")
                                 </small>
-                                <a asp-controller="News"
-                                   asp-action="Details"
-                                   asp-route-id="@achievement.Id"
-                                   class="btn btn-primary">
-                                    <i class="fas fa-info-circle me-2"></i>Детайли
-                                </a>
+                                @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+                                {
+                                    <a asp-controller="News"
+                                       asp-action="Details"
+                                       asp-route-id="@achievement.Id"
+                                       class="btn btn-primary">
+                                        <i class="fas fa-info-circle me-2"></i>Детайли
+                                    </a>
+                                }
                             </div>
                         </div>
                     </div>

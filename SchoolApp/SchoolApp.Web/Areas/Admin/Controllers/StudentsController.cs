@@ -1,53 +1,81 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using SchoolApp.Data.Models;
 using SchoolApp.Services.Data.Contrancts;
 using SchoolApp.Web.ViewModels.Admin.Students;
 
-namespace SchoolApp.Web.Areas.Admin.Controllers
+using static SchoolApp.Common.LoggerMessageConstants.Students;
+using static SchoolApp.Common.TempDataMessages.Students;
+using static SchoolApp.Common.TempDataMessages;
+
+namespace SchoolApp.Web.Areas.Admin.Controllers;
+
+public class StudentsController : AdminBaseController
 {
-    public class StudentsController : AdminBaseController
+    private readonly IAdminStudentsService _service;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ILogger<RolesController> _logger;
+    private const int PageSize = 10;
+
+    public StudentsController(IAdminStudentsService service, UserManager<ApplicationUser> userManager,
+                                ILogger<RolesController> logger)
     {
-        private readonly IAdminStudentsService _service;
-        private readonly UserManager<ApplicationUser> _userManager;
+        _service = service;
+        _userManager = userManager;
+        _logger = logger;
+    }
 
-        public StudentsController(IAdminStudentsService service, UserManager<ApplicationUser> userManager)
+    public async Task<IActionResult> Index(int page = 1, string search = null)
+    {
+        try
         {
-            _service = service;
-            _userManager = userManager;
-        }
-
-        public async Task<IActionResult> Index(int page = 1, string search = null)
-        {
-            const int PageSize = 10;
-
             var result = await _service.GetAllStudentsAsync(page, PageSize, search);
+            result.SearchTerm = search;
 
-            ViewBag.CurrentPage = result.PageNumber;
-            ViewBag.TotalPages = result.TotalPages;
-            ViewBag.Search = search;
-
-            return View(result.Items);
+            return View(result);
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadAllError);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
         {
             bool result = await _service.DeleteStudent(id);
 
             if (result)
             {
-                TempData["SuccessMessage"] = "Студентът беше успешно изтрит.";
+                TempData[TempDataSuccess] = DeleteSuccessMessage;
             }
             else
             {
-                TempData["ErrorMessage"] = "Възникна проблем при изтриването на студента.";
+                TempData[TempDataError] = DeleteErrorMessage;
             }
 
             return RedirectToAction(nameof(Index));
         }
+        catch (NullReferenceException ex)
+        {
+            _logger.LogError(ex, DeleteError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, DeleteError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+        
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        try
         {
             var student = await _service.GetStudentForEditAsync(id);
             if (student == null)
@@ -57,9 +85,22 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             return View(student);
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, EditLoadError, id);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditLoadError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(EditStudentFormModel model)
+    [HttpPost]
+    public async Task<IActionResult> Edit(EditStudentFormModel model)
+    {
+        try
         {
             if (!ModelState.IsValid)
             {
@@ -71,19 +112,27 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             if (result)
             {
-                TempData["SuccessMessage"] = "Студентът беше успешно редактиран.";
+                TempData[TempDataSuccess] = EditSuccessMessage;
                 return RedirectToAction(nameof(Index));
             }
             else
             {
-                TempData["ErrorMessage"] = "Възникна грешка при редактирането на студента.";
+                TempData[TempDataError] = EditErrorMessage;
                 model.AvailableClasses = await _service.GetAvailableClassesAsync();
                 return View(model);
             }
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, EditError, model.Id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> ManageGrades(int id)
+    [HttpGet]
+    public async Task<IActionResult> ManageGrades(int id)
+    {
+        try
         {
             var model = await _service.GetStudentGradesAsync(id);
 
@@ -94,24 +143,45 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             return View(model);
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoadGradesError, id);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteGrade(int gradeId, int studentId)
+    [HttpPost]
+    public async Task<IActionResult> DeleteGrade(int gradeId, int studentId)
+    {
+        try
         {
             var result = await _service.DeleteGradeAsync(gradeId);
 
             if (result)
             {
-                TempData["SuccessMessage"] = "Оценката беше успешно изтрита.";
+                TempData[TempDataSuccess] = GradeDeleteSuccessMessage;
                 return RedirectToAction(nameof(ManageGrades), new { id = studentId });
             }
 
-            TempData["ErrorMessage"] = "Възникна грешка при изтриване на оценката.";
+            TempData[TempDataError] = GradeDeleteErrorMessage;
             return RedirectToAction(nameof(ManageGrades));
         }
+        catch (NullReferenceException e)
+        {
+            _logger.LogError(e, DeleteGradeError, gradeId, studentId);
+            return StatusCode(StatusCodes.Status404NotFound);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, DeleteGradeError, gradeId, studentId);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> Add()
+    [HttpGet]
+    public async Task<IActionResult> Add()
+    {
+        try
         {
             var model = new AddStudentFormModel
             {
@@ -120,9 +190,17 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             return View(model);
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, AddError);
+            return StatusCode(StatusCodes.Status400BadRequest);
+        }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(AddStudentFormModel model)
+    [HttpPost]
+    public async Task<IActionResult> Add(AddStudentFormModel model)
+    {
+        try
         {
             if (!ModelState.IsValid)
             {
@@ -140,13 +218,18 @@ namespace SchoolApp.Web.Areas.Admin.Controllers
 
             if (result)
             {
-                TempData["SuccessMessage"] = "Студентът беше успешно добавен.";
+                TempData[TempDataSuccess] = AddSuccessMessage;
                 return RedirectToAction(nameof(Index));
             }
 
-            TempData["ErrorMessage"] = "Възникна грешка при добавянето на студента.";
+            TempData[TempDataError] = AddErrorMessage;
             model.AvailableClasses = await _service.GetAvailableClassesAsync();
             return View(model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, AddError);
+            return StatusCode(StatusCodes.Status400BadRequest);
         }
     }
 }

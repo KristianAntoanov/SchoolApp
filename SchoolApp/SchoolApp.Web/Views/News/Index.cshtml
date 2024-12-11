@@ -1,11 +1,17 @@
 ﻿@model IEnumerable<NewsViewModel>
 @{
     ViewData["Title"] = "Новини";
+    int fadeupcount = 100;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/News/CardHover.css" asp-append-version="true" />
+    <link href="~/vendor/aos/aos.css" rel="stylesheet">
 }
 
 <div class="container mt-4">
     <h2 class="text-center mb-3">Новини</h2>
-    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+    <div class="mx-auto mb-4" style="width: 60%; height: 2px; background-color: #E64833;"></div>
 
     @if (!Model.Any())
     {
@@ -13,30 +19,37 @@
             <div class="mb-4">
                 <i class="fas fa-newspaper fa-4x text-muted"></i>
             </div>
-            <h3 class="text-muted mb-4">Все още няма добавени новини</h3>
-            <a asp-controller="News"
-               asp-action="Add"
-               method="Get"
-               class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Добави новина
-            </a>
+            <h3 class="text-muted mb-4">Няма добавени новини в момента</h3>
+            <h6 class="text-muted mb-4">Моля проверете отново по-късно</h6>
+            @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+            {
+                <a asp-controller="News"
+                   asp-action="Add"
+                   method="Get"
+                   class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Добави новина
+                </a>
+            }
         </div>
     }
     else
     {
         <div class="d-flex justify-content-end mb-4">
-            <a asp-controller="News"
-               asp-action="Add"
-               class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Добави новина
-            </a>
+            @if (User?.Identity?.IsAuthenticated == true && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+            {
+                <a asp-controller="News"
+                   asp-action="Add"
+                   class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Добави новина
+                </a>
+            }
         </div>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             @foreach (var news in Model)
             {
                 <div class="col">
-                    <div class="card h-100 shadow-sm">
+                    <div class="card h-100 shadow-sm" data-aos="fade-up" data-aos-delay="@fadeupcount">
                         @if (!string.IsNullOrEmpty(news.ImageUrl))
                         {
                             <img src="@news.ImageUrl" class="card-img-top" alt="@news.Title" style="height: 200px; object-fit: cover;">
@@ -64,19 +77,13 @@
                         </div>
                     </div>
                 </div>
+                fadeupcount += 50;
             }
         </div>
     }
 </div>
 
-<style>
-    .card {
-        background-color: #f8f9fa;
-        transition: transform 0.2s;
-    }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-</style>
+@section Scripts {
+    <script src="~/vendor/aos/aos.js"></script>
+    <script src="~/js/News/FadeUp.js"></script>
+}

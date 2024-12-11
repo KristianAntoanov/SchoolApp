@@ -7,11 +7,11 @@
     <h1 class="text-uppercase fw-bold mb-3" style="font-size: 2rem;">
         @Model.Title
     </h1>
-    <div class="mx-auto" style="width: 60%; height: 2px; background-color: #dc3545;"></div>
+    <div class="mx-auto" style="width: 60%; height: 2px; background-color: #E64833;"></div>
 </div>
 
 <div class="card">
-    <div class="card-header bg-primary text-white">
+    <div class="card-header text-white" style="background-color: #244855;">
         <div class="d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Управление на снимки</h5>
             <div class="d-flex gap-2">
@@ -33,12 +33,12 @@
         }
         else
         {
-            <div class="row g-4">
+            <div class="row g-2">
                 @foreach (var image in Model.Images)
                 {
-                    <div class="col-md-4">
+                    <div class="col-sm-2">
                         <div class="card h-100">
-                            <img src="@image.ImageUrl" class="card-img-top" alt="Gallery Image" style="height: 200px; object-fit: cover;">
+                            <img src="@image.ImageUrl" class="card-img-top" alt="Gallery Image" style="height: 150px; object-fit: cover;">
                             <div class="card-footer text-center">
                                 <button type="button"
                                         class="btn btn-danger"
@@ -56,30 +56,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="addImagesModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Добавяне на снимки</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form asp-controller="Gallery" asp-action="AddImage" method="post" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <input type="hidden" name="albumId" value="@Model.Id" />
-                    <div class="mb-3">
-                        <label asp-for="Image" class="form-label">Изберете снимка</label>
-                        <input asp-for="Image" type="file" name="Image" class="form-control" />
-                        <span asp-validation-for="Image" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
-                    <button type="submit" class="btn btn-primary">Качи</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+@await Component.InvokeAsync("UploadImage", new { albumId = Model.Id })
 
 <div class="modal fade" id="deleteImageModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
@@ -94,7 +71,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
                 <form id="deleteImageForm" asp-controller="Gallery" asp-action="DeleteImage" method="post">
-                    @Html.AntiForgeryToken()
                     <input type="hidden" name="albumId" value="@Model.Id" />
                     <input type="hidden" name="id" id="imageIdToDelete" />
                     <button type="submit" class="btn btn-danger">Изтрий</button>

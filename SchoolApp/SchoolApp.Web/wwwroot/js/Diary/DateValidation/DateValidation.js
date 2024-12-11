@@ -2,9 +2,11 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     const dateInput = document.getElementById('addedOn');
-    const form = document.getElementById('gradeForm');
+    const form = document.querySelector('form');
 
     function validateDate() {
+        if (!dateInput) return true;
+
         const selectedDate = new Date(dateInput.value);
         const today = new Date();
 
@@ -33,11 +35,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return span;
     }
 
-    dateInput.addEventListener('blur', validateDate);
+    if (dateInput) {
+        dateInput.addEventListener('blur', validateDate);
+    }
 
-    form.addEventListener('submit', function (e) {
-        if (!validateDate()) {
-            e.preventDefault();
-        }
-    });
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            if (!validateDate()) {
+                e.preventDefault();
+            }
+        });
+    }
 });
