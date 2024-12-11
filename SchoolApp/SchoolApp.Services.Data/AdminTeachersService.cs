@@ -91,6 +91,11 @@ public class AdminTeachersService : IAdminTeachersService
 
     public async Task<(bool isSuccessful, string? errorMessage)> AddTeacherAsync(AddTeacherFormModel model)
     {
+        if (model == null)
+        {
+            return (false, TeacherNotFoundMessage);
+        }
+
         if (model.Image.Length > 2 * 1024 * 1024)
         {
             return (false, ImageSizeErrorMessage);
@@ -217,7 +222,7 @@ public class AdminTeachersService : IAdminTeachersService
                 return (false, AllowedFormatsMessage);
             }
 
-            if (string.IsNullOrEmpty(teacher.ImageUrl))
+            if (!string.IsNullOrEmpty(teacher.ImageUrl))
             {
                 bool isOldImageDeleted = await _azureBlobService.DeleteTeacherImageAsync(teacher.ImageUrl);
                 if (!isOldImageDeleted)
