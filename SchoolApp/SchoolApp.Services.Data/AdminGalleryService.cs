@@ -44,27 +44,26 @@ public class AdminGalleryService : IAdminGalleryService
 
     public async Task<(bool success, string message)> AddAlbumAsync(AddAlbumViewModel model)
     {
+        if (model == null)
+        {
+            return (false, AlbumCreateError);
+        }
 
         if (await _repository.FirstOrDefaultAsync<Album>(a => a.Title == model.Title) != null)
         {
             return (false, AlbumExistsError);
         }
 
-        Album album = new Album
+        Album album = new Album()
         {
             Id = Guid.NewGuid(),
             Title = model.Title,
             Description = model.Description
         };
 
-        if (album != null)
-        {
-            await _repository.AddAsync(album);
+        await _repository.AddAsync(album);
 
-            return (true, AlbumCreateSuccess);
-        }
-
-        return (false, AlbumCreateError);
+        return (true, AlbumCreateSuccess);
     }
 
     public async Task<MenageAlbumsViewModel?> GetDetailsForAlbumAsync(string id)
@@ -108,6 +107,11 @@ public class AdminGalleryService : IAdminGalleryService
         if (!isIdValid)
         {
             return (false, InvalidAlbumId);
+        }
+
+        if (model?.Image == null)
+        {
+            return (false, InvalidImage);
         }
 
         Album? album = await _repository.GetByGuidIdAsync<Album>(guidId);
