@@ -78,3 +78,7 @@ This project is licensed under the MIT License.
 ### Acknowledgments
 - Special thanks to the .NET community
 - Built using ASP.NET Core Template by Nikolay Kostov
+
+### Live Demo
+
+A live demo of BMW will be available in the future.
