@@ -107,6 +107,7 @@ public static class TempDataMessages
         public const string NewsDeleteError = "Възникна грешка при изтриването на новината!";
 
         public const string AnnouncementNotFoundMessage = "Съобщението не беше намерено.";
+        public const string AnnouncementErrorMessage = "Възникна грешка при добавянето на съобщение.";
         public const string AnnouncementCreateSuccess = "Съобщението беше създадено успешно!";
         public const string AnnouncementEditSuccess = "Съобщението беше редактирано успешно!";
         public const string AnnouncementDeleteSuccess = "Съобщението беше изтрито успешно!";
