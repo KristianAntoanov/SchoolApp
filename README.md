@@ -1,5 +1,5 @@
 # SchoolApp
-SchoolApp is a comprehensive web application for school management, featuring an electronic diary system, administrative functionalities, and communication tools. The system provides different access roles and features to facilitate interaction between teachers, parents, and administration.
+SchoolApp is a comprehensive web application for school management, featuring an electronic diary system, administrative functionalities, and communication tools. Built with ASP.NET Core and following Nikolay Kostov's template architecture, this project provides a robust platform for managing educational institution's daily operations. The system provides different access roles (Admin, Teacher, Parent) and features to facilitate interaction between teachers, parents, and administration, with focus on grade management, attendance tracking, and effective school-parent communication through integrated email notifications using SendGrid.
 
 ## Features
 - **Electronic Diary:** Complete system for managing grades, absences, and remarks with term and annual grade calculations
