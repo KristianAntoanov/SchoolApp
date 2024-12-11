@@ -108,11 +108,25 @@ public class AdminUserRolesService : IAdminUserRolesService
         }
 
         var currentRoles = await _userManager.GetRolesAsync(user);
-        await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+        if (currentRoles.Any())
+        {
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+            if (!removeResult.Succeeded)
+            {
+                return (false, RolesUpdateErrorMessage);
+            }
+        }
 
         if (roles.Count != 0)
         {
-            await _userManager.AddToRolesAsync(user, roles);
+            var addResult = await _userManager.AddToRolesAsync(user, roles);
+            if (!addResult.Succeeded)
+            {
+                await _userManager.AddToRolesAsync(user, currentRoles);
+
+                return (false, RolesUpdateErrorMessage);
+            }
         }
 
         return (true, RolesUpdateSuccessMessage);
