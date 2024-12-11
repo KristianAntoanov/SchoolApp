@@ -70,6 +70,7 @@ public static class TempDataMessages
         public const string TeacherLinkUpdateErrorMessage = "Възникна грешка при обновяването на връзката с учител.";
         public const string TeacherLinkUpdateSuccessMessage = "Успешно обновена връзка с учител.";
         public const string RolesUpdateSuccessMessage = "Успешно обновени роли.";
+        public const string RolesUpdateErrorMessage = "Възникна грешка при обновяването на роли.";
     }
 
     public static class Diary
